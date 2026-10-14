@@ -1,0 +1,87 @@
+---
+/**
+ * Decorative six-line tab staff. Purely ornamental (aria-hidden).
+ * Lines draw in once when revealed; static under prefers-reduced-motion.
+ * The fret numbers are a generic open-position figure, not a product UI.
+ */
+interface Props {
+  class?: string;
+  /** Show a few fret numbers on the staff. */
+  notes?: boolean;
+}
+
+const { class: className, notes = true } = Astro.props;
+
+// [string index 0–5 (top = high e), x position 0–100, fret]
+const figure: [number, number, number][] = [
+  [5, 8, 0],
+  [3, 20, 2],
+  [2, 32, 2],
+  [1, 44, 1],
+  [0, 56, 0],
+  [1, 68, 1],
+  [2, 80, 2],
+  [3, 92, 2],
+];
+---
+
+<svg
+  class:list={['tab-staff block h-auto w-full text-canvas-line', className]}
+  viewBox="0 0 400 66"
+  preserveAspectRatio="xMidYMid meet"
+  aria-hidden="true"
+  data-reveal-self
+>
+  {
+    [0, 1, 2, 3, 4, 5].map((i) => (
+      <line
+        class="tab-staff__line"
+        x1="0"
+        x2="400"
+        y1={8 + i * 10}
+        y2={8 + i * 10}
+        stroke="currentColor"
+        stroke-width="1"
+        style={`--i:${i}`}
+      />
+    ))
+  }
+  {
+    notes &&
+      figure.map(([s, x, fret], n) => (
+        <g class="tab-staff__note" style={`--n:${n}`}>
+          <rect x={x * 4 - 6} y={8 + s * 10 - 6} width="12" height="12" fill="var(--staff-bg, var(--sl-bg))" />
+          <text
+            x={x * 4}
+            y={8 + s * 10 + 3.5}
+            text-anchor="middle"
+            font-size="10"
+            font-family="var(--font-mono)"
+            fill="var(--sl-text-muted)"
+          >
+            {fret}
+          </text>
+        </g>
+      ))
+  }
+</svg>
+
+<style>
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.js) .tab-staff__line {
+      stroke-dasharray: 400;
+      stroke-dashoffset: 400;
+      transition: stroke-dashoffset 1.1s var(--ease-quiet) calc(var(--i) * 60ms);
+    }
+    :global(.js) .tab-staff__note {
+      opacity: 0;
+      transition: opacity 0.4s var(--ease-quiet) calc(500ms + var(--n) * 70ms);
+    }
+    :global(.js) .tab-staff.is-revealed .tab-staff__line {
+      stroke-dashoffset: 0;
+    }
+    :global(.js) .tab-staff.is-revealed .tab-staff__note {
+      opacity: 1;
+    }
+  }
+</style>

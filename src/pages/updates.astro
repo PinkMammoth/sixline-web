@@ -1,0 +1,80 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHeader from '~/components/sections/PageHeader.astro';
+import DevStatus from '~/components/ui/DevStatus.astro';
+import SectionHeading from '~/components/ui/SectionHeading.astro';
+import { development } from '~/data/development';
+import { getReleases, formatDate } from '~/data/releases';
+import { render } from 'astro:content';
+
+const releases = await getReleases();
+const rendered = await Promise.all(releases.map(async (r) => ({ entry: r, Content: (await render(r)).Content })));
+---
+
+<BaseLayout title="Updates" description="SixLine development status and release notes.">
+  <PageHeader eyebrow="Development & updates" title="Release notes.">
+    <p>{development.summary} Every public release and its known limitations will be documented here.</p>
+  </PageHeader>
+
+  <section class="section-y" aria-labelledby="status-title">
+    <div class="container-content">
+      <h2 id="status-title" class="sr-only">Current status</h2>
+      <DevStatus showReleaseLink={false} />
+    </div>
+  </section>
+
+  <section class="section-y border-t border-line-subtle" aria-labelledby="history-title">
+    <div class="container-content">
+      <SectionHeading id="history-title" eyebrow="Release history" title="All releases." />
+      {
+        rendered.length ? (
+          <ol class="mt-12 border-t border-line-subtle">
+            {rendered.map(({ entry, Content }) => (
+              <li class="grid gap-6 border-b border-line-subtle py-10 md:grid-cols-12" id={`v${entry.data.version}`}>
+                <div class="md:col-span-4">
+                  <h3 class="font-mono text-h4 text-fg">{entry.data.version}</h3>
+                  <p class="label-mono mt-2 text-fg-muted">
+                    <time datetime={entry.data.date.toISOString()}>{formatDate(entry.data.date)}</time> · {entry.data.channel}
+                  </p>
+                </div>
+                <div class="release-notes text-fg-secondary md:col-span-8">
+                  <p class="text-lead text-fg">{entry.data.summary}</p>
+                  <Content />
+                </div>
+              </li>
+            ))}
+          </ol>
+        ) : (
+          <div class="mt-12 rounded-xl border border-dashed border-line px-6 py-12 text-center">
+            <p class="label-mono text-fg-muted">No releases yet</p>
+            <p class="mx-auto mt-3 max-w-md text-sm text-fg-secondary">
+              The first public beta has not been released. Its release notes will be the first entry here.
+            </p>
+          </div>
+        )
+      }
+    </div>
+  </section>
+</BaseLayout>
+
+<style>
+  .release-notes :global(h3) {
+    margin-top: 1.75rem;
+    font-family: var(--font-mono);
+    font-size: var(--text-label);
+    letter-spacing: var(--text-label--letter-spacing);
+    text-transform: uppercase;
+    color: var(--sl-text-muted);
+  }
+  .release-notes :global(ul) {
+    margin-top: 0.75rem;
+    list-style: disc;
+    padding-left: 1.25rem;
+  }
+  .release-notes :global(li + li) {
+    margin-top: 0.375rem;
+  }
+  .release-notes :global(li::marker) {
+    color: var(--sl-text-muted);
+  }
+</style>

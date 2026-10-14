@@ -1,0 +1,72 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHeader from '~/components/sections/PageHeader.astro';
+import SectionHeading from '~/components/ui/SectionHeading.astro';
+import FeatureList from '~/components/ui/FeatureList.astro';
+import StatusLegend from '~/components/ui/StatusLegend.astro';
+import MediaSlot from '~/components/ui/MediaSlot.astro';
+import StatusLabel from '~/components/ui/StatusLabel.astro';
+import CtaSection from '~/components/sections/CtaSection.astro';
+import { featuresByGroup, formats, groupMeta, trademarkNotice, type FeatureGroup } from '~/data/features';
+
+const groups: FeatureGroup[] = ['writing', 'playback', 'compatibility'];
+---
+
+<BaseLayout
+  title="Features"
+  description="Tablature and notation editing, multi-track composition, playback and Guitar Pro import — with an honest status for every feature."
+>
+  <PageHeader eyebrow="Features" title="Everything SixLine does — and what it doesn’t yet.">
+    <p>
+      SixLine is under active development. Every capability below carries its current status, so you know exactly what
+      works today and what is still to come.
+    </p>
+  </PageHeader>
+
+  <div class="container-content pt-12">
+    <StatusLegend />
+  </div>
+
+  {
+    groups.map((group, i) => (
+      <section class="section-y" aria-labelledby={`group-${group}`}>
+        <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+          <div class="lg:col-span-5" data-reveal>
+            <SectionHeading id={`group-${group}`} eyebrow={`0${i + 1} — ${groupMeta[group].label}`} title={groupMeta[group].title}>
+              <p>{groupMeta[group].intro}</p>
+            </SectionHeading>
+          </div>
+          <div class="lg:col-span-7" data-reveal>
+            <FeatureList features={featuresByGroup(group)} />
+            {group === 'writing' && (
+              <div class="mt-10">
+                <MediaSlot label="Editing tablature and notation" />
+              </div>
+            )}
+            {group === 'compatibility' && (
+              <div class="mt-10">
+                <h3 class="label-mono font-mono text-fg-muted">File formats</h3>
+                <ul class="mt-4 divide-y divide-line-subtle border-y border-line-subtle">
+                  {formats.map((f) => (
+                    <li class="flex flex-wrap items-center justify-between gap-3 py-3 text-sm">
+                      <span>
+                        <span class="font-mono text-fg">{f.format}</span>
+                        <span class="ml-2 text-fg-muted">
+                          {f.detail} · {f.direction}
+                        </span>
+                      </span>
+                      <StatusLabel status={f.status} />
+                    </li>
+                  ))}
+                </ul>
+                <p class="mt-5 text-[0.8125rem] text-fg-muted">{trademarkNotice}</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </section>
+    ))
+  }
+
+  <CtaSection />
+</BaseLayout>

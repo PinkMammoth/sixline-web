@@ -1,0 +1,106 @@
+---
+/**
+ * Product screenshot frame: graphite shell, subtle window chrome, minimal
+ * shadow, no perspective tricks.
+ *
+ * Pass `src` + `alt` once a real screenshot exists (put it in src/assets/ so
+ * Astro can optimise it, or public/images/). Until then a clearly labelled
+ * placeholder fills the frame — it must never be mistaken for the real UI.
+ */
+import type { ImageMetadata } from 'astro';
+import { Image } from 'astro:assets';
+
+interface Props {
+  src?: ImageMetadata | string;
+  alt?: string;
+  /** Window title shown in the chrome bar. */
+  title?: string;
+  /** Aspect ratio of the screenshot area, e.g. "16 / 10". */
+  aspect?: string;
+  /** Taller crop on phones so the UI stays legible (image anchors top-left). */
+  mobileAspect?: string;
+  /** Load eagerly (hero) or lazily (below the fold). */
+  priority?: boolean;
+  placeholderLabel?: string;
+  class?: string;
+}
+
+const {
+  src,
+  alt = '',
+  title = 'SixLine',
+  aspect = '16 / 10',
+  mobileAspect = '4 / 3',
+  priority = false,
+  placeholderLabel = 'Application screenshot',
+  class: className,
+} = Astro.props;
+---
+
+<figure
+  class:list={['rounded-xl border border-line bg-surface-2 p-1.5 shadow-frame sm:p-2', className]}
+>
+  <div class="flex h-7 items-center gap-3 px-2 sm:h-8" aria-hidden="true">
+    <span class="flex gap-1.5">
+      <span class="size-2.5 rounded-full bg-surface-3"></span>
+      <span class="size-2.5 rounded-full bg-surface-3"></span>
+      <span class="size-2.5 rounded-full bg-surface-3"></span>
+    </span>
+    <span class="label-mono flex-1 truncate text-center text-fg-disabled normal-case tracking-normal">{title}</span>
+    <span class="w-[42px]"></span>
+  </div>
+
+  <div
+    class="relative aspect-(--frame-aspect-m) overflow-hidden rounded-lg bg-bg-sunken sm:aspect-(--frame-aspect)"
+    style={`--frame-aspect:${aspect};--frame-aspect-m:${mobileAspect}`}
+  >
+    {
+      src ? (
+        typeof src === 'string' ? (
+          <img
+            src={src}
+            alt={alt}
+            class="absolute inset-0 size-full object-cover object-left-top"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchpriority={priority ? 'high' : 'auto'}
+            decoding="async"
+          />
+        ) : (
+          <Image
+            src={src}
+            alt={alt}
+            widths={[640, 960, 1280, 1920, 2560]}
+            sizes="(min-width: 82rem) 80rem, 100vw"
+            class="absolute inset-0 size-full object-cover object-left-top"
+            loading={priority ? 'eager' : 'lazy'}
+            fetchpriority={priority ? 'high' : 'auto'}
+          />
+        )
+      ) : (
+        <div class="absolute inset-0 grid place-items-center">
+          <svg
+            class="absolute inset-x-[8%] top-1/2 h-[30%] w-[84%] -translate-y-1/2 text-canvas-line opacity-50"
+            viewBox="0 0 100 50"
+            preserveAspectRatio="none"
+            aria-hidden="true"
+          >
+            {[0, 1, 2, 3, 4, 5].map((i) => (
+              <line x1="0" x2="100" y1={i * 10} y2={i * 10} stroke="currentColor" stroke-width="1" vector-effect="non-scaling-stroke" />
+            ))}
+          </svg>
+          <div class="relative mx-6 rounded-md border border-dashed border-line bg-bg-sunken/90 px-5 py-4 text-center">
+            <p class="label-mono text-fg-muted">Placeholder</p>
+            <p class="mt-1.5 text-sm text-fg-secondary">{placeholderLabel} coming soon</p>
+          </div>
+        </div>
+      )
+    }
+  </div>
+  {
+    Astro.slots.has('caption') && (
+      <figcaption class="px-2 pt-3 pb-1 text-sm text-fg-muted">
+        <slot name="caption" />
+      </figcaption>
+    )
+  }
+</figure>

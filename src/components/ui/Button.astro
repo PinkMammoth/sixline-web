@@ -1,0 +1,79 @@
+---
+/**
+ * Button / link-button.
+ *
+ * If `href` is null/undefined and `pending` is set, renders an honest
+ * non-interactive "Coming soon" state with the final visual footprint —
+ * used for pre-launch download and checkout actions so nothing leads to a
+ * broken page.
+ */
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends Omit<HTMLAttributes<'a'>, 'href'> {
+  href?: string | null;
+  variant?: 'primary' | 'secondary' | 'ghost';
+  size?: 'md' | 'lg';
+  /** Label shown in the pending badge when there is no destination yet. */
+  pending?: string;
+  type?: 'button' | 'submit';
+}
+
+const {
+  href,
+  variant = 'primary',
+  size = 'md',
+  pending,
+  class: className,
+  type = 'button',
+  ...rest
+} = Astro.props;
+
+const isPending = !href && pending;
+
+const base =
+  'group inline-flex max-w-full items-center justify-center gap-x-3 gap-y-1 rounded-md font-medium select-none ' +
+  'transition-[background-color,border-color,color,transform] duration-(--duration-base) ease-(--ease-quiet)';
+
+// min-height rather than fixed height so a pending badge can wrap on very narrow screens
+const sizes = {
+  md: 'min-h-11 py-2 px-5 text-sm',
+  lg: 'min-h-12 py-2 px-6 text-base',
+};
+
+const variants = {
+  primary:
+    'bg-accent text-on-accent hover:bg-accent-hover active:bg-accent-active active:translate-y-px',
+  secondary:
+    'border border-line-strong text-fg hover:border-fg-muted hover:bg-surface-2 active:bg-surface-3 active:translate-y-px',
+  ghost: 'text-fg-secondary hover:text-fg hover:bg-surface-2 active:translate-y-px',
+};
+
+const pendingStyles = {
+  primary: 'bg-disabled-bg border border-disabled-line text-fg-secondary cursor-default',
+  secondary: 'border border-dashed border-line text-fg-secondary cursor-default',
+  ghost: 'text-fg-muted cursor-default',
+};
+
+const classes = [base, sizes[size], isPending ? pendingStyles[variant] : [variants[variant], 'whitespace-nowrap'], className];
+---
+
+{
+  isPending ? (
+    <span class:list={[...classes, 'flex-wrap text-center']} data-state="pending">
+      <span class="whitespace-nowrap"><slot /></span>
+      <span class="label-mono whitespace-nowrap rounded-xs bg-surface-3 px-1.5 py-0.5 text-fg-muted">
+        <span class="sr-only">(</span>
+        {pending}
+        <span class="sr-only">)</span>
+      </span>
+    </span>
+  ) : href ? (
+    <a href={href} class:list={classes} {...rest}>
+      <slot />
+    </a>
+  ) : (
+    <button type={type} class:list={classes} {...(rest as HTMLAttributes<'button'>)}>
+      <slot />
+    </button>
+  )
+}

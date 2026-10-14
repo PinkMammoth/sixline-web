@@ -1,0 +1,55 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHeader from '~/components/sections/PageHeader.astro';
+import SectionHeading from '~/components/ui/SectionHeading.astro';
+import Faq from '~/components/ui/Faq.astro';
+import Placeholder from '~/components/ui/Placeholder.astro';
+import { faq } from '~/data/faq';
+import { contact } from '~/data/site';
+---
+
+<BaseLayout title="Support" description="Get help with SixLine: contact details, FAQs and documentation.">
+  <PageHeader eyebrow="Support" title="Help and contact.">
+    <p>SixLine is independent software. Support channels will open alongside the public beta.</p>
+  </PageHeader>
+
+  <section class="section-y" aria-label="Contact and resources">
+    <div class="container-content grid gap-6 md:grid-cols-3">
+      <article class="rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
+        <h2 class="text-h4 text-fg">Contact</h2>
+        {
+          contact.supportEmail ? (
+            <p class="mt-3 text-sm text-fg-secondary">
+              Email <a class="link-quiet text-fg" href={`mailto:${contact.supportEmail}`}>{contact.supportEmail}</a>
+            </p>
+          ) : (
+            <p class="mt-3 text-sm text-fg-secondary">A support contact address will be published here before the public beta.</p>
+          )
+        }
+      </article>
+      <article class="rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
+        <h2 class="text-h4 text-fg">Documentation</h2>
+        <p class="mt-3 text-sm text-fg-secondary">Getting-started guides and reference documentation are being written.</p>
+      </article>
+      <article class="rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
+        <h2 class="text-h4 text-fg">Bugs and feedback</h2>
+        <p class="mt-3 text-sm text-fg-secondary">
+          Beta feedback channels will be announced with the first public build.
+          <a href="/updates" class="link-quiet text-fg">See development updates</a>.
+        </p>
+      </article>
+    </div>
+  </section>
+
+  <section class="section-y border-t border-line-subtle" aria-labelledby="support-faq">
+    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+      <div class="lg:col-span-4">
+        <SectionHeading id="support-faq" eyebrow="FAQ" title="Common questions." />
+      </div>
+      <div class="lg:col-span-8">
+        <Faq items={faq} />
+        <Placeholder class="mt-10">Privacy policy, terms and refund information will be published before checkout opens.</Placeholder>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

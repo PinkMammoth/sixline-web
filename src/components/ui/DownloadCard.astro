@@ -1,0 +1,35 @@
+---
+import Button from './Button.astro';
+import StatusLabel from './StatusLabel.astro';
+
+interface Props {
+  platform: string;
+  /** Null until a real build is published. */
+  href: string | null;
+  version?: string | null;
+  requirements?: string | null;
+  headingLevel?: 'h2' | 'h3';
+}
+
+const { platform, href, version, requirements, headingLevel: H = 'h2' } = Astro.props;
+---
+
+<article class="flex flex-col rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
+  <div class="flex items-start justify-between gap-4">
+    <H class="text-h3 text-fg">{platform}</H>
+    {href ? <StatusLabel status="available" label="Available" /> : <StatusLabel status="pre-launch" label="Not yet available" />}
+  </div>
+  <dl class="mt-6 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-sm">
+    <dt class="label-mono pt-0.5 text-fg-muted">Version</dt>
+    <dd class="text-fg-secondary">{version ?? 'No public build yet'}</dd>
+    <dt class="label-mono pt-0.5 text-fg-muted">Requires</dt>
+    <dd class="text-fg-secondary">{requirements ?? 'To be published with the first build'}</dd>
+    <dt class="label-mono pt-0.5 text-fg-muted">Licence</dt>
+    <dd class="text-fg-secondary">Free trial, then one-time purchase</dd>
+  </dl>
+  <div class="mt-8 pt-2 sm:mt-auto">
+    <Button href={href} pending="Coming soon" class="w-full sm:w-auto">
+      Download<span class="sr-only"> for {platform}</span>
+    </Button>
+  </div>
+</article>

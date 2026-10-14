@@ -1,0 +1,17 @@
+---
+import SectionHeading from '~/components/ui/SectionHeading.astro';
+
+interface Props {
+  eyebrow: string;
+  title: string;
+}
+const { eyebrow, title } = Astro.props;
+---
+
+<section class="border-b border-line-subtle pt-14 pb-14 sm:pt-20 sm:pb-16">
+  <div class="container-content">
+    <SectionHeading as="h1" eyebrow={eyebrow} title={title}>
+      <slot />
+    </SectionHeading>
+  </div>
+</section>

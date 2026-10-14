@@ -1,0 +1,227 @@
+@import 'tailwindcss';
+@import './tokens.css';
+
+/*
+ * Tailwind theme
+ * Default palettes, radii and font stacks are cleared so only SixLine tokens
+ * exist as utilities — this prevents hardcoded one-off colours creeping in.
+ * `inline` makes utilities reference the semantic custom properties, so
+ * switching data-theme re-skins everything.
+ */
+@theme inline {
+  --color-*: initial;
+  --color-bg: var(--sl-bg);
+  --color-bg-sunken: var(--sl-bg-sunken);
+  --color-surface-1: var(--sl-surface-1);
+  --color-surface-2: var(--sl-surface-2);
+  --color-surface-3: var(--sl-surface-3);
+  --color-line-subtle: var(--sl-border-subtle);
+  --color-line: var(--sl-border);
+  --color-line-strong: var(--sl-border-strong);
+  --color-fg: var(--sl-text);
+  --color-fg-secondary: var(--sl-text-secondary);
+  --color-fg-muted: var(--sl-text-muted);
+  --color-fg-disabled: var(--sl-text-disabled);
+  --color-accent: var(--sl-accent);
+  --color-accent-hover: var(--sl-accent-hover);
+  --color-accent-active: var(--sl-accent-active);
+  --color-accent-text: var(--sl-accent-text);
+  --color-accent-soft: var(--sl-accent-soft);
+  --color-on-accent: var(--sl-on-accent);
+  --color-sage: var(--sl-sage);
+  --color-sage-soft: var(--sl-sage-soft);
+  --color-success: var(--sl-success);
+  --color-success-soft: var(--sl-success-soft);
+  --color-warning: var(--sl-warning);
+  --color-warning-soft: var(--sl-warning-soft);
+  --color-danger: var(--sl-danger);
+  --color-danger-soft: var(--sl-danger-soft);
+  --color-disabled-bg: var(--sl-disabled-bg);
+  --color-disabled-line: var(--sl-disabled-border);
+  --color-canvas: var(--sl-canvas-bg);
+  --color-canvas-line: var(--sl-canvas-staff-line);
+  --color-canvas-ink: var(--sl-canvas-ink);
+  --color-transparent: transparent;
+  --color-current: currentColor;
+
+  --font-*: initial;
+  --font-display: var(--font-space-grotesk), ui-sans-serif, system-ui, sans-serif;
+  --font-sans: var(--font-inter), ui-sans-serif, system-ui, sans-serif;
+  --font-mono: var(--font-plex-mono), ui-monospace, 'SFMono-Regular', Menlo, monospace;
+
+  --shadow-*: initial;
+  --shadow-sm: var(--sl-shadow-sm);
+  --shadow-frame: var(--sl-shadow-frame);
+}
+
+@theme {
+  /* Spacing: Tailwind's 4px base unit (p-1 = 4px, p-6 = 24px …). */
+  --spacing: 0.25rem;
+
+  /* Radii — subtle */
+  --radius-*: initial;
+  --radius-xs: 2px;
+  --radius-sm: 4px;
+  --radius-md: 6px;
+  --radius-lg: 10px;
+  --radius-xl: 14px;
+  --radius-full: 9999px;
+
+  /* Content widths */
+  --container-prose: 40rem; /* 640px — long-form reading */
+  --container-narrow: 48rem; /* 768px — FAQ, pricing detail */
+  --container-content: 72rem; /* 1152px — standard sections */
+  --container-wide: 82rem; /* 1312px — hero product frame */
+
+  /* Type scale — restrained, fluid only at heading sizes */
+  --text-*: initial;
+  --text-label: 0.75rem;
+  --text-label--line-height: 1rem;
+  --text-label--letter-spacing: 0.08em;
+  --text-sm: 0.875rem;
+  --text-sm--line-height: 1.375rem;
+  --text-base: 1rem;
+  --text-base--line-height: 1.625rem;
+  --text-lead: 1.1875rem;
+  --text-lead--line-height: 1.75rem;
+  --text-h4: 1.125rem;
+  --text-h4--line-height: 1.5rem;
+  --text-h3: 1.375rem;
+  --text-h3--line-height: 1.875rem;
+  --text-h2: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
+  --text-h2--line-height: 1.15;
+  --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
+  --text-h1--line-height: 1.05;
+
+  /* Motion */
+  --ease-quiet: cubic-bezier(0.2, 0.7, 0.2, 1);
+  --duration-fast: 120ms;
+  --duration-base: 200ms;
+  --duration-slow: 480ms;
+}
+
+/* ---------------------------------------------------------------- Base */
+@layer base {
+  html {
+    background-color: var(--sl-bg);
+    color: var(--sl-text);
+    font-family: var(--font-sans);
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-padding-top: 5rem;
+  }
+
+  body {
+    min-height: 100dvh;
+    font-size: var(--text-base);
+    line-height: var(--text-base--line-height);
+  }
+
+  h1,
+  h2,
+  h3,
+  h4 {
+    font-family: var(--font-display);
+    font-weight: 500;
+    letter-spacing: -0.015em;
+    text-wrap: balance;
+  }
+
+  p {
+    text-wrap: pretty;
+  }
+
+  ::selection {
+    background-color: var(--sl-accent);
+    color: var(--sl-on-accent);
+  }
+
+  /* Visible, consistent focus indicator for every interactive element */
+  :focus-visible {
+    outline: 2px solid var(--sl-focus);
+    outline-offset: 3px;
+    border-radius: var(--radius-xs);
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    html {
+      scroll-behavior: smooth;
+    }
+  }
+}
+
+/* ---------------------------------------------------------- Utilities */
+@utility container-content {
+  width: 100%;
+  max-width: var(--container-content);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+}
+
+@utility container-wide {
+  width: 100%;
+  max-width: var(--container-wide);
+  margin-inline: auto;
+  padding-inline: 1.25rem;
+
+  @media (width >= 40rem) {
+    padding-inline: 2rem;
+  }
+}
+
+/* Short uppercase monospace label for technical metadata */
+@utility label-mono {
+  font-family: var(--font-mono);
+  font-size: var(--text-label);
+  line-height: var(--text-label--line-height);
+  letter-spacing: var(--text-label--letter-spacing);
+  text-transform: uppercase;
+  font-weight: 500;
+}
+
+@utility section-y {
+  padding-block: 4.5rem;
+
+  @media (width >= 64rem) {
+    padding-block: 7rem;
+  }
+}
+
+@utility link-quiet {
+  text-decoration-line: underline;
+  text-decoration-color: var(--sl-border-strong);
+  text-underline-offset: 0.2em;
+  text-decoration-thickness: 1px;
+  transition: text-decoration-color var(--duration-base) var(--ease-quiet), color var(--duration-base) var(--ease-quiet);
+
+  &:hover {
+    text-decoration-color: var(--sl-accent);
+    color: var(--sl-text);
+  }
+}
+
+/* ------------------------------------------------------------ Motion */
+/*
+ * Gentle section reveals. Content is visible by default; it is only hidden
+ * when JS has run (html.js) AND the user has not asked for reduced motion.
+ * Only opacity/transform animate, so there is no layout shift.
+ */
+@media screen and (prefers-reduced-motion: no-preference) {
+  .js [data-reveal] {
+    opacity: 0;
+    transform: translateY(12px);
+    transition:
+      opacity var(--duration-slow) var(--ease-quiet),
+      transform var(--duration-slow) var(--ease-quiet);
+  }
+
+  .js [data-reveal].is-revealed {
+    opacity: 1;
+    transform: none;
+  }
+}

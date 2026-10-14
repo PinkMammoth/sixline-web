@@ -1,0 +1,53 @@
+---
+import Logo from './brand/Logo.astro';
+import { footerColumns } from '~/data/navigation';
+import { site } from '~/data/site';
+import { trademarkNotice } from '~/data/features';
+
+const year = new Date().getFullYear();
+---
+
+<footer class="border-t border-line-subtle bg-bg-sunken">
+  <div class="container-wide grid gap-12 py-16 lg:grid-cols-[1.2fr_2fr] lg:py-20">
+    <div class="max-w-xs">
+      <Logo size={20} />
+      <p class="mt-4 text-sm text-fg-secondary">{site.tagline}</p>
+      <p class="label-mono mt-6 text-fg-muted">Windows · macOS</p>
+    </div>
+
+    <div class="grid grid-cols-2 gap-10 sm:grid-cols-3">
+      {
+        footerColumns.map((col) => (
+          <div>
+            <h2 class="label-mono font-mono text-fg-muted">{col.title}</h2>
+            <ul class="mt-4 space-y-3 text-sm">
+              {col.links.map((link) => (
+                <li>
+                  {link.href ? (
+                    <a href={link.href} class="text-fg-secondary transition-colors hover:text-fg">
+                      {link.label}
+                    </a>
+                  ) : (
+                    <span class="text-fg-muted">
+                      {link.label}
+                      <span class="label-mono ml-1.5 text-[0.625rem] text-fg-disabled">Soon</span>
+                    </span>
+                  )}
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+  </div>
+
+  <div class="border-t border-line-subtle">
+    <div class="container-wide flex flex-col gap-3 py-6 text-fg-muted lg:flex-row lg:justify-between lg:gap-10">
+      <p class="text-[0.8125rem]">© {year} SixLine. All rights reserved.</p>
+      <p class="max-w-3xl text-[0.8125rem] lg:text-right">
+        {trademarkNotice} Windows is a trademark of Microsoft Corporation. macOS is a trademark of Apple Inc.
+      </p>
+    </div>
+  </div>
+</footer>

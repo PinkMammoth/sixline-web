@@ -1,0 +1,46 @@
+---
+/**
+ * SixLine logo slot.
+ * - variant="wordmark": full name (header, footer)
+ * - variant="symbol":   compact mark (favicon-sized contexts, tight spaces)
+ * Renders the supplied SVG when available in src/data/brand.ts, otherwise a
+ * deliberately plain text placeholder that the layout does not depend on.
+ */
+import { brandAssets } from '~/data/brand';
+
+interface Props {
+  variant?: 'wordmark' | 'symbol';
+  /** Rendered cap height in px. The wordmark scales from this. */
+  size?: number;
+  class?: string;
+}
+
+const { variant = 'wordmark', size = 20, class: className } = Astro.props;
+const src = variant === 'wordmark' ? brandAssets.wordmark : brandAssets.symbol;
+const width = variant === 'wordmark' ? Math.round(size * brandAssets.wordmarkAspect) : size;
+---
+
+{
+  src ? (
+    <img src={src} alt="SixLine" height={size} width={width} class:list={['block', className]} />
+  ) : variant === 'wordmark' ? (
+    <span
+      class:list={['font-display font-semibold tracking-[-0.02em] leading-none text-fg', className]}
+      style={`font-size:${size}px`}
+    >
+      SixLine
+    </span>
+  ) : (
+    <span
+      class:list={[
+        'inline-grid place-items-center rounded-sm border border-line-strong font-display font-semibold leading-none text-fg',
+        className,
+      ]}
+      style={`width:${size}px;height:${size}px;font-size:${Math.round(size * 0.55)}px`}
+      role="img"
+      aria-label="SixLine"
+    >
+      S
+    </span>
+  )
+}

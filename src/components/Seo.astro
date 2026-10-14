@@ -1,0 +1,45 @@
+---
+/**
+ * Document metadata. Canonical and absolute Open Graph URLs are only emitted
+ * when a production `site` is configured (SITE_URL); no domain is assumed.
+ */
+import { site as siteData } from '~/data/site';
+
+interface Props {
+  title?: string;
+  description?: string;
+  /** Path to a 1200×630 social image in public/. */
+  image?: string;
+  noindex?: boolean;
+}
+
+const { title, description = siteData.description, image = '/images/og-default.png', noindex = false } = Astro.props;
+
+const fullTitle = title ? `${title} — ${siteData.name}` : `${siteData.name} — Guitar tablature & notation editor`;
+const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
+const ogImage = Astro.site ? new URL(image, Astro.site).href : undefined;
+---
+
+<title>{fullTitle}</title>
+<meta name="description" content={description} />
+{canonical && <link rel="canonical" href={canonical} />}
+{noindex && <meta name="robots" content="noindex" />}
+
+<meta property="og:type" content="website" />
+<meta property="og:site_name" content={siteData.name} />
+<meta property="og:title" content={fullTitle} />
+<meta property="og:description" content={description} />
+{canonical && <meta property="og:url" content={canonical} />}
+{ogImage && <meta property="og:image" content={ogImage} />}
+{ogImage && <meta property="og:image:width" content="1200" />}
+{ogImage && <meta property="og:image:height" content="630" />}
+{ogImage && <meta property="og:image:alt" content="SixLine — guitar tablature and notation editor" />}
+<meta name="twitter:card" content={ogImage ? 'summary_large_image' : 'summary'} />
+<meta name="twitter:title" content={fullTitle} />
+<meta name="twitter:description" content={description} />
+{ogImage && <meta name="twitter:image" content={ogImage} />}
+
+<link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png" />
+<link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+{Astro.site && <link rel="sitemap" href="/sitemap-index.xml" />}

@@ -1,0 +1,120 @@
+---
+import Logo from './brand/Logo.astro';
+import { primaryNav } from '~/data/navigation';
+
+const path = Astro.url.pathname.replace(/\/$/, '') || '/';
+const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
+---
+
+<header class="sticky top-0 z-40 border-b border-line-subtle bg-bg/90 backdrop-blur-sm supports-[backdrop-filter]:bg-bg/80">
+  <div class="container-wide flex h-16 items-center justify-between gap-6">
+    <a href="/" class="-m-2 rounded-sm p-2" aria-label="SixLine home">
+      <Logo size={20} />
+    </a>
+
+    <nav aria-label="Primary" class="hidden md:block">
+      <ul class="flex items-center gap-1">
+        {
+          primaryNav.map((item) => (
+            <li>
+              <a
+                href={item.href}
+                class:list={[
+                  'relative rounded-md px-3 py-2 text-sm transition-colors duration-(--duration-base)',
+                  isCurrent(item.href) ? 'text-fg' : 'text-fg-secondary hover:text-fg',
+                ]}
+                aria-current={isCurrent(item.href) ? 'page' : undefined}
+              >
+                {item.label}
+                {isCurrent(item.href) && (
+                  <span class="absolute inset-x-3 -bottom-[13px] h-px bg-accent" aria-hidden="true" />
+                )}
+              </a>
+            </li>
+          ))
+        }
+      </ul>
+    </nav>
+
+    <button
+      type="button"
+      class="-mr-2 inline-flex h-10 items-center gap-2 rounded-md px-3 text-sm text-fg-secondary hover:text-fg md:hidden"
+      aria-expanded="false"
+      aria-controls="mobile-nav"
+      data-nav-toggle
+      hidden
+    >
+      <span data-nav-toggle-label>Menu</span>
+      <svg width="16" height="16" viewBox="0 0 16 16" aria-hidden="true" class="nav-icon">
+        <path class="nav-icon__a" d="M2 5h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+        <path class="nav-icon__b" d="M2 11h12" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" />
+      </svg>
+    </button>
+  </div>
+
+  <!-- Mobile navigation. Visible without JS; collapsed into the Menu button when JS runs. -->
+  <nav id="mobile-nav" aria-label="Primary" class="mobile-nav border-t border-line-subtle md:hidden" data-nav-panel>
+    <ul class="container-wide flex flex-col py-3">
+      {
+        primaryNav.map((item) => (
+          <li>
+            <a
+              href={item.href}
+              class:list={[
+                'flex items-center justify-between border-b border-line-subtle py-4 font-display text-h4',
+                isCurrent(item.href) ? 'text-fg' : 'text-fg-secondary',
+              ]}
+              aria-current={isCurrent(item.href) ? 'page' : undefined}
+            >
+              {item.label}
+              {isCurrent(item.href) && <span class="size-1.5 rounded-full bg-accent" aria-hidden="true" />}
+            </a>
+          </li>
+        ))
+      }
+    </ul>
+  </nav>
+</header>
+
+<style>
+  :global(.js) .mobile-nav:not(.is-open) {
+    display: none;
+  }
+  .nav-icon path {
+    transform-box: view-box;
+    transform-origin: 8px 8px;
+  }
+  @media (prefers-reduced-motion: no-preference) {
+    .nav-icon path {
+      transition: transform var(--duration-base) var(--ease-quiet);
+    }
+  }
+  [aria-expanded='true'] .nav-icon__a {
+    transform: translateY(3px) rotate(45deg);
+  }
+  [aria-expanded='true'] .nav-icon__b {
+    transform: translateY(-3px) rotate(-45deg);
+  }
+</style>
+
+<script>
+  const toggle = document.querySelector<HTMLButtonElement>('[data-nav-toggle]');
+  const panel = document.querySelector<HTMLElement>('[data-nav-panel]');
+  if (toggle && panel) {
+    toggle.hidden = false;
+    const label = toggle.querySelector('[data-nav-toggle-label]');
+    const setOpen = (open: boolean) => {
+      toggle.setAttribute('aria-expanded', String(open));
+      panel.classList.toggle('is-open', open);
+      if (label) label.textContent = open ? 'Close' : 'Menu';
+    };
+    toggle.addEventListener('click', () => setOpen(toggle.getAttribute('aria-expanded') !== 'true'));
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape' && toggle.getAttribute('aria-expanded') === 'true') {
+        setOpen(false);
+        toggle.focus();
+      }
+    });
+    window.matchMedia('(min-width: 48rem)').addEventListener('change', (e) => e.matches && setOpen(false));
+  }
+</script>
