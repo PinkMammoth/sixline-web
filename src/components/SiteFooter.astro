@@ -7,20 +7,22 @@ import { trademarkNotice } from '~/data/features';
 const year = new Date().getFullYear();
 ---
 
-<footer class="border-t border-line-subtle bg-bg-sunken">
-  <div class="container-wide grid gap-12 py-16 lg:grid-cols-[1.2fr_2fr] lg:py-20">
-    <div class="max-w-xs">
-      <Logo size={20} />
-      <p class="mt-4 text-sm text-fg-secondary">{site.tagline}</p>
-      <p class="label-mono mt-6 text-fg-muted">Windows · macOS</p>
+<footer class="grain border-t border-line-subtle bg-bg-sunken">
+  <div class="container-wide grid grid-cols-1 gap-14 py-16 lg:grid-cols-[1fr_2fr] lg:py-24">
+    <div>
+      <a href="/" class="inline-block rounded-sm text-fg" aria-label="SixLine home">
+        <Logo variant="stacked" height={112} label="" />
+      </a>
+      <p class="mt-8 max-w-xs font-display text-h4 text-fg">{site.tagline}</p>
+      <p class="label-mono mt-4 text-fg-muted">{site.platforms.join(' · ')}</p>
     </div>
 
-    <div class="grid grid-cols-2 gap-10 sm:grid-cols-3">
+    <div class="grid grid-cols-2 gap-10 sm:grid-cols-3 lg:pt-2">
       {
         footerColumns.map((col) => (
           <div>
-            <h2 class="label-mono font-mono text-fg-muted">{col.title}</h2>
-            <ul class="mt-4 space-y-3 text-sm">
+            <h2 class="label-mono text-fg-muted">{col.title}</h2>
+            <ul class="mt-5 space-y-3.5 text-sm">
               {col.links.map((link) => (
                 <li>
                   {link.href ? (
@@ -43,9 +45,9 @@ const year = new Date().getFullYear();
   </div>
 
   <div class="border-t border-line-subtle">
-    <div class="container-wide flex flex-col gap-3 py-6 text-fg-muted lg:flex-row lg:justify-between lg:gap-10">
-      <p class="text-[0.8125rem]">© {year} SixLine. All rights reserved.</p>
-      <p class="max-w-3xl text-[0.8125rem] lg:text-right">
+    <div class="container-wide flex flex-col gap-3 py-7 text-[0.8125rem] text-fg-muted lg:flex-row lg:justify-between lg:gap-10">
+      <p>© {year} SixLine. All rights reserved.</p>
+      <p class="max-w-3xl lg:text-right">
         {trademarkNotice} Windows is a trademark of Microsoft Corporation. macOS is a trademark of Apple Inc.
       </p>
     </div>

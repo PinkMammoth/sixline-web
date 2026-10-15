@@ -1,5 +1,7 @@
 # Content status
 
+_Updated for creative direction v2._
+
 This tracks which public statements are **confirmed**, which are **placeholders**, and what is **outstanding** before launch.
 
 Current phase: **pre-launch** (`site.phase = 'pre-launch'` in `src/data/site.ts`). Nothing can be bought or downloaded, and the site says so.
@@ -14,21 +16,23 @@ These come directly from the project brief and are shown as fact on the site.
 | --- | --- | --- |
 | SixLine is an independent desktop guitar tablature and music notation editor | Meta description, footer, hero | Brief |
 | Built for Windows and macOS | Footer, FAQ, downloads | Brief |
-| Tablature and notation editing (status: *In current build*) | Homepage, /features | Brief |
-| Multi-track arrangements (*In current build*) | Homepage, /features | Brief |
-| Playback (*In current build*) | Homepage, /features | Brief |
-| Guitar Pro file import, versions not specified (*In current build*) | Homepage, /features, FAQ | Brief |
-| MIDI support, details not specified (*In current build*) | /features | Brief |
+| Tablature and notation editing | Homepage "Write", /features | Brief |
+| Multi-track arrangements | Homepage "Write", /features | Brief |
+| Playback | Homepage "Play", /features | Brief |
+| Guitar Pro file import, versions not specified | Homepage "Import", /features, FAQ | Brief |
+| MIDI support, direction not specified | Homepage "Import", /features | Brief |
 | Planned pricing: Founder's Beta $9.99 USD one-time, $19.99 USD from v1.0 | Pricing card, /pricing, FAQ | Brief |
 | All future updates included, including major versions. No subscriptions, no paid upgrades | Hero, pricing, FAQ | Brief |
 | Beta customers keep their lifetime entitlement after v1.0 | Pricing, FAQ | Brief |
 | A fully featured, time-limited free trial will exist | FAQ, /pricing, /download | Brief |
 
-> "In current build" means working in the development build. Please confirm that each of these really works in the current desktop build. If any doesn't, change its `status` in `src/data/features.ts`.
+> Marketing sections only show features with `status: 'available'` (meaning they work in the development build). Please confirm each of these in the current desktop build. If any doesn't work, change its `status` in `src/data/features.ts`; it then moves to the workbench automatically.
 
-## 2. Shown as "To be confirmed"
+## 2. On the workbench (not claimed)
 
-The brief asked for these to be showcased. I could not verify them against the desktop app, so the site labels each one **To be confirmed** instead of claiming it. To resolve one, set its `status` in `src/data/features.ts` to `available`, `in-development` or `planned`.
+The brief asked for these to be showcased. I couldn't verify them against the desktop app, so they **don't appear in any marketing section**. They're listed only in the separate "On the workbench" section on `/features#workbench`, described as "being checked before we promise it". The Play section also mentions tempo control, looping and a metronome in one line as "being checked for the beta".
+
+To promote one, set its `status` in `src/data/features.ts` to `available`. It then appears in its homepage and /features section automatically. Setting `in-development` or `planned` keeps it on the workbench.
 
 | Feature / format | File | Needs |
 | --- | --- | --- |
@@ -49,15 +53,16 @@ The brief asked for these to be showcased. I could not verify them against the d
 
 | Placeholder | Location | Replace with |
 | --- | --- | --- |
-| Text wordmark "SixLine" | Header, footer (`Logo.astro`) | Final logo SVG. Register it in `src/data/brand.ts` |
-| Favicon "S" monogram | `public/favicon.svg`, `favicon-32.png`, `apple-touch-icon.png` | Final symbol exports |
-| Social image (text only) | `public/images/og-default.png` | Final image with logo + real screenshot, 1200×630 |
-| Hero screenshot area, labelled "Placeholder" | Homepage `ProductFrame` | Real app screenshot |
-| Demo video areas, labelled "Placeholder" | Homepage "Writing", /features | Real product clips |
-| "Coming soon" on Try free / Get lifetime access / Download | Hero, pricing, CTA, /download | Real URLs in `src/data/site.ts` → `actions` |
-| "Pre-release" version | Dev status | `site.appVersion` |
-| "Published with the public beta" | Upcoming priorities, beta limitations | `src/data/development.ts` |
-| "No releases yet" | /updates, dev status | First file in `src/content/releases/` |
+| Logo is a traced working vector | `src/components/brand/logo-geometry.ts`, `public/brand/*.svg`, favicons | A designer's clean geometric master (true arcs, uniform strokes), plus a simplified mark for 16px. Drop the paths into `logo-geometry.ts` and regenerate the exports |
+| Hero product frame shows a tablature **illustration**, labelled "Illustration · App screenshot coming with the redesigned interface" | Homepage hero (`TabSheet.astro`) | Real screenshot of the redesigned app: pass `src` and `alt` to `<ProductFrame>` in `Hero.astro` |
+| "Riff → arrangement" **illustration**, labelled "Illustration" | Homepage "Write" | Real screen recording. Set `media.writingDemo` in `src/data/site.ts` |
+| Playback **illustration** with an animated playhead, labelled "Visual demo · no audio" | Homepage "Play" | Can stay, or be replaced by real footage |
+| Social image | `public/images/og-default.png` | Can be updated to include a real screenshot once one exists |
+| "Try SixLine free" / "Get lifetime access" in the hero, header and closing section | Link to `/download` and `/pricing` (real pages that explain the pre-launch state) | Nothing needed. They keep working after launch |
+| "Get lifetime access · Opens with the beta" and "Download · Coming soon" (not clickable) | Pricing card, /download | Real URLs in `src/data/site.ts` → `actions` |
+| "Pre-release" version | Logbook | `site.appVersion` |
+| Latest release / known limitations empty states | Logbook (homepage, /updates) | First file in `src/content/releases/`; `development.betaLimitations` |
+| "The first entry will be the public beta" | /updates | First file in `src/content/releases/` |
 | Support contact "will be published" | /support | `contact.supportEmail` |
 | Documentation, Privacy policy, Terms, Third-party licences, Refund information (marked "Soon", not linked) | Footer | Real pages. **Do not publish placeholder legal text** |
 | Checksums / code-signing note | /download | Real values per build |
@@ -77,14 +82,14 @@ These are left out on purpose to avoid inventing facts:
 
 ## 5. Trademark notices
 
-- Guitar Pro / Arobas Music: shown beside the compatibility table, on /features and in the footer.
+- Guitar Pro / Arobas Music: shown under the format cards on the homepage, on /features and in the footer.
 - Windows (Microsoft) and macOS (Apple): footer.
 - MIDI is a widely used generic term. No notice added. Review if you want one.
 
 ## 6. Pre-launch checklist
 
-1. Confirm or reclassify every "To be confirmed" item (section 2).
-2. Supply the logo, favicon set and real screenshots (`Logo`, `ProductFrame src`).
+1. Confirm or reclassify every workbench item (section 2).
+2. Commission the clean logo master and a small-size mark. Supply real screenshots (`ProductFrame src` in `Hero.astro`) and the demo clip (`media.writingDemo`).
 3. Decide the trial length and what happens after it ends. Update the FAQ `trial-end` and `free` answers and `pricing.trialDays`.
 4. Publish the privacy policy, terms, refund policy and third-party licences, and link them in `src/data/navigation.ts`.
 5. Set the support email.
@@ -92,4 +97,4 @@ These are left out on purpose to avoid inventing facts:
 7. Add the first release note and `site.appVersion`.
 8. Set the download URLs and checkout URL. Switch `site.phase` to `'public-beta'` and `pricing.status` to `'on-sale'`.
 9. Re-read every FAQ answer against the launch state, since they are written for pre-launch.
-10. Replace the hero status text ("In development · Beta coming soon") in `src/pages/index.astro`.
+10. Update the "Public beta coming soon" lines in `Hero.astro` and `Closing.astro`, and the milestones in `src/data/development.ts`.

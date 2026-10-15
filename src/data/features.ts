@@ -57,12 +57,12 @@ export const groupMeta: Record<FeatureGroup, { label: string; title: string; int
   playback: {
     label: 'Playback & practice',
     title: 'Hear it back. Then play along.',
-    intro: 'Listen to what you have written and turn any passage into something to rehearse.',
+    intro: 'Listen to exactly what you have written, then pick up your guitar and play along.',
   },
   compatibility: {
     label: 'Compatibility',
     title: 'Bring your existing tabs with you.',
-    intro: 'Open the files you already have and move music in and out of SixLine.',
+    intro: 'Open the files you already have and keep working on them in SixLine.',
   },
 };
 
@@ -196,6 +196,29 @@ export const formats: FormatSupport[] = [
 ];
 
 export const featuresByGroup = (group: FeatureGroup) => features.filter((f) => f.group === group);
+
+/**
+ * Marketing sections only ever show `available` features. Everything else is
+ * listed separately and honestly as "on the workbench" (see /features).
+ */
+export const availableFeatures = (group?: FeatureGroup) =>
+  features.filter((f) => f.status === 'available' && (!group || f.group === group));
+
+export const workbenchFeatures = () => features.filter((f) => f.status !== 'available');
+
+/** Formats that are confirmed, in plain language, for the compatibility section. */
+export const confirmedFormats = [
+  {
+    name: 'Guitar Pro',
+    direction: 'Import',
+    description: 'Open your Guitar Pro files and carry on working on them in SixLine.',
+  },
+  {
+    name: 'MIDI',
+    direction: 'Supported',
+    description: 'Work with MIDI alongside your tablature and notation.',
+  },
+];
 
 export const trademarkNotice =
   'Guitar Pro is a trademark of Arobas Music. SixLine is an independent product and is not affiliated with, endorsed by or sponsored by Arobas Music.';

@@ -1,49 +1,49 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import PageHeader from '~/components/sections/PageHeader.astro';
+import PageHeader from '~/components/ui/PageHeader.astro';
 import DownloadCard from '~/components/ui/DownloadCard.astro';
-import Placeholder from '~/components/ui/Placeholder.astro';
 import { actions, site } from '~/data/site';
 ---
 
 <BaseLayout
   title="Download"
-  description="Download SixLine for Windows and macOS. Builds will be available here when the public beta launches."
+  description="Download SixLine for Windows and macOS. The free trial will be available here when the public beta launches."
 >
-  <PageHeader eyebrow="Downloads" title="Download SixLine.">
+  <PageHeader eyebrow="Download" title="The free trial is on its way.">
     <p>
-      SixLine is being built for Windows and macOS. There is no public build yet — downloads will appear here, along
-      with system requirements, when the public beta launches.
+      SixLine is being built for Windows and macOS. There’s no public build just yet — when the beta opens, the full-featured
+      free trial will be right here, with system requirements and release notes.
     </p>
   </PageHeader>
 
-  <section class="section-y" aria-label="Platforms">
+  <section class="paper grain section-y" aria-label="Platforms">
     <div class="container-content">
-      <div class="grid gap-6 md:grid-cols-2">
+      <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
         <DownloadCard platform="Windows" href={actions.downloads.windows} version={site.appVersion} />
         <DownloadCard platform="macOS" href={actions.downloads.macos} version={site.appVersion} />
       </div>
 
-      <div class="mt-12 grid gap-10 border-t border-line-subtle pt-12 md:grid-cols-2">
+      <div class="mt-16 grid grid-cols-1 gap-10 border-t border-line pt-12 md:grid-cols-3">
         <div>
           <h2 class="text-h4 text-fg">About the free trial</h2>
           <p class="mt-3 text-sm text-fg-secondary">
-            The download is a fully featured, time-limited trial. You can buy a lifetime licence at any point. Trial
-            length and terms will be published before release.
+            The download is a fully featured, time-limited trial. Trial length and terms will be published before release.
+          </p>
+        </div>
+        <div>
+          <h2 class="text-h4 text-fg">Buy once, whenever you’re ready</h2>
+          <p class="mt-3 text-sm text-fg-secondary">
+            A lifetime licence with every future update. <a href="/pricing" class="link-quiet text-fg">See pricing</a>.
           </p>
         </div>
         <div>
           <h2 class="text-h4 text-fg">Release notes</h2>
           <p class="mt-3 text-sm text-fg-secondary">
-            Every build will ship with release notes and a list of known beta limitations.
+            Each build will come with release notes and a list of known limitations.{' '}
             <a href="/updates" class="link-quiet text-fg">View updates</a>.
           </p>
         </div>
       </div>
-
-      <Placeholder class="mt-12">
-        Checksums and code-signing details will be listed here alongside each build.
-      </Placeholder>
     </div>
   </section>
 </BaseLayout>

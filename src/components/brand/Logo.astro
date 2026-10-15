@@ -1,46 +1,76 @@
 ---
 /**
- * SixLine logo slot.
- * - variant="wordmark": full name (header, footer)
- * - variant="symbol":   compact mark (favicon-sized contexts, tight spaces)
- * Renders the supplied SVG when available in src/data/brand.ts, otherwise a
- * deliberately plain text placeholder that the layout does not depend on.
+ * SixLine logo, rendered inline so it inherits colour from its context:
+ * strings and wordmark use currentColor (ivory on dark, ink on paper);
+ * the six endpoints are always brand amber.
+ *
+ * Variants
+ *   horizontal — symbol + wordmark side by side (navigation)
+ *   stacked    — the approved lockup, symbol above wordmark (footer, hero moments)
+ *   symbol     — the S mark alone (compact contexts, favicon)
+ *   wordmark   — "sixline" alone
+ *
+ * `height` sets the rendered height in px; widths follow the artwork.
  */
-import { brandAssets } from '~/data/brand';
+import { logoGeometry as g } from './logo-geometry';
 
 interface Props {
-  variant?: 'wordmark' | 'symbol';
-  /** Rendered cap height in px. The wordmark scales from this. */
-  size?: number;
+  variant?: 'horizontal' | 'stacked' | 'symbol' | 'wordmark';
+  height?: number;
   class?: string;
+  /** Accessible name. Pass '' when the logo sits inside a labelled link. */
+  label?: string;
 }
 
-const { variant = 'wordmark', size = 20, class: className } = Astro.props;
-const src = variant === 'wordmark' ? brandAssets.wordmark : brandAssets.symbol;
-const width = variant === 'wordmark' ? Math.round(size * brandAssets.wordmarkAspect) : size;
+const { variant = 'horizontal', height = 28, class: className, label = 'SixLine' } = Astro.props;
+const a11y = label ? { role: 'img' as const, 'aria-label': label } : { 'aria-hidden': 'true' as const };
+const { symbol, wordmark, lockup } = g;
+
+// Horizontal lockup: the wordmark's x-height band sits centred on the symbol.
+const wordH = height * 0.56;
+const symbolW = (symbol.w / symbol.h) * height;
+const wordW = (wordmark.w / wordmark.h) * wordH;
 ---
 
 {
-  src ? (
-    <img src={src} alt="SixLine" height={size} width={width} class:list={['block', className]} />
-  ) : variant === 'wordmark' ? (
-    <span
-      class:list={['font-display font-semibold tracking-[-0.02em] leading-none text-fg', className]}
-      style={`font-size:${size}px`}
-    >
-      SixLine
+  variant === 'horizontal' ? (
+    <span class:list={['inline-flex items-center', className]} style={`gap:${Math.round(height * 0.32)}px`} {...a11y}>
+      <svg viewBox={`0 0 ${symbol.w} ${symbol.h}`} width={symbolW.toFixed(1)} height={height} aria-hidden="true" class="shrink-0 overflow-visible">
+        <path d={symbol.path} fill="currentColor" fill-rule="evenodd" />
+        <g fill="var(--sl-palette-amber)">
+          {symbol.dots.map(([cx, cy]) => <circle cx={cx} cy={cy} r={symbol.r} />)}
+        </g>
+      </svg>
+      <svg viewBox={`0 0 ${wordmark.w} ${wordmark.h}`} width={wordW.toFixed(1)} height={wordH.toFixed(1)} aria-hidden="true" class="shrink-0">
+        <path d={wordmark.path} fill="currentColor" fill-rule="evenodd" />
+      </svg>
     </span>
+  ) : variant === 'stacked' ? (
+    <svg
+      viewBox={`0 0 ${lockup.w} ${lockup.h}`}
+      height={height}
+      width={((lockup.w / lockup.h) * height).toFixed(1)}
+      class:list={['shrink-0', className]}
+      {...a11y}
+    >
+      <g fill="currentColor" fill-rule="evenodd">
+        <path transform={`translate(${lockup.symbolOffset.join(' ')})`} d={symbol.path} />
+        <path transform={`translate(${lockup.wordOffset.join(' ')})`} d={wordmark.path} />
+      </g>
+      <g fill="var(--sl-palette-amber)" transform={`translate(${lockup.symbolOffset.join(' ')})`}>
+        {symbol.dots.map(([cx, cy]) => <circle cx={cx} cy={cy} r={symbol.r} />)}
+      </g>
+    </svg>
+  ) : variant === 'symbol' ? (
+    <svg viewBox={`0 0 ${symbol.w} ${symbol.h}`} height={height} width={symbolW.toFixed(1)} class:list={['shrink-0', className]} {...a11y}>
+      <path d={symbol.path} fill="currentColor" fill-rule="evenodd" />
+      <g fill="var(--sl-palette-amber)">
+        {symbol.dots.map(([cx, cy]) => <circle cx={cx} cy={cy} r={symbol.r} />)}
+      </g>
+    </svg>
   ) : (
-    <span
-      class:list={[
-        'inline-grid place-items-center rounded-sm border border-line-strong font-display font-semibold leading-none text-fg',
-        className,
-      ]}
-      style={`width:${size}px;height:${size}px;font-size:${Math.round(size * 0.55)}px`}
-      role="img"
-      aria-label="SixLine"
-    >
-      S
-    </span>
+    <svg viewBox={`0 0 ${wordmark.w} ${wordmark.h}`} height={height} width={((wordmark.w / wordmark.h) * height).toFixed(1)} class:list={['shrink-0', className]} {...a11y}>
+      <path d={wordmark.path} fill="currentColor" fill-rule="evenodd" />
+    </svg>
   )
 }

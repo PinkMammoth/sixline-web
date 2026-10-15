@@ -1,17 +1,21 @@
 /*
  * SixLine design tokens
  * ---------------------
- * Raw palette values live ONLY in this file. Components consume the semantic
+ * Raw colour values live ONLY in this file. Components consume the semantic
  * custom properties (--sl-*) through Tailwind utilities (see global.css) or
- * directly via var(). See docs/design-system.md for usage rules.
+ * via var(). See docs/design-system.md for usage rules.
  *
- * Two token layers:
- *   1. Chrome   — page/app surfaces, text, accents, states.
- *   2. Canvas   — the music-notation surface, which has its own readability
- *                 rules and does not simply follow the chrome palette.
+ * Three layers:
+ *   1. Studio (default)  — dark, low-glare charcoal with warm intermediate surfaces.
+ *   2. Paper             — warm ivory. Applied to whole sections with `.paper`
+ *                          (or the whole document with data-theme="light").
+ *                          Every semantic token is redefined, so components
+ *                          render correctly on either without variants.
+ *   3. Canvas            — the music-notation surface, with its own readability rules.
  */
 
-:root {
+:root,
+.studio {
   /* ---- Brand palette (reference only — prefer semantic tokens) ---- */
   --sl-palette-ink: #141515;
   --sl-palette-graphite: #242626;
@@ -19,36 +23,40 @@
   --sl-palette-amber: #e8a45b;
   --sl-palette-sage: #a6b5a1;
 
-  /* ---- Dark theme (default): low-glare studio ---- */
   color-scheme: dark;
 
-  /* Surfaces, from deepest to most raised */
-  --sl-bg: #141515; /* Ink — page background */
-  --sl-bg-sunken: #0f1010; /* wells, code, footer */
-  --sl-surface-1: #1b1c1c; /* quiet panels, alternating sections */
-  --sl-surface-2: #242626; /* Graphite — cards, product frame shell */
-  --sl-surface-3: #2e3030; /* hover on cards, raised controls */
+  /* Surfaces — neutral charcoal family */
+  --sl-bg: #141515; /* Ink */
+  --sl-bg-sunken: #0f1010;
+  --sl-surface-1: #1b1c1c;
+  --sl-surface-2: #242626; /* Graphite */
+  --sl-surface-3: #2e3030;
+
+  /* Surfaces — warm family (walnut-tinted charcoal, used for contrast between sections) */
+  --sl-warm-1: #1c1a17;
+  --sl-warm-2: #2a2622;
+  --sl-warm-3: #36312b;
 
   /* Lines */
-  --sl-border-subtle: #242626; /* hairline dividers on ink */
-  --sl-border: #343737; /* card outlines, inputs */
-  --sl-border-strong: #6a6d6a; /* meaningful outlines (≥3:1 on ink) */
+  --sl-border-subtle: rgb(242 239 231 / 0.07);
+  --sl-border: rgb(242 239 231 / 0.13);
+  --sl-border-strong: #6a6d6a; /* ≥ 3:1 on ink */
 
   /* Text */
   --sl-text: #f2efe7; /* Ivory — 15.9:1 on ink */
-  --sl-text-secondary: #c8c4ba; /* 10.5:1 on ink */
-  --sl-text-muted: #a09c93; /* 6.7:1 on ink, 5.6:1 on graphite */
-  --sl-text-disabled: #6b6964; /* disabled only — exempt from contrast */
+  --sl-text-secondary: #cfc9bd; /* ≥ 9:1 on every dark surface */
+  --sl-text-muted: #a39d92; /* ≥ 5.5:1 on every dark surface */
+  --sl-text-disabled: #6b6964;
 
-  /* Accent: Amber. Use sparingly — CTAs, focus, meaningful emphasis. */
+  /* Amber — primary actions and selected emphasis */
   --sl-accent: #e8a45b;
   --sl-accent-hover: #f0b677;
   --sl-accent-active: #d58f45;
-  --sl-accent-text: #e8a45b; /* amber used as text on dark: 8.6:1 */
-  --sl-accent-soft: rgb(232 164 91 / 0.12); /* tinted backgrounds */
-  --sl-on-accent: #141515; /* text on amber fills: 8.6:1 */
+  --sl-accent-text: #e8a45b;
+  --sl-accent-soft: rgb(232 164 91 / 0.12);
+  --sl-on-accent: #141515;
 
-  /* Secondary accent: Sage. Calm, informational, "available" states. */
+  /* Sage — secondary, calm detail */
   --sl-sage: #a6b5a1;
   --sl-sage-soft: rgb(166 181 161 / 0.12);
 
@@ -58,7 +66,6 @@
   --sl-active-overlay: rgb(242 239 231 / 0.08);
   --sl-disabled-bg: #1f2020;
   --sl-disabled-border: #2c2e2e;
-
   --sl-success: #93c08f;
   --sl-success-soft: rgb(147 192 143 / 0.12);
   --sl-warning: #e6c36f;
@@ -66,16 +73,28 @@
   --sl-danger: #ee8a72;
   --sl-danger-soft: rgb(238 138 114 / 0.12);
 
-  /* Elevation — shadows are minimal; separation comes from surface steps */
+  /* Elevation — shadows stay soft and low; separation comes from surfaces */
   --sl-shadow-sm: 0 1px 2px rgb(0 0 0 / 0.3);
-  --sl-shadow-frame: 0 1px 0 0 rgb(242 239 231 / 0.05) inset, 0 30px 60px -30px rgb(0 0 0 / 0.7);
+  --sl-shadow-panel: 0 1px 0 0 rgb(242 239 231 / 0.06) inset, 0 18px 40px -24px rgb(0 0 0 / 0.65);
+  --sl-shadow-frame:
+    0 1px 0 0 rgb(242 239 231 / 0.08) inset, 0 50px 90px -40px rgb(0 0 0 / 0.75), 0 20px 40px -30px rgb(0 0 0 / 0.6);
+  /* Tactile button: a hairline top highlight and a short contact shadow */
+  --sl-shadow-button: 0 1px 0 0 rgb(255 255 255 / 0.25) inset, 0 1px 2px 0 rgb(0 0 0 / 0.35);
+
+  /* Atmosphere: very soft warm "studio light" pools */
+  --sl-glow-amber: rgb(232 164 91 / 0.09);
+  --sl-glow-sage: rgb(166 181 161 / 0.06);
+
+  /* Film grain — nearly imperceptible; tiled SVG noise */
+  --sl-grain-opacity: 0.06;
+  --sl-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.95 0 0 0 0 0.93 0 0 0 0 0.9 0 0 0 0.55 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
 
   /* ---- Notation canvas (dark / low-glare) ---- */
   --sl-canvas-bg: #1b1c1c;
   --sl-canvas-staff-line: #5a5d5b;
   --sl-canvas-barline: #7c7f7b;
-  --sl-canvas-ink: #e7e3da; /* fret numbers, noteheads */
-  --sl-canvas-ink-secondary: #a09c93; /* technique text, annotations */
+  --sl-canvas-ink: #e7e3da;
+  --sl-canvas-ink-secondary: #a39d92;
   --sl-canvas-selection: rgb(232 164 91 / 0.22);
   --sl-canvas-cursor: #e8a45b;
   --sl-canvas-playhead: #a6b5a1;
@@ -83,45 +102,47 @@
 }
 
 /*
- * Light theme: warm paper. Not enabled on the website by default (the site is
- * dark-first), but defined and contrast-checked so components work in both
- * and so the desktop app can share the same tokens. Activate with
- * <html data-theme="light">.
+ * Paper: warm ivory. Used for contrasting sections (`.paper`) and as the
+ * light theme for the whole document (data-theme="light"). Contrast-checked.
  */
-:root[data-theme='light'] {
+:root[data-theme='light'],
+.paper {
   color-scheme: light;
 
-  --sl-bg: #f5f2ea;
-  --sl-bg-sunken: #ece8de;
-  --sl-surface-1: #fbf9f4;
-  --sl-surface-2: #ffffff;
-  --sl-surface-3: #ece8de;
+  --sl-bg: #f2efe7; /* Ivory */
+  --sl-bg-sunken: #e8e2d5;
+  --sl-surface-1: #f7f4ee;
+  --sl-surface-2: #fbf9f5;
+  --sl-surface-3: #e8e2d5;
 
-  --sl-border-subtle: #e6e1d6;
-  --sl-border: #d6d0c4;
-  --sl-border-strong: #8a857b;
+  --sl-warm-1: #e8e2d5;
+  --sl-warm-2: #ddd5c5;
+  --sl-warm-3: #cfc6b3;
 
-  --sl-text: #1a1b1b;
-  --sl-text-secondary: #3f403e;
-  --sl-text-muted: #5f5c55;
+  --sl-border-subtle: rgb(20 21 21 / 0.08);
+  --sl-border: rgb(20 21 21 / 0.15);
+  --sl-border-strong: #8a847a;
+
+  --sl-text: #141515;
+  --sl-text-secondary: #3d3b37;
+  --sl-text-muted: #625d54;
   --sl-text-disabled: #a19c92;
 
-  --sl-accent: #e8a45b; /* fills keep brand amber, with ink text on top */
+  --sl-accent: #e8a45b;
   --sl-accent-hover: #dd9446;
   --sl-accent-active: #c98236;
-  --sl-accent-text: #8f5414; /* amber as text needs darkening: 5.5:1 */
-  --sl-accent-soft: rgb(232 164 91 / 0.16);
-  --sl-on-accent: #1a1b1b;
+  --sl-accent-text: #8a4f12; /* amber as text is darkened on paper: 5.7:1 */
+  --sl-accent-soft: rgb(232 164 91 / 0.18);
+  --sl-on-accent: #141515;
 
-  --sl-sage: #4f6249;
-  --sl-sage-soft: rgb(79 98 73 / 0.1);
+  --sl-sage: #4c5e47;
+  --sl-sage-soft: rgb(76 94 71 / 0.1);
 
-  --sl-focus: #8f5414;
-  --sl-hover-overlay: rgb(26 27 27 / 0.04);
-  --sl-active-overlay: rgb(26 27 27 / 0.08);
-  --sl-disabled-bg: #ece8de;
-  --sl-disabled-border: #ddd8cd;
-
+  --sl-focus: #8a4f12;
+  --sl-hover-overlay: rgb(20 21 21 / 0.04);
+  --sl-active-overlay: rgb(20 21 21 / 0.08);
+  --sl-disabled-bg: #e8e2d5;
+  --sl-disabled-border: #ddd5c5;
   --sl-success: #2f6b37;
   --sl-success-soft: rgb(47 107 55 / 0.1);
   --sl-warning: #7a5a00;
@@ -129,17 +150,31 @@
   --sl-danger: #a63a26;
   --sl-danger-soft: rgb(166 58 38 / 0.1);
 
-  --sl-shadow-sm: 0 1px 2px rgb(26 27 27 / 0.08);
-  --sl-shadow-frame: 0 1px 0 0 rgb(255 255 255 / 0.6) inset, 0 30px 60px -30px rgb(26 27 27 / 0.25);
+  --sl-shadow-sm: 0 1px 2px rgb(20 21 21 / 0.08);
+  --sl-shadow-panel: 0 1px 0 0 rgb(255 255 255 / 0.7) inset, 0 18px 40px -26px rgb(60 45 25 / 0.35);
+  --sl-shadow-frame: 0 1px 0 0 rgb(255 255 255 / 0.6) inset, 0 40px 80px -40px rgb(60 45 25 / 0.45);
+  --sl-shadow-button: 0 1px 0 0 rgb(255 255 255 / 0.35) inset, 0 1px 2px 0 rgb(60 45 25 / 0.25);
 
-  /* Notation canvas (light / print-like) */
-  --sl-canvas-bg: #fffdf8;
+  --sl-glow-amber: rgb(232 164 91 / 0.16);
+  --sl-glow-sage: rgb(76 94 71 / 0.08);
+
+  --sl-grain-opacity: 0.09;
+  --sl-grain: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='180' height='180'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.85' numOctaves='3' stitchTiles='stitch'/%3E%3CfeColorMatrix values='0 0 0 0 0.35 0 0 0 0 0.28 0 0 0 0 0.2 0 0 0 0.5 0'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+
+  --sl-canvas-bg: #fbf9f5;
   --sl-canvas-staff-line: #9a958b;
   --sl-canvas-barline: #6f6b63;
-  --sl-canvas-ink: #1a1b1b;
-  --sl-canvas-ink-secondary: #5f5c55;
+  --sl-canvas-ink: #141515;
+  --sl-canvas-ink-secondary: #625d54;
   --sl-canvas-selection: rgb(232 164 91 / 0.3);
   --sl-canvas-cursor: #b36a1f;
-  --sl-canvas-playhead: #4f6249;
-  --sl-canvas-loop-region: rgb(79 98 73 / 0.12);
+  --sl-canvas-playhead: #4c5e47;
+  --sl-canvas-loop-region: rgb(76 94 71 / 0.12);
+}
+
+/* Section scopes: set the surface and text colour along with the tokens. */
+.paper,
+.studio {
+  background-color: var(--sl-bg);
+  color: var(--sl-text);
 }

@@ -1,0 +1,37 @@
+---
+/**
+ * A "page" of tablature — title, metadata and stacked systems — drawn as an
+ * illustration on the paper canvas. Used as the hero placeholder until real
+ * app screenshots exist. It deliberately contains no app UI (no toolbars,
+ * panels or controls), and is labelled "Illustration" by its frame.
+ */
+import TabStaff from './TabStaff.astro';
+import { riff, riffAnswer } from '~/data/riffs';
+---
+
+<div class="paper absolute inset-0 overflow-hidden bg-canvas" aria-hidden="true">
+  <div class="flex h-full flex-col px-[6%] pt-[6%] sm:pt-[4%]">
+    <div class="flex items-end justify-between gap-6 border-b border-line-subtle pb-[2.2%]">
+      <div>
+        <p class="font-display text-[clamp(1rem,0.6rem+1.6vw,2rem)] font-medium tracking-tight text-fg">Untitled riff</p>
+        <p class="mt-1 hidden font-mono text-[0.6875rem] text-fg-muted sm:block">Standard tuning · ♩ = 92 · 4/4</p>
+      </div>
+      <p class="hidden font-mono text-[0.6875rem] text-fg-muted sm:block">Guitar</p>
+    </div>
+
+    <!-- Desktop: two bars per system -->
+    <div class="mt-[3.5%] hidden flex-col gap-[3%] sm:flex">
+      <TabStaff bars={riff} />
+      <TabStaff bars={riffAnswer} />
+      <TabStaff bars={riff} />
+      <TabStaff bars={riffAnswer} class="opacity-35" />
+    </div>
+    <!-- Phones: one bar per system so numbers stay legible -->
+    <div class="mt-5 flex flex-col gap-4 sm:hidden">
+      <TabStaff bars={[riff[0]]} />
+      <TabStaff bars={[riff[1]]} />
+      <TabStaff bars={[riffAnswer[0]]} class="opacity-35" />
+    </div>
+  </div>
+  <div class="pointer-events-none absolute inset-x-0 bottom-0 h-1/4 bg-linear-to-t from-canvas to-transparent"></div>
+</div>

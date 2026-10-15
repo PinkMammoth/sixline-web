@@ -4,9 +4,8 @@
 /*
  * Tailwind theme
  * Default palettes, radii and font stacks are cleared so only SixLine tokens
- * exist as utilities — this prevents hardcoded one-off colours creeping in.
- * `inline` makes utilities reference the semantic custom properties, so
- * switching data-theme re-skins everything.
+ * exist as utilities. `inline` makes utilities reference the semantic custom
+ * properties, so `.paper` sections and data-theme re-skin everything.
  */
 @theme inline {
   --color-*: initial;
@@ -15,6 +14,9 @@
   --color-surface-1: var(--sl-surface-1);
   --color-surface-2: var(--sl-surface-2);
   --color-surface-3: var(--sl-surface-3);
+  --color-warm-1: var(--sl-warm-1);
+  --color-warm-2: var(--sl-warm-2);
+  --color-warm-3: var(--sl-warm-3);
   --color-line-subtle: var(--sl-border-subtle);
   --color-line: var(--sl-border);
   --color-line-strong: var(--sl-border-strong);
@@ -31,16 +33,17 @@
   --color-sage: var(--sl-sage);
   --color-sage-soft: var(--sl-sage-soft);
   --color-success: var(--sl-success);
-  --color-success-soft: var(--sl-success-soft);
   --color-warning: var(--sl-warning);
-  --color-warning-soft: var(--sl-warning-soft);
   --color-danger: var(--sl-danger);
-  --color-danger-soft: var(--sl-danger-soft);
   --color-disabled-bg: var(--sl-disabled-bg);
   --color-disabled-line: var(--sl-disabled-border);
   --color-canvas: var(--sl-canvas-bg);
   --color-canvas-line: var(--sl-canvas-staff-line);
   --color-canvas-ink: var(--sl-canvas-ink);
+  /* Fixed brand colours for elements that must not re-skin (logo, CTA band) */
+  --color-ink: var(--sl-palette-ink);
+  --color-ivory: var(--sl-palette-ivory);
+  --color-amber: var(--sl-palette-amber);
   --color-transparent: transparent;
   --color-current: currentColor;
 
@@ -51,53 +54,54 @@
 
   --shadow-*: initial;
   --shadow-sm: var(--sl-shadow-sm);
+  --shadow-panel: var(--sl-shadow-panel);
   --shadow-frame: var(--sl-shadow-frame);
+  --shadow-button: var(--sl-shadow-button);
 }
 
 @theme {
-  /* Spacing: Tailwind's 4px base unit (p-1 = 4px, p-6 = 24px …). */
   --spacing: 0.25rem;
 
-  /* Radii — subtle */
   --radius-*: initial;
   --radius-xs: 2px;
   --radius-sm: 4px;
   --radius-md: 6px;
   --radius-lg: 10px;
   --radius-xl: 14px;
+  --radius-2xl: 20px;
   --radius-full: 9999px;
 
-  /* Content widths */
-  --container-prose: 40rem; /* 640px — long-form reading */
-  --container-narrow: 48rem; /* 768px — FAQ, pricing detail */
-  --container-content: 72rem; /* 1152px — standard sections */
-  --container-wide: 82rem; /* 1312px — hero product frame */
+  --container-prose: 40rem;
+  --container-narrow: 48rem;
+  --container-content: 74rem;
+  --container-wide: 86rem;
 
-  /* Type scale — restrained, fluid only at heading sizes */
+  /* Type scale. Display sizes are fluid; body sizes are fixed. */
   --text-*: initial;
   --text-label: 0.75rem;
   --text-label--line-height: 1rem;
-  --text-label--letter-spacing: 0.08em;
+  --text-label--letter-spacing: 0.1em;
   --text-sm: 0.875rem;
   --text-sm--line-height: 1.375rem;
   --text-base: 1rem;
   --text-base--line-height: 1.625rem;
   --text-lead: 1.1875rem;
-  --text-lead--line-height: 1.75rem;
-  --text-h4: 1.125rem;
+  --text-lead--line-height: 1.8rem;
+  --text-h4: 1.1875rem;
   --text-h4--line-height: 1.5rem;
-  --text-h3: 1.375rem;
-  --text-h3--line-height: 1.875rem;
-  --text-h2: clamp(1.75rem, 1.35rem + 1.5vw, 2.5rem);
-  --text-h2--line-height: 1.15;
-  --text-h1: clamp(2.25rem, 1.6rem + 2.6vw, 3.75rem);
-  --text-h1--line-height: 1.05;
+  --text-h3: 1.5rem;
+  --text-h3--line-height: 1.95rem;
+  --text-h2: clamp(2rem, 1.35rem + 2.4vw, 3.5rem);
+  --text-h2--line-height: 1.02;
+  --text-h1: clamp(2.5rem, 1.6rem + 3.4vw, 4.75rem);
+  --text-h1--line-height: 0.98;
+  --text-display: clamp(3rem, 1.4rem + 5.6vw, 6.5rem);
+  --text-display--line-height: 0.94;
 
-  /* Motion */
   --ease-quiet: cubic-bezier(0.2, 0.7, 0.2, 1);
   --duration-fast: 120ms;
   --duration-base: 200ms;
-  --duration-slow: 480ms;
+  --duration-slow: 600ms;
 }
 
 /* ---------------------------------------------------------------- Base */
@@ -124,7 +128,7 @@
   h4 {
     font-family: var(--font-display);
     font-weight: 500;
-    letter-spacing: -0.015em;
+    letter-spacing: -0.02em;
     text-wrap: balance;
   }
 
@@ -137,7 +141,6 @@
     color: var(--sl-on-accent);
   }
 
-  /* Visible, consistent focus indicator for every interactive element */
   :focus-visible {
     outline: 2px solid var(--sl-focus);
     outline-offset: 3px;
@@ -184,20 +187,27 @@
   font-weight: 500;
 }
 
+/* Display headline tracking tightens as size grows */
+@utility tracking-display {
+  letter-spacing: -0.035em;
+}
+
 @utility section-y {
-  padding-block: 4.5rem;
+  padding-block: 5rem;
 
   @media (width >= 64rem) {
-    padding-block: 7rem;
+    padding-block: 8.5rem;
   }
 }
 
 @utility link-quiet {
   text-decoration-line: underline;
   text-decoration-color: var(--sl-border-strong);
-  text-underline-offset: 0.2em;
+  text-underline-offset: 0.22em;
   text-decoration-thickness: 1px;
-  transition: text-decoration-color var(--duration-base) var(--ease-quiet), color var(--duration-base) var(--ease-quiet);
+  transition:
+    text-decoration-color var(--duration-base) var(--ease-quiet),
+    color var(--duration-base) var(--ease-quiet);
 
   &:hover {
     text-decoration-color: var(--sl-accent);
@@ -205,19 +215,41 @@
   }
 }
 
+/*
+ * Analogue grain. A tiled noise texture at a few percent opacity — felt
+ * rather than seen. Apply to a positioned section; content must sit above
+ * (use `relative` on inner wrappers, as the overlay is z-index 0).
+ */
+@utility grain {
+  position: relative;
+  isolation: isolate;
+
+  &::before {
+    content: '';
+    position: absolute;
+    inset: 0;
+    z-index: -1;
+    pointer-events: none;
+    background-image: var(--sl-grain);
+    background-size: 180px 180px;
+    opacity: var(--sl-grain-opacity);
+  }
+}
+
 /* ------------------------------------------------------------ Motion */
 /*
- * Gentle section reveals. Content is visible by default; it is only hidden
- * when JS has run (html.js) AND the user has not asked for reduced motion.
- * Only opacity/transform animate, so there is no layout shift.
+ * One-time section reveals. Visible by default; only hidden when JS has run
+ * (html.js), on screen media, and when motion is allowed. Opacity/transform
+ * only, so there is no layout shift.
  */
 @media screen and (prefers-reduced-motion: no-preference) {
   .js [data-reveal] {
     opacity: 0;
-    transform: translateY(12px);
+    transform: translateY(16px);
     transition:
       opacity var(--duration-slow) var(--ease-quiet),
       transform var(--duration-slow) var(--ease-quiet);
+    transition-delay: var(--reveal-delay, 0ms);
   }
 
   .js [data-reveal].is-revealed {

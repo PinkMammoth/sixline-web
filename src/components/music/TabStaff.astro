@@ -1,0 +1,215 @@
+---
+/**
+ * Tablature illustration (SVG). Draws strings, bar lines, fret numbers,
+ * technique marks and eighth-note rhythm stems from TabBar data.
+ *
+ * Purely illustrative — it is not the SixLine interface. Pass `playhead` to
+ * draw a playhead that sweeps across once when an ancestor gains
+ * `.is-playing`; notes light up in amber as it passes them.
+ */
+import type { TabBar } from '~/data/riffs';
+
+interface Props {
+  bars: TabBar[];
+  strings?: 4 | 6;
+  barWidth?: number;
+  clef?: boolean;
+  rhythm?: boolean;
+  playhead?: boolean;
+  /** Seconds the playhead takes to cross all bars. */
+  duration?: number;
+  class?: string;
+  /** Background behind fret numbers (must match the surface it sits on). */
+  maskColor?: string;
+}
+
+const {
+  bars,
+  strings = 6,
+  clef = true,
+  rhythm = true,
+  playhead = false,
+  duration = 4.8,
+  class: className,
+  maskColor = 'var(--sl-canvas-bg)',
+} = Astro.props;
+
+const S = 14; // string spacing
+const top = 28; // room for technique marks
+const left = clef ? 40 : 6;
+const barW = Astro.props.barWidth ?? 420;
+const pad = 26;
+const width = left + bars.length * barW + 6;
+const staffH = (strings - 1) * S;
+const stemTop = top + staffH + 10;
+const stemBottom = stemTop + 20;
+const height = (rhythm ? stemBottom : top + staffH) + 8;
+
+const x0 = left + pad - 10; // playhead start
+const travel = left + bars.length * barW - x0 - 4;
+const stepX = (bar: number, step: number) => left + bar * barW + pad + step * ((barW - pad * 2) / 7.4);
+const stringY = (s: number) => top + (s - 1) * S;
+
+type Placed = { x: number; y: number; fret: string; t: number; tech?: string; vibrato?: boolean; prevX?: number };
+const placed: Placed[] = [];
+bars.forEach((bar, b) => {
+  bar.forEach((n) => {
+    const x = stepX(b, n.step);
+    const prev = n.tech ? [...placed].reverse().find((p) => p.y === stringY(n.string) && p.x < x) : undefined;
+    placed.push({
+      x,
+      y: stringY(n.string),
+      fret: String(n.fret),
+      // Light each note exactly when the (linear) playhead reaches it
+      t: ((x - x0) / travel) * duration,
+      tech: n.tech,
+      vibrato: n.vibrato,
+      prevX: prev?.x,
+    });
+  });
+});
+
+// Rhythm: one stem per occupied step, beamed in pairs (eighth notes).
+const stems: { x: number; step: number; bar: number }[] = [];
+bars.forEach((bar, b) => {
+  const steps = [...new Set(bar.map((n) => n.step))].sort((a, z) => a - z);
+  steps.forEach((s) => stems.push({ x: stepX(b, s), step: s, bar: b }));
+});
+const beams: [number, number][] = [];
+for (const st of stems) {
+  if (st.step % 2 === 1) continue;
+  const partner = stems.find((o) => o.bar === st.bar && o.step === st.step + 1);
+  if (partner) beams.push([st.x, partner.x]);
+}
+const beamed = new Set(beams.flat());
+---
+
+<svg
+  class:list={['tab-staff block h-auto w-full', className]}
+  viewBox={`0 0 ${width} ${height}`}
+  aria-hidden="true"
+  style={`--tab-duration:${duration}s;--tab-travel:${travel}px`}
+>
+  {
+    clef && (
+      <g font-family="var(--font-mono)" font-size="11" font-weight="500" fill="var(--sl-canvas-ink-secondary)" text-anchor="middle">
+        {['T', 'A', 'B'].map((ch, i) => (
+          <text x="16" y={top + staffH / 2 - 9 + i * 12}>
+            {ch}
+          </text>
+        ))}
+      </g>
+    )
+  }
+
+  <g stroke="var(--sl-canvas-staff-line)" stroke-width="1">
+    {Array.from({ length: strings }, (_, i) => <line x1={left} x2={left + bars.length * barW} y1={top + i * S} y2={top + i * S} />)}
+  </g>
+  <g stroke="var(--sl-canvas-barline)" stroke-width="1.25">
+    {Array.from({ length: bars.length + 1 }, (_, i) => <line x1={left + i * barW} x2={left + i * barW} y1={top} y2={top + staffH} />)}
+  </g>
+
+  <g fill="none" stroke="var(--sl-canvas-ink-secondary)" stroke-width="1">
+    {
+      placed
+        .filter((p) => p.tech && p.prevX !== undefined)
+        .map((p) => {
+          const x1 = p.prevX! + 6;
+          const x2 = p.x - 6;
+          return p.tech === '/' ? (
+            <line x1={x1 + 2} y1={p.y + 3} x2={x2 - 2} y2={p.y - 3} />
+          ) : (
+            <path d={`M${x1} ${p.y - 9}Q${(x1 + x2) / 2} ${p.y - 19} ${x2} ${p.y - 9}`} />
+          );
+        })
+    }
+    {placed.filter((p) => p.vibrato).map((p) => <path d={`M${p.x - 8} ${top - 15}q2.5 -3 5 0t5 0t5 0`} stroke-width="1.1" />)}
+  </g>
+  <g font-family="var(--font-mono)" font-size="9" fill="var(--sl-canvas-ink-secondary)" text-anchor="middle">
+    {
+      placed
+        .filter((p) => (p.tech === 'h' || p.tech === 'p') && p.prevX !== undefined)
+        .map((p) => (
+          <text x={(p.prevX! + p.x) / 2} y={p.y - 20}>
+            {p.tech}
+          </text>
+        ))
+    }
+  </g>
+
+  <g font-family="var(--font-mono)" font-size="12" font-weight="500" text-anchor="middle">
+    {
+      placed.map((p) => (
+        <g class="tab-note" style={`--t:${p.t.toFixed(2)}s`}>
+          <rect x={p.x - 6.5} y={p.y - 7} width="13" height="14" fill={maskColor} />
+          <text x={p.x} y={p.y + 4.2} fill="var(--sl-canvas-ink)">
+            {p.fret}
+          </text>
+        </g>
+      ))
+    }
+  </g>
+
+  {
+    rhythm && (
+      <g stroke="var(--sl-canvas-ink-secondary)" stroke-width="1.1" fill="none">
+        {stems.map((s) => (
+          <line x1={s.x} x2={s.x} y1={stemTop} y2={stemBottom} />
+        ))}
+        {beams.map(([a, z]) => (
+          <line x1={a} x2={z} y1={stemBottom} y2={stemBottom} stroke-width="3" />
+        ))}
+        {stems
+          .filter((s) => !beamed.has(s.x))
+          .map((s) => (
+            <path d={`M${s.x} ${stemBottom}q6 -3 7 -9`} />
+          ))}
+      </g>
+    )
+  }
+
+  {
+    playhead && (
+      <g class="tab-playhead">
+        <rect x={x0} y={top - 16} width="2" height={staffH + 32} rx="1" fill="var(--sl-canvas-playhead)" />
+        <path d={`M${x0 - 5} ${top - 23}h12l-6 7z`} fill="var(--sl-canvas-playhead)" />
+      </g>
+    )
+  }
+</svg>
+
+<style>
+  .tab-playhead {
+    /* Resting position (also the reduced-motion state): partway into bar 1 */
+    transform: translateX(calc(var(--tab-travel) * 0.31));
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    :global(.is-playing) .tab-playhead {
+      animation: tab-sweep var(--tab-duration) linear forwards;
+    }
+    :global(.is-playing) .tab-note text {
+      animation: tab-note-hit 1.1s var(--ease-quiet) both;
+      animation-delay: var(--t);
+    }
+  }
+
+  @keyframes tab-sweep {
+    from {
+      transform: translateX(0);
+    }
+    to {
+      transform: translateX(var(--tab-travel));
+    }
+  }
+
+  @keyframes tab-note-hit {
+    0%,
+    100% {
+      fill: var(--sl-canvas-ink);
+    }
+    6% {
+      fill: var(--sl-canvas-cursor);
+    }
+  }
+</style>

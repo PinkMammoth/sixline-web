@@ -1,24 +1,26 @@
 ---
+import Eyebrow from './Eyebrow.astro';
+
 interface Props {
   eyebrow?: string;
+  index?: string;
   title: string;
-  /** Heading level. Pages use h1 once; homepage sections use h2. */
   as?: 'h1' | 'h2' | 'h3';
   align?: 'start' | 'center';
   id?: string;
   class?: string;
 }
 
-const { eyebrow, title, as: Tag = 'h2', align = 'start', id, class: className } = Astro.props;
-const size = Tag === 'h1' ? 'text-h1' : Tag === 'h2' ? 'text-h2' : 'text-h3';
+const { eyebrow, index, title, as: Tag = 'h2', align = 'start', id, class: className } = Astro.props;
+const size = Tag === 'h1' ? 'text-h1 tracking-display' : Tag === 'h2' ? 'text-h2 tracking-display' : 'text-h3';
 ---
 
-<div class:list={['max-w-2xl', align === 'center' && 'mx-auto text-center', className]}>
-  {eyebrow && <p class="label-mono mb-4 text-fg-muted">{eyebrow}</p>}
-  <Tag id={id} class:list={[size, 'text-fg']}>{title}</Tag>
+<div class:list={['max-w-3xl', align === 'center' && 'mx-auto text-center', className]}>
+  {eyebrow && <Eyebrow index={index} class:list={['mb-6', align === 'center' && 'justify-center']}>{eyebrow}</Eyebrow>}
+  <Tag id={id} class:list={[size, 'text-fg']} set:html={title} />
   {
     Astro.slots.has('default') && (
-      <div class="mt-5 text-lead text-fg-secondary">
+      <div class="mt-6 max-w-2xl text-lead text-fg-secondary">
         <slot />
       </div>
     )

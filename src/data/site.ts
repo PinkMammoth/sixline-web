@@ -53,6 +53,15 @@ export const pricing = {
   trialDays: null as number | null,
 } as const;
 
+/**
+ * Real product media. Null until supplied — illustrations are shown instead.
+ * Videos go in public/demos/ (H.264 MP4); screenshots in src/assets/screenshots/.
+ */
+export const media = {
+  /** Short clip of a riff becoming a multi-track arrangement, e.g. '/demos/writing.mp4'. */
+  writingDemo: null as { src: string; poster?: string; captions?: string } | null,
+} as const;
+
 export const contact = {
   /** Public support address. Null until one is set up — do not guess. */
   supportEmail: null as string | null,

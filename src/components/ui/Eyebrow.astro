@@ -1,0 +1,14 @@
+---
+/** Section marker: a short amber rule, optional index number and a mono label. */
+interface Props {
+  index?: string;
+  class?: string;
+}
+const { index, class: className } = Astro.props;
+---
+
+<p class:list={['label-mono flex items-center gap-3 text-fg-muted', className]}>
+  <span class="h-px w-7 bg-accent" aria-hidden="true"></span>
+  {index && <span class="text-accent-text">{index}</span>}
+  <span><slot /></span>
+</p>

@@ -1,0 +1,46 @@
+---
+/**
+ * "Riff to arrangement" illustration: the riff on its own, then the same
+ * riff with a rhythm part and a bass line stacked beneath it.
+ * An illustration, not the SixLine interface.
+ */
+import TabStaff from './TabStaff.astro';
+import { arrangement, riff } from '~/data/riffs';
+
+const lanes = [
+  { name: 'Lead guitar', tone: 'bg-accent', bars: riff, strings: 6 as const },
+  { name: 'Rhythm guitar', tone: 'bg-sage', bars: arrangement.rhythm, strings: 6 as const },
+  { name: 'Bass', tone: 'bg-fg', bars: arrangement.bass, strings: 4 as const },
+];
+---
+
+<div class="arrangement grid gap-6" aria-hidden="true">
+  <!-- 1. The idea -->
+  <div class="rounded-xl border border-line-subtle bg-surface-2 p-4 shadow-panel sm:p-6">
+    <div class="mb-3 flex items-center justify-between">
+      <p class="label-mono text-fg-muted">1 · The riff</p>
+      <p class="font-mono text-[0.6875rem] text-fg-muted">♩ = 92</p>
+    </div>
+    <TabStaff bars={riff} maskColor="var(--sl-surface-2)" />
+  </div>
+
+  <div class="flex items-center gap-3 pl-6 text-fg-muted">
+    <svg width="14" height="28" viewBox="0 0 14 28"><path d="M7 1v24M2 20l5 6 5-6" fill="none" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round" /></svg>
+    <p class="label-mono">2 · The arrangement</p>
+  </div>
+
+  <!-- 2. The arrangement -->
+  <div class="rounded-xl border border-line-subtle bg-surface-2 shadow-panel">
+    {
+      lanes.map((lane, i) => (
+        <div class:list={['grid grid-cols-1 gap-2 px-4 py-4 sm:grid-cols-[8.5rem_1fr] sm:items-center sm:gap-4 sm:px-6', i > 0 && 'border-t border-line-subtle']}>
+          <p class="flex items-center gap-2.5 text-sm font-medium text-fg">
+            <span class:list={['h-3.5 w-1 rounded-full', lane.tone]} />
+            {lane.name}
+          </p>
+          <TabStaff bars={lane.bars} strings={lane.strings} clef={false} rhythm={false} maskColor="var(--sl-surface-2)" />
+        </div>
+      ))
+    }
+  </div>
+</div>

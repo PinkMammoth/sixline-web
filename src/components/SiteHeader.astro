@@ -1,40 +1,42 @@
 ---
 import Logo from './brand/Logo.astro';
+import Button from './ui/Button.astro';
 import { primaryNav } from '~/data/navigation';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
 ---
 
-<header class="sticky top-0 z-40 border-b border-line-subtle bg-bg/90 backdrop-blur-sm supports-[backdrop-filter]:bg-bg/80">
-  <div class="container-wide flex h-16 items-center justify-between gap-6">
-    <a href="/" class="-m-2 rounded-sm p-2" aria-label="SixLine home">
-      <Logo size={20} />
+<header class="sticky top-0 z-40 border-b border-line-subtle bg-bg/85 backdrop-blur-md">
+  <div class="container-wide flex h-[4.5rem] items-center justify-between gap-6">
+    <a href="/" class="-m-2 rounded-sm p-2 text-fg" aria-label="SixLine home">
+      <Logo variant="horizontal" height={30} label="" />
     </a>
 
-    <nav aria-label="Primary" class="hidden md:block">
-      <ul class="flex items-center gap-1">
-        {
-          primaryNav.map((item) => (
-            <li>
-              <a
-                href={item.href}
-                class:list={[
-                  'relative rounded-md px-3 py-2 text-sm transition-colors duration-(--duration-base)',
-                  isCurrent(item.href) ? 'text-fg' : 'text-fg-secondary hover:text-fg',
-                ]}
-                aria-current={isCurrent(item.href) ? 'page' : undefined}
-              >
-                {item.label}
-                {isCurrent(item.href) && (
-                  <span class="absolute inset-x-3 -bottom-[13px] h-px bg-accent" aria-hidden="true" />
-                )}
-              </a>
-            </li>
-          ))
-        }
-      </ul>
-    </nav>
+    <div class="hidden items-center gap-6 md:flex">
+      <nav aria-label="Primary">
+        <ul class="flex items-center gap-1">
+          {
+            primaryNav.map((item) => (
+              <li>
+                <a
+                  href={item.href}
+                  class:list={[
+                    'relative rounded-md px-3 py-2 text-sm transition-colors duration-(--duration-base)',
+                    isCurrent(item.href) ? 'text-fg' : 'text-fg-secondary hover:text-fg',
+                  ]}
+                  aria-current={isCurrent(item.href) ? 'page' : undefined}
+                >
+                  {item.label}
+                  {isCurrent(item.href) && <span class="absolute -bottom-0.5 left-1/2 size-1 -translate-x-1/2 rounded-full bg-accent" aria-hidden="true" />}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </nav>
+      <Button href="/download" class="min-h-10 px-4">Try free</Button>
+    </div>
 
     <button
       type="button"
@@ -52,16 +54,16 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
     </button>
   </div>
 
-  <!-- Mobile navigation. Visible without JS; collapsed into the Menu button when JS runs. -->
+  <!-- Mobile navigation. Visible without JS; collapsed behind the Menu button when JS runs. -->
   <nav id="mobile-nav" aria-label="Primary" class="mobile-nav border-t border-line-subtle md:hidden" data-nav-panel>
-    <ul class="container-wide flex flex-col py-3">
+    <ul class="container-wide flex flex-col pt-2 pb-6">
       {
         primaryNav.map((item) => (
           <li>
             <a
               href={item.href}
               class:list={[
-                'flex items-center justify-between border-b border-line-subtle py-4 font-display text-h4',
+                'flex items-center justify-between border-b border-line-subtle py-4 font-display text-h3',
                 isCurrent(item.href) ? 'text-fg' : 'text-fg-secondary',
               ]}
               aria-current={isCurrent(item.href) ? 'page' : undefined}
@@ -72,6 +74,9 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
           </li>
         ))
       }
+      <li class="pt-6">
+        <Button href="/download" size="lg" class="w-full" arrow>Try SixLine free</Button>
+      </li>
     </ul>
   </nav>
 </header>

@@ -1,0 +1,26 @@
+---
+import Eyebrow from '~/components/ui/Eyebrow.astro';
+import PricingCard from '~/components/ui/PricingCard.astro';
+---
+
+<section id="pricing" class="paper grain section-y overflow-hidden" aria-labelledby="pricing-title">
+  <div class="container-content">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end" data-reveal>
+      <div class="lg:col-span-7">
+        <Eyebrow index="04">Own it</Eyebrow>
+        <h2 id="pricing-title" class="mt-7 text-display font-medium tracking-display text-fg">
+          Pay once.<br />Keep every update.
+        </h2>
+      </div>
+      <p class="max-w-md text-lead text-fg-secondary lg:col-span-5 lg:pb-3">
+        Your tools shouldn’t stop working when a payment lapses. One licence, every future version, no tiers and no upgrade fees.
+      </p>
+    </div>
+    <div class="mt-14 lg:mt-20" data-reveal style="--reveal-delay:100ms">
+      <PricingCard />
+      <p class="mt-6 text-sm">
+        <a href="/pricing" class="link-quiet text-fg-secondary">How the licence and free trial work <span aria-hidden="true">→</span></a>
+      </p>
+    </div>
+  </div>
+</section>

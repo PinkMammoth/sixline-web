@@ -1,12 +1,12 @@
 ---
 /**
- * Lifetime licence card. Reads all values from src/data/site.ts.
- * While pricing.status is 'planned', the card is labelled as planned and
- * the checkout action renders as "Coming soon".
+ * The single lifetime licence, presented like a piece of studio equipment:
+ * a dark faceplate (`.studio` scope) with an amber indicator and
+ * engraved-style legends. Reads all values from src/data/site.ts.
+ * While pricing.status is 'planned', checkout renders as "Opens with the beta".
  */
 import Button from './Button.astro';
-import StatusLabel from './StatusLabel.astro';
-import { actions, formatPrice, pricing, trialHref } from '~/data/site';
+import { actions, formatPrice, pricing } from '~/data/site';
 
 interface Props {
   headingLevel?: 'h2' | 'h3';
@@ -24,55 +24,45 @@ const inclusions = [
 ];
 ---
 
-<article
-  class:list={[
-    'relative overflow-hidden rounded-xl border border-line bg-surface-1 shadow-sm',
-    className,
-  ]}
-  aria-labelledby="pricing-card-title"
->
-  <div class="h-0.5 bg-accent" aria-hidden="true"></div>
-  <div class="grid gap-10 p-6 sm:p-10 lg:grid-cols-[1.1fr_1fr] lg:gap-14">
-    <div class="flex flex-col">
-      <div class="flex flex-wrap items-center gap-3">
-        <p class="label-mono text-accent-text">Lifetime licence</p>
-        {planned && <StatusLabel status="planned" label="Planned pricing" />}
+<article class:list={['studio grain relative overflow-hidden rounded-2xl border border-line shadow-frame', className]} aria-labelledby="pricing-card-title">
+  <div class="pointer-events-none absolute -top-32 -left-24 h-80 w-80 rounded-full bg-[radial-gradient(closest-side,var(--sl-glow-amber),transparent)]" aria-hidden="true"></div>
+  <div class="relative grid grid-cols-1 lg:grid-cols-[1.15fr_1fr]">
+    <div class="flex flex-col p-7 sm:p-10 lg:p-12">
+      <div class="flex flex-wrap items-center gap-x-3 gap-y-2">
+        <span class="relative flex size-2.5" aria-hidden="true">
+          <span class="absolute inset-0 rounded-full bg-accent"></span>
+          <span class="absolute -inset-1.5 rounded-full bg-accent opacity-20 blur-[3px]"></span>
+        </span>
+        <p class="label-mono whitespace-nowrap text-accent-text">Lifetime licence</p>
+        {planned && <p class="label-mono whitespace-nowrap text-fg-muted">· Planned pricing</p>}
       </div>
-      <H id="pricing-card-title" class="mt-5 text-h3 text-fg">{pricing.beta.name}</H>
-      <p class="mt-4 flex items-baseline gap-2">
-        <span class="font-display text-[3.25rem] leading-none font-medium tracking-tight text-fg">
+
+      <H id="pricing-card-title" class="mt-8 text-h3 text-fg">{pricing.beta.name}</H>
+      <p class="mt-3 flex flex-wrap items-baseline gap-x-3 gap-y-1">
+        <span class="font-display text-[clamp(4rem,3rem+4vw,6rem)] leading-[0.9] font-medium tracking-display text-fg">
           {formatPrice(pricing.beta.price)}
         </span>
-        <span class="label-mono text-fg-muted">{pricing.currency} · one-time</span>
+        <span class="label-mono text-fg-muted">{pricing.currency} · once</span>
       </p>
-      <p class="mt-5 max-w-sm text-sm text-fg-secondary">
-        The intended price from v1.0 is <strong class="font-medium text-fg">{formatPrice(pricing.v1.price)} {pricing.currency}</strong>.
-        Buying during the beta gets you the same lifetime licence for less.
+      <p class="mt-6 max-w-sm text-fg-secondary">
+        Planned to rise to <strong class="font-medium text-fg">{formatPrice(pricing.v1.price)}</strong> at v1.0. Buy during
+        the beta and you keep everything that follows.
       </p>
 
-      <div class="mt-8 flex flex-col gap-3 sm:flex-row lg:mt-auto lg:pt-8">
-        <Button href={actions.checkoutUrl} pending="Coming soon" size="lg">Get lifetime access</Button>
-        <Button href={trialHref} variant="secondary" pending="Coming soon" size="lg">
-          Try SixLine free
-        </Button>
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row sm:items-center lg:mt-auto lg:pt-10">
+        <Button href={actions.checkoutUrl} pending="Opens with the beta" size="lg">Get lifetime access</Button>
+        <Button href="/download" variant="ghost" arrow>Try it free first</Button>
       </div>
-      {
-        planned && (
-          <p class="mt-4 text-sm text-fg-muted">
-            Checkout is not open yet. No payments are taken on this site.
-          </p>
-        )
-      }
     </div>
 
-    <div class="border-t border-line-subtle pt-8 lg:border-t-0 lg:border-l lg:pt-0 lg:pl-14">
-      <p class="label-mono text-fg-muted">Included</p>
-      <ul class="mt-5 space-y-4">
+    <div class="border-t border-line bg-[var(--sl-hover-overlay)] p-7 sm:p-10 lg:border-t-0 lg:border-l lg:p-12">
+      <p class="label-mono text-fg-muted">What you get</p>
+      <ul class="mt-7 space-y-5">
         {
           inclusions.map((item) => (
-            <li class="flex gap-3 text-fg">
-              <svg class="mt-1.5 shrink-0 text-sage" width="14" height="10" viewBox="0 0 14 10" aria-hidden="true">
-                <path d="M1 5l4 4 8-8" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round" />
+            <li class="flex gap-3.5 text-fg">
+              <svg class="mt-1.5 shrink-0 text-sage" width="15" height="11" viewBox="0 0 15 11" aria-hidden="true">
+                <path d="M1 5.5l4.2 4L14 1" fill="none" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round" />
               </svg>
               <span>{item}</span>
             </li>
@@ -80,5 +70,9 @@ const inclusions = [
         }
       </ul>
     </div>
+  </div>
+  <div class="relative flex flex-wrap items-center justify-between gap-x-6 gap-y-2 border-t border-line px-7 py-4 sm:px-10 lg:px-12">
+    <p class="label-mono text-[0.6875rem] text-fg-muted">One licence · Every update · No subscription</p>
+    {planned && <p class="text-[0.8125rem] text-fg-muted">Checkout isn’t open yet — no payments are taken on this site.</p>}
   </div>
 </article>

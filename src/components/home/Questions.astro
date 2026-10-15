@@ -1,0 +1,20 @@
+---
+import Eyebrow from '~/components/ui/Eyebrow.astro';
+import Faq from '~/components/ui/Faq.astro';
+import { faq } from '~/data/faq';
+---
+
+<section id="faq" class="section-y" aria-labelledby="faq-title">
+  <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
+    <div class="lg:col-span-4" data-reveal>
+      <Eyebrow>Questions</Eyebrow>
+      <h2 id="faq-title" class="mt-7 text-h2 tracking-display text-fg">Good questions.</h2>
+      <p class="mt-6 text-fg-secondary">
+        Something else on your mind? <a href="/support" class="link-quiet text-fg">Get in touch</a>.
+      </p>
+    </div>
+    <div class="lg:col-span-8" data-reveal style="--reveal-delay:100ms">
+      <Faq items={faq} />
+    </div>
+  </div>
+</section>

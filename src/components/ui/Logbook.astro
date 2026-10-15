@@ -1,0 +1,79 @@
+---
+/**
+ * Development logbook: milestones (now / next / then), the latest release
+ * note, and what's on the workbench. Content-driven from
+ * src/data/development.ts, src/data/features.ts and the releases collection.
+ * Nothing is invented: empty data renders an honest line instead.
+ */
+import { development } from '~/data/development';
+import { site } from '~/data/site';
+import { getReleases, formatDate } from '~/data/releases';
+
+interface Props {
+  headingLevel?: 'h3' | 'h2';
+}
+
+const { headingLevel: H = 'h3' } = Astro.props;
+const [latest] = await getReleases();
+---
+
+<div>
+  <ol class="relative">
+    {
+      development.milestones.map((m, i) => (
+        <li class="grid grid-cols-[4.5rem_1fr] gap-x-5 pb-10 sm:grid-cols-[6rem_1fr]">
+          <div class="relative">
+            <p class:list={['label-mono pt-1', i === 0 ? 'text-accent-text' : 'text-fg-muted']}>{m.label}</p>
+          </div>
+          <div class="relative border-l border-line pl-6">
+            <span
+              class:list={[
+                'absolute top-1.5 -left-[5px] size-[9px] rounded-full',
+                i === 0 ? 'bg-accent' : 'border border-line-strong bg-bg',
+              ]}
+              aria-hidden="true"
+            />
+            <H class="text-h4 text-fg">{m.title}</H>
+            <p class="mt-1.5 text-sm text-fg-secondary">{m.body}</p>
+            {i === 0 && (
+              <p class="label-mono mt-3 text-fg-muted">
+                Current version · <span class="text-fg-secondary">{site.appVersion ?? 'pre-release'}</span>
+              </p>
+            )}
+          </div>
+        </li>
+      ))
+    }
+  </ol>
+
+  <div class="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2">
+    <div class="bg-bg p-6">
+      <p class="label-mono text-fg-muted">Latest release</p>
+      {
+        latest ? (
+          <>
+            <p class="mt-3 font-display text-h4 text-fg">{latest.data.version}</p>
+            <p class="mt-1 text-sm text-fg-muted">
+              <time datetime={latest.data.date.toISOString()}>{formatDate(latest.data.date)}</time>
+            </p>
+            <p class="mt-2 text-sm text-fg-secondary">{latest.data.summary}</p>
+          </>
+        ) : (
+          <p class="mt-3 text-sm text-fg-secondary">Release notes begin with the first beta build — every one will be published here.</p>
+        )
+      }
+    </div>
+    <div class="bg-bg p-6">
+      <p class="label-mono text-fg-muted">Known limitations</p>
+      {
+        development.betaLimitations.length ? (
+          <ul class="mt-3 space-y-1.5 text-sm text-fg-secondary">
+            {development.betaLimitations.map((l) => <li>{l}</li>)}
+          </ul>
+        ) : (
+          <p class="mt-3 text-sm text-fg-secondary">Each beta release will list what isn’t finished yet, plainly.</p>
+        )
+      }
+    </div>
+  </div>
+</div>

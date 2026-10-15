@@ -1,17 +1,17 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import Button from '~/components/ui/Button.astro';
-import TabStaff from '~/components/ui/TabStaff.astro';
+import Logo from '~/components/brand/Logo.astro';
 ---
 
 <BaseLayout title="Page not found" noindex>
-  <section class="section-y">
+  <section class="grain section-y">
     <div class="container-content max-w-xl text-center">
-      <TabStaff class="mx-auto mb-10 max-w-xs" notes={false} />
-      <p class="label-mono text-fg-muted">404</p>
-      <h1 class="mt-4 text-h2 text-fg">This page is a rest.</h1>
-      <p class="mt-4 text-fg-secondary">The page you were looking for doesn’t exist or has moved.</p>
-      <div class="mt-8 flex justify-center">
+      <Logo variant="symbol" height={72} label="" class="mx-auto text-fg" />
+      <p class="label-mono mt-10 text-fg-muted">404</p>
+      <h1 class="mt-4 text-h1 tracking-display text-fg">This page is a rest.</h1>
+      <p class="mt-5 text-fg-secondary">The page you were looking for doesn’t exist or has moved.</p>
+      <div class="mt-9 flex justify-center">
         <Button href="/" variant="secondary">Back to home</Button>
       </div>
     </div>

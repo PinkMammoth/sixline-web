@@ -1,6 +1,5 @@
 ---
 import Button from './Button.astro';
-import StatusLabel from './StatusLabel.astro';
 
 interface Props {
   platform: string;
@@ -14,20 +13,23 @@ interface Props {
 const { platform, href, version, requirements, headingLevel: H = 'h2' } = Astro.props;
 ---
 
-<article class="flex flex-col rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
-  <div class="flex items-start justify-between gap-4">
-    <H class="text-h3 text-fg">{platform}</H>
-    {href ? <StatusLabel status="available" label="Available" /> : <StatusLabel status="pre-launch" label="Not yet available" />}
+<article class="studio grain flex flex-col overflow-hidden rounded-2xl border border-line shadow-frame">
+  <div class="flex items-start justify-between gap-4 p-7 pb-0 sm:p-9 sm:pb-0">
+    <H class="font-display text-h2 tracking-display text-fg">{platform}</H>
+    <p class="label-mono mt-2 flex items-center gap-2 text-fg-muted">
+      <span class:list={['size-2 rounded-full', href ? 'bg-sage' : 'border border-accent bg-accent-soft']} aria-hidden="true"></span>
+      {href ? 'Available' : 'Coming soon'}
+    </p>
   </div>
-  <dl class="mt-6 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 text-sm">
+  <dl class="mt-8 grid grid-cols-[auto_1fr] gap-x-6 gap-y-3 px-7 text-sm sm:px-9">
     <dt class="label-mono pt-0.5 text-fg-muted">Version</dt>
     <dd class="text-fg-secondary">{version ?? 'No public build yet'}</dd>
     <dt class="label-mono pt-0.5 text-fg-muted">Requires</dt>
-    <dd class="text-fg-secondary">{requirements ?? 'To be published with the first build'}</dd>
+    <dd class="text-fg-secondary">{requirements ?? 'Published with the first build'}</dd>
     <dt class="label-mono pt-0.5 text-fg-muted">Licence</dt>
     <dd class="text-fg-secondary">Free trial, then one-time purchase</dd>
   </dl>
-  <div class="mt-8 pt-2 sm:mt-auto">
+  <div class="mt-9 border-t border-line p-5 sm:mt-auto sm:px-9">
     <Button href={href} pending="Coming soon" class="w-full sm:w-auto">
       Download<span class="sr-only"> for {platform}</span>
     </Button>

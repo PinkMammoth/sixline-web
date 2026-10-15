@@ -1,22 +1,23 @@
 # SixLine design system
 
-Version 0.1, the website foundation. This document is the shared visual reference for the website and for the upcoming redesign of the SixLine desktop app.
+Version 0.2, creative direction v2. This document is the shared visual reference for the website and for the upcoming redesign of the SixLine desktop app.
 
-**North star:** boutique studio equipment meets disciplined editorial design.
+**North star:** a boutique recording studio, beautifully engineered analogue equipment, and disciplined Swiss/editorial graphic design.
 
-Source of truth for values: `src/styles/tokens.css` (colours, shadows, canvas) and `src/styles/global.css` (type scale, radii, widths, motion). If this document and the code disagree, the code wins. Please fix the document when that happens.
+**Values live in code.** Colours, shadows, grain and canvas are in `src/styles/tokens.css`. The type scale, radii, widths and motion are in `src/styles/global.css`. If this document and the code disagree, the code wins; please update this document when that happens.
 
 ---
 
-## 1. Brand principles
+## 1. Principles
 
-1. **The product is the hero.** Real screenshots and real behaviour come before decoration. Never fake the UI.
-2. **Quiet confidence.** Restrained type sizes, generous space, few borders. Earn attention instead of demanding it.
-3. **Warmth with precision.** Ivory and amber bring analogue warmth. Tight grids, hairlines and monospace metadata bring precision.
-4. **Honesty is part of the brand.** Every claim carries a status. Pre-launch actions say "Coming soon" rather than leading nowhere. No scarcity tricks, no invented numbers.
-5. **Musician first.** Language and layout should feel familiar to someone who reads tab, rather than to a SaaS buyer.
+1. **Made for musicians.** Every section should feel like it was made by someone who plays. The site uses tablature, strings and the vocabulary of studio gear as its motifs, not generic software imagery.
+2. **Warmth with precision.** Ivory paper, amber light and walnut-tinted charcoal bring analogue warmth. Tight grids, hairlines and mono legends bring engineering precision.
+3. **Light and shade.** Darkness is atmosphere, not the whole design. The page alternates between dark studio sections and warm ivory paper sections.
+4. **The product is the hero.** Product visuals sit in a carefully lit frame. Until real screenshots exist, the frame shows clearly labelled *illustrations* (tablature drawn by the site) and never a fake interface.
+5. **Honest by design.** Marketing copy only claims what is confirmed. Anything unverified lives in a separate "workbench" list. Pre-launch actions lead to real pages, never to a broken checkout.
+6. **Bring it to life, without getting louder.** Movement comes from composition, a few deliberate motifs, and small moments of motion that happen once and stay still afterwards.
 
-**Avoid:** generic SaaS gradients, glassmorphism, glow, 3D objects, animated backgrounds, neon or gaming styling, metal-merch clichés, and visual clutter.
+**Avoid:** generic SaaS gradients, glassmorphism, neon, 3D objects, stock photography, fake leather or woodgrain, skeuomorphic knobs, distressed or psychedelic retro styling, continuous animation, and status pills scattered across marketing copy.
 
 ---
 
@@ -24,241 +25,213 @@ Source of truth for values: `src/styles/tokens.css` (colours, shadows, canvas) a
 
 ### Brand palette
 
-| Token                  | Hex       | Role                                   |
-| ---------------------- | --------- | -------------------------------------- |
-| `--sl-palette-ink`      | `#141515` | Primary background                     |
-| `--sl-palette-graphite` | `#242626` | Elevated surface                       |
-| `--sl-palette-ivory`    | `#F2EFE7` | Primary text                           |
-| `--sl-palette-amber`    | `#E8A45B` | Primary accent: CTAs, focus, emphasis  |
-| `--sl-palette-sage`     | `#A6B5A1` | Secondary accent: calm, "available"    |
+| Name     | Hex       | Role                                                           |
+| -------- | --------- | -------------------------------------------------------------- |
+| Ink      | `#141515` | Studio foundation                                              |
+| Graphite | `#242626` | Equipment surfaces, frames                                     |
+| Ivory    | `#F2EFE7` | Text on dark, and the **paper** section background             |
+| Amber    | `#E8A45B` | The primary action, endpoints, indicator lights, key emphasis  |
+| Sage     | `#A6B5A1` | Secondary emphasis: playhead, check marks, second headline lines |
 
-Components **never** use palette tokens or hex values directly. They use the semantic tokens below, through Tailwind utilities (`bg-surface-2`, `text-fg-muted`, `border-line` …) or `var(--sl-*)`. Tailwind's default palette is switched off, so stray classes like `bg-gray-800` won't compile to anything.
+### Three scopes
 
-### Semantic tokens: dark (default, low-glare)
+The same semantic tokens (`--sl-bg`, `--sl-text`, `--sl-accent-text` …) are redefined per scope, so every component works anywhere without variants.
 
-| Semantic token        | Tailwind            | Dark      | Light     | Use                                   |
-| --------------------- | ------------------- | --------- | --------- | ------------------------------------- |
-| `--sl-bg`             | `bg-bg`             | `#141515` | `#F5F2EA` | Page / window background              |
-| `--sl-bg-sunken`      | `bg-bg-sunken`      | `#0F1010` | `#ECE8DE` | Wells, footer, screenshot backing     |
-| `--sl-surface-1`      | `bg-surface-1`      | `#1B1C1C` | `#FBF9F4` | Quiet panels, alternate sections      |
-| `--sl-surface-2`      | `bg-surface-2`      | `#242626` | `#FFFFFF` | Cards, frame shell, toolbars          |
-| `--sl-surface-3`      | `bg-surface-3`      | `#2E3030` | `#ECE8DE` | Hover on cards, raised controls       |
-| `--sl-border-subtle`  | `border-line-subtle`| `#242626` | `#E6E1D6` | Hairline dividers                     |
-| `--sl-border`         | `border-line`       | `#343737` | `#D6D0C4` | Card and input outlines               |
-| `--sl-border-strong`  | `border-line-strong`| `#6A6D6A` | `#8A857B` | Meaningful outlines (≥ 3:1)           |
-| `--sl-text`           | `text-fg`           | `#F2EFE7` | `#1A1B1B` | Primary text                          |
-| `--sl-text-secondary` | `text-fg-secondary` | `#C8C4BA` | `#3F403E` | Body copy, descriptions               |
-| `--sl-text-muted`     | `text-fg-muted`     | `#A09C93` | `#5F5C55` | Metadata, labels                      |
-| `--sl-text-disabled`  | `text-fg-disabled`  | `#6B6964` | `#A19C92` | Disabled only (exempt from contrast)  |
-| `--sl-accent`         | `bg-accent`         | `#E8A45B` | `#E8A45B` | Primary button fill, indicators       |
-| `--sl-accent-hover`   | `bg-accent-hover`   | `#F0B677` | `#DD9446` | Hover                                 |
-| `--sl-accent-active`  | `bg-accent-active`  | `#D58F45` | `#C98236` | Pressed                               |
-| `--sl-accent-text`    | `text-accent-text`  | `#E8A45B` | `#8F5414` | Amber as text (darkened in light)     |
-| `--sl-on-accent`      | `text-on-accent`    | `#141515` | `#1A1B1B` | Text on amber fills                   |
-| `--sl-sage`           | `text-sage`         | `#A6B5A1` | `#4F6249` | Secondary accent                      |
-| `--sl-focus`          | (outline)           | `#E8A45B` | `#8F5414` | Focus ring                            |
-| `--sl-success`        | `text-success`      | `#93C08F` | `#2F6B37` | Success                               |
-| `--sl-warning`        | `text-warning`      | `#E6C36F` | `#7A5A00` | Warning                               |
-| `--sl-danger`         | `text-danger`       | `#EE8A72` | `#A63A26` | Error / destructive                   |
-| `--sl-disabled-bg`    | `bg-disabled-bg`    | `#1F2020` | `#ECE8DE` | Disabled control fill                 |
+| Scope    | How to apply                  | Character |
+| -------- | ----------------------------- | --------- |
+| Studio   | Default (`:root`), or `.studio` on an element inside a paper section | Dark, low-glare charcoal |
+| Paper    | `.paper` on a section (or `data-theme="light"` on `<html>`) | Warm ivory, with ink text |
+| Canvas   | `--sl-canvas-*` tokens         | The notation surface (see §9) |
 
-Each state colour also has a `*-soft` translucent tint for backgrounds (`bg-accent-soft`, `bg-success-soft` …).
+### Semantic tokens
+
+| Token (Tailwind)                   | Studio    | Paper     | Use |
+| ---------------------------------- | --------- | --------- | --- |
+| `bg-bg`                            | `#141515` | `#F2EFE7` | Section background |
+| `bg-bg-sunken`                     | `#0F1010` | `#E8E2D5` | Footer, closing section |
+| `bg-surface-1/2/3`                 | `#1B1C1C` / `#242626` / `#2E3030` | `#F7F4EE` / `#FBF9F5` / `#E8E2D5` | Panels, cards, raised controls |
+| `bg-warm-1`                        | `#1C1A17` | `#E8E2D5` | Warm sections (Play, Progress) |
+| `bg-warm-2`, `bg-warm-3`           | `#2A2622`, `#36312B` | `#DDD5C5`, `#CFC6B3` | Warm panels, console bodies |
+| `border-line-subtle` / `border-line` | ivory 7% / 13% | ink 8% / 15% | Tonal hairlines (not hard outlines) |
+| `border-line-strong`               | `#6A6D6A` | `#8A847A` | Meaningful outlines (≥ 3:1) |
+| `text-fg`                          | `#F2EFE7` | `#141515` | Primary text |
+| `text-fg-secondary`                | `#CFC9BD` | `#3D3B37` | Body copy, second headline lines |
+| `text-fg-muted`                    | `#A39D92` | `#625D54` | Metadata, captions |
+| `bg-accent`, `text-on-accent`      | `#E8A45B` on `#141515` | same | Primary buttons |
+| `text-accent-text`                 | `#E8A45B` | `#8A4F12` | Amber as text (darkened on paper) |
+| `text-sage`                        | `#A6B5A1` | `#4C5E47` | Secondary emphasis |
+| `ink`, `ivory`, `amber`            | fixed     | fixed     | Never re-skin: logo, decorative lines |
 
 ### Measured contrast (WCAG 2.x)
 
-| Pair                             | Dark   | Light  |
-| -------------------------------- | ------ | ------ |
-| Text on bg                       | 15.9:1 | 15.4:1 |
-| Secondary text on bg             | 10.5:1 | 9.3:1  |
-| Muted text on bg                 | 6.7:1  | 6.0:1  |
-| Muted text on surface-3 (worst)  | 4.9:1  | 5.0:1  |
-| Accent text on bg                | 8.6:1  | 5.5:1  |
-| On-accent text on amber          | 8.6:1  | 8.1:1  |
-| Success / warning / danger on bg | ≥ 7.4:1 | ≥ 5.7:1 |
+| Pair | Ratio |
+| ---- | ----- |
+| Ivory on ink / warm-1 | 15.9 / 15.1 |
+| Secondary on warm-2 (worst studio case) | 9.1 |
+| Muted on warm-2 (worst studio case) | 5.6 |
+| Ink on ivory | 15.9 |
+| Secondary on ivory | 9.7 |
+| Muted on ivory / on paper-2 | 5.7 / 5.1 |
+| Amber text on ivory / on paper-2 | 5.7 / 5.1 |
+| Sage on ivory / sage on ink | 6.1 / 8.5 |
+| Ink on amber (buttons) | 8.6 |
 
-All text pairs pass AA (4.5:1). Most pass AAA.
+All text passes AA.
 
-### Amber discipline
+### Colour distribution on the homepage
 
-Amber marks **meaning**: the primary action, focus, the current nav item, and one accent rule per view at most. Never use it for large fills, body text, decoration or more than one primary button per section. If a screen has three amber things, two of them are wrong.
+Hero (studio) → Write (**paper**) → Play (warm studio) → Import (studio, with paper cards) → Pricing (**paper**, with a studio card) → Progress (warm studio) → Questions (studio) → Closing (sunken studio) → Footer.
+
+Rules:
+- Never stack two **identical** dark treatments. Neighbouring dark sections differ in warmth (warm-1 vs ink) or in content (paper cards on dark).
+- Paper sections hold the most expressive typography. Studio sections hold the product and the equipment metaphors.
+- **Amber** is for: the one primary button per view, the logo endpoints, indicator lights, section-marker rules and the ending of the brand signature ("Just music."). Never use it for large fills.
+- **Sage** is for: the playhead, check marks and the second line of the Play headline. One use per section at most.
 
 ---
 
-## 3. Typography
+## 3. Atmosphere and texture
 
-| Role              | Family         | Notes                                                         |
-| ----------------- | -------------- | ------------------------------------------------------------- |
-| Headlines         | Space Grotesk  | weight 500, tracking −0.015em, `text-wrap: balance`           |
-| Body / UI         | Inter          | weight 400/500                                                 |
-| Technical labels  | IBM Plex Mono  | 12px, UPPERCASE, tracking 0.08em, weight 500 (`label-mono`)  |
+| Element | Implementation | Strength |
+| ------- | -------------- | -------- |
+| Film grain | `grain` utility: tiled SVG noise | 6% on studio, 9% on paper. Should be felt rather than seen |
+| Studio light | Radial gradients `--sl-glow-amber` / `--sl-glow-sage` | 9–16% alpha, always soft-edged and off-centre |
+| Light pool | Blurred amber ellipse under the product frame | Grounds the "photographed object" |
+| Tactile buttons | `shadow-button`: hairline top highlight plus a short contact shadow; 1px press | Subtle |
+| Panels | `shadow-panel` (inset highlight and soft drop) | Subtle |
 
-Fonts are self-hosted (Latin subset, WOFF2) with fallbacks sized to match each font's metrics, so text doesn't jump when the web fonts load. Headline and body fonts are preloaded. The mono font is not.
+Never use: heavy textures, bloom, more than two glows in one section, or gradients as decoration on text or buttons.
+
+---
+
+## 4. Typography
+
+| Role             | Family        | Treatment |
+| ---------------- | ------------- | --------- |
+| Display / headlines | Space Grotesk | 500 weight, `tracking-display` (−0.035em), deliberate line breaks |
+| Body / UI        | Inter         | 400/500 |
+| Legends / metadata | IBM Plex Mono | 12px uppercase, tracking 0.1em: like the legends engraved on equipment |
 
 ### Scale
 
-| Token        | Size                                 | Line height | Use                         |
-| ------------ | ------------------------------------ | ----------- | --------------------------- |
-| `text-h1`    | clamp(36px → 60px)                   | 1.05        | One per page                |
-| `text-h2`    | clamp(28px → 40px)                   | 1.15        | Section titles              |
-| `text-h3`    | 22px                                 | 30px        | Card titles                 |
-| `text-h4`    | 18px                                 | 24px        | Feature and FAQ titles      |
-| `text-lead`  | 19px                                 | 28px        | Intros                      |
-| `text-base`  | 16px                                 | 26px        | Body                        |
-| `text-sm`    | 14px                                 | 22px        | Descriptions, UI            |
-| `text-label` | 12px                                 | 16px        | Mono metadata               |
+| Token          | Size (fluid)   | Line height | Use |
+| -------------- | -------------- | ----------- | --- |
+| `text-display` | 48 → 104px     | 0.94 | Hero and section statements: once per section at most |
+| `text-h1`      | 40 → 76px      | 0.98 | Inner page titles, secondary statements |
+| `text-h2`      | 32 → 56px      | 1.02 | Sub-sections |
+| `text-h3`      | 24px           | 31px | Card and feature titles |
+| `text-h4`      | 19px           | 24px | Small titles |
+| `text-lead`    | 19px           | 29px | Intros |
+| `text-base` / `text-sm` | 16 / 14px | 26 / 22px | Body / UI |
+| `text-label`   | 12px           | 16px | Mono legends |
 
-Rules:
+### Editorial devices
 
-- **Sentence case** for headings and buttons. Use UPPERCASE only for short mono labels.
-- Keep headline sizes restrained. The hero h1 tops out at 60px.
-- Body measure: 40rem (`max-w-prose`) or less.
-- Numbers in technical contexts (versions, frets, file formats) go in mono.
-
----
-
-## 4. Spacing, layout and grid
-
-- **Base unit 4px** (Tailwind `--spacing: 0.25rem`). Preferred steps: 4, 8, 12, 16, 20, 24, 32, 40, 48, 56, 64, 80, 112.
-- **Section rhythm:** `section-y` gives 72px vertical padding on mobile and 112px on desktop.
-- **Widths:** `container-content` 72rem (1152px), `container-wide` 82rem (1312px, hero and product), `max-w-narrow` 48rem, `max-w-prose` 40rem. Side gutters are 20px on mobile and 32px from 640px up.
-- **Grid:** a 12-column editorial grid from `lg` (1024px). Common splits are 5/7 (heading / content) and 4/8 (heading / list). Below `lg`, everything stacks to one column with `grid-cols-1`, so wide children such as tables can't force the page to scroll sideways.
-- **Mobile is designed separately, not just shrunk.** Buttons go full width, the screenshot uses a taller 4:3 crop, and the nav becomes a full-width list.
-
-## 5. Corner radii
-
-| Token         | px   | Use                                        |
-| ------------- | ---- | ------------------------------------------ |
-| `rounded-xs`  | 2    | Inline badges, focus ring                  |
-| `rounded-sm`  | 4    | Small controls                             |
-| `rounded-md`  | 6    | Buttons, inputs                            |
-| `rounded-lg`  | 10   | Inner screenshot, tables, panels           |
-| `rounded-xl`  | 14   | Cards, product frame                       |
-| `rounded-full`| —    | Status pills, dots                         |
-
-Nested radii: inner radius = outer radius − padding (e.g. frame `xl` 14 → screenshot `lg` 10).
-
-## 6. Borders and shadows
-
-- Separate areas with **surface steps** first, **hairlines** second, and **shadows** last.
-- Hairlines are 1px `line-subtle`. Card outlines use `line`. Outlines that carry meaning use `line-strong` (≥ 3:1).
-- Hairline grids: a `gap-px` grid on a `bg-line-subtle` parent, with cells on `bg-bg`. This gives perfectly even dividers.
-- Shadows: `shadow-sm` for small lift, and `shadow-frame` only for the product frame. No glows, no coloured shadows.
-
-## 7. Components and states
-
-| Component      | File                               | Notes |
-| -------------- | ---------------------------------- | ----- |
-| Logo           | `brand/Logo.astro`                 | `wordmark` / `symbol` variants. Uses a text placeholder until assets are set in `src/data/brand.ts` |
-| Button         | `ui/Button.astro`                  | `primary` / `secondary` / `ghost`, sizes `md` (44px) / `lg` (48px), and a pending state |
-| StatusLabel    | `ui/StatusLabel.astro`             | Shape + text + colour |
-| SectionHeading | `ui/SectionHeading.astro`          | Mono eyebrow, title, lead |
-| ProductFrame   | `ui/ProductFrame.astro`            | Graphite shell, window chrome, labelled placeholder |
-| MediaSlot      | `ui/MediaSlot.astro`               | Video starts only when the user presses play, `preload="none"` |
-| FeatureList    | `ui/FeatureList.astro`             | `list` (editorial rows) or `grid` (hairline cards) |
-| PricingCard    | `ui/PricingCard.astro`             | Data-driven, shows "Planned pricing" before launch |
-| DownloadCard   | `ui/DownloadCard.astro`            | Per platform |
-| Faq            | `ui/Faq.astro`                     | Native `<details>`, no JS |
-| DevStatus      | `ui/DevStatus.astro`               | Version, recent changes, priorities, limitations |
-| TabStaff       | `ui/TabStaff.astro`                | Decorative six-line staff that draws in once |
-
-### Interaction states
-
-| State    | Treatment |
-| -------- | --------- |
-| Default  | As specified |
-| Hover    | Primary: `accent-hover`. Secondary: border `fg-muted` and fill `surface-2`. Links: underline turns amber. 200ms `ease-quiet` |
-| Active   | Primary: `accent-active`. All buttons move down 1px (`translate-y-px`), a small physical press |
-| Focus    | 2px `--sl-focus` outline, 3px offset, on every interactive element (`:focus-visible`) |
-| Disabled | `disabled-bg` fill, `fg-disabled` text, no hover, `cursor-default` |
-| Pending  | Pre-launch action: muted fill or dashed outline, label plus a mono "Coming soon" badge, not interactive and not a link |
-| Selected / current | Amber 1px underline (nav) or amber dot (mobile nav), plus `aria-current` |
-
-### Status labels
-
-| Status           | Shape          | Colour      | Label              |
-| ---------------- | -------------- | ----------- | ------------------ |
-| `available`      | ● filled       | sage        | In current build   |
-| `in-development` | ◐ half         | amber text  | In development     |
-| `planned`        | ○ ring         | secondary   | Planned            |
-| `unconfirmed`    | ◌ dashed ring  | muted       | To be confirmed    |
+- **Two-tone headlines.** The second phrase is set in a quieter colour (`fg-secondary`, or `sage` once on the page). For example, "Your music. / Your way of writing it."
+- **Deliberate breaks.** Use `<br>` where the meaning pauses. Don't let display text wrap by accident.
+- **Section markers.** An amber 28px rule, then a mono index (`01`), then a mono label (`Write`), using the `Eyebrow` component.
+- **Big numerals.** Price and step numbers are set at display size as graphic elements.
+- Use sentence case everywhere except mono legends.
 
 ---
 
-## 8. Light and dark
+## 5. Layout and rhythm
 
-- **Dark ("low-glare studio") is the default** for the website and the primary app theme.
-- **Light ("warm paper")** is fully defined and contrast-checked under `[data-theme="light"]`. The website doesn't expose a theme switch yet (see the decisions in `content-status.md`), but every component already renders correctly in light.
-- Amber fills keep the brand hex in both themes. Amber **as text** is darkened in light (`#8F5414`) to keep 4.5:1.
-- Sage darkens in light (`#4F6249`) for the same reason.
-- Never invert the palette by formula. Every light value was chosen by hand to keep the warm character.
+- **Widths:** `container-wide` is 86rem (hero, product, expressive sections). `container-content` is 74rem (pricing, logbook, FAQ). Side gutters are 20px on mobile and 32px from 640px.
+- **Grid:** 12 columns from `lg`. Mix splits between sections (7/5, 4/7, 5/7, 8/4) so neighbouring sections never share a composition.
+- **Vertical rhythm:** `section-y` is 80px on mobile and 136px on desktop.
+- **Variety is the rule:** each homepage section uses a different structure. These are the hero split, a full-width statement over a list and illustration, a full-bleed console, two label cards, a centred equipment card, a timeline, and an accordion.
+- **Mobile is designed, not compressed.** Headlines keep their line breaks, primary actions go full width, and tab illustrations switch to one bar per system so the numbers stay legible.
+
+## 6. Motifs
+
+| Motif | Where | Notes |
+| ----- | ----- | ----- |
+| **The S mark** | Header (horizontal lockup), footer (stacked lockup), closing section (monumental, 7% opacity, bleeding off the edge), 404 | Never redrawn. Always from `logo-geometry.ts` |
+| **Six strings** | Six hairlines behind the hero frame; six-segment rule on format cards; inner page headers | 1.5px lines, about 14% opacity. Amber endpoints only where they mirror the logo |
+| **Three amber dots** | Hero eyebrow | Echoes the logo endpoints. Use once per page |
+| **Tablature** | Hero sheet, riff-to-arrangement, playback console | Real tab notation (strings, fret numbers, techniques, rhythm stems) drawn by `TabStaff`. Always labelled as an illustration |
+| **Equipment details** | Pricing card (indicator light, engraved legend strip), playback console (transport button), format "tape-box labels" | Refer to the hardware with restraint: no knobs, no fake materials |
+
+## 7. Components
+
+| Component | File | Notes |
+| --------- | ---- | ----- |
+| Logo | `brand/Logo.astro` | `horizontal`, `stacked`, `symbol`, `wordmark`. Inline SVG: strings use `currentColor` and the endpoints are always amber |
+| Button | `ui/Button.astro` | `primary` (amber, tactile), `secondary` (tonal outline), `ghost`. `arrow` adds a hover nudge. There is also a pending state |
+| Eyebrow | `ui/Eyebrow.astro` | Section marker |
+| PageHeader | `ui/PageHeader.astro` | Inner pages: eyebrow, h1, lead, string lines, glow |
+| ProductFrame | `ui/ProductFrame.astro` | Graphite shell, window chrome, light pool, and an "Illustration" label while there's no screenshot |
+| TabStaff / TabSheet / Arrangement | `music/` | Tablature illustrations. `TabStaff` supports a playhead |
+| PricingCard | `ui/PricingCard.astro` | `.studio` faceplate. Reads `site.ts` |
+| Logbook | `ui/Logbook.astro` | Now/Next/Then timeline, latest release, known limitations |
+| Faq | `ui/Faq.astro` | Native `<details>`, round +/× control |
+| DownloadCard | `ui/DownloadCard.astro` | Studio card per platform |
+| MediaSlot | `ui/MediaSlot.astro` | Real demo video: controls, no autoplay |
+
+### States
+
+| State | Treatment |
+| ----- | --------- |
+| Hover | Primary: lighter amber. Secondary: stronger outline plus a 4% overlay. Links: underline turns amber. Arrows nudge 2px. 200ms `ease-quiet` |
+| Active | 1px press; primary loses its contact shadow |
+| Focus | 2px `--sl-focus` outline, 3px offset (amber on studio, dark amber on paper) |
+| Pending | Pre-launch action: dashed amber outline, soft amber fill, mono "Opens with the beta" legend. Not interactive |
+| Current page | Small amber dot under the nav item, plus `aria-current` |
+
+## 8. Motion
+
+- Durations: 120ms (press), 200ms (hover), 600ms (reveal). Easing: `ease-quiet` = `cubic-bezier(0.2, 0.7, 0.2, 1)`.
+- **Reveals:** sections fade up 16px **once**, with staggered `--reveal-delay`.
+- **Playhead:** the playback console plays once when scrolled into view (6.4s, linear). Each fret number lights amber exactly as the playhead reaches it. "Play again" replays it. It is visual only and labelled "no audio".
+- **Never:** loops, scroll-jacking, parallax, autoplaying video.
+- `prefers-reduced-motion: reduce` turns off reveals and the playhead animation (the playhead rests in place and the button is hidden), and turns off smooth scrolling. Content is always visible without JS.
 
 ## 9. The notation canvas (app)
 
-The music canvas has its own tokens, because notation readability matters more than chrome styling:
+| Token | Studio | Paper | Rule |
+| ----- | ------ | ----- | ---- |
+| `--sl-canvas-bg` | `#1B1C1C` | `#FBF9F5` | Dark canvas sits slightly above the window. Paper is near-white with warmth |
+| `--sl-canvas-staff-line` | `#5A5D5B` | `#9A958B` | Lines recede (~2.5–3:1) |
+| `--sl-canvas-barline` | `#7C7F7B` | `#6F6B63` | A step stronger |
+| `--sl-canvas-ink` | `#E7E3DA` | `#141515` | Fret numbers and noteheads ≥ 13:1 |
+| `--sl-canvas-ink-secondary` | `#A39D92` | `#625D54` | Techniques, annotations ≥ 4.5:1 |
+| `--sl-canvas-cursor` | amber | `#B36A1F` | Edit cursor / active note: the only solid amber |
+| `--sl-canvas-playhead` | sage | `#4C5E47` | Playback is sage, so it's never confused with editing |
+| `--sl-canvas-selection`, `--sl-canvas-loop-region` | translucent | translucent | Must never hide the notes underneath |
 
-| Token                       | Dark       | Light      | Rule |
-| --------------------------- | ---------- | ---------- | ---- |
-| `--sl-canvas-bg`            | `#1B1C1C`  | `#FFFDF8`  | Slightly lifted from the window bg in dark, paper-white in light |
-| `--sl-canvas-staff-line`    | `#5A5D5B`  | `#9A958B`  | Lines recede: low contrast, ~2–3:1 |
-| `--sl-canvas-barline`       | `#7C7F7B`  | `#6F6B63`  | A step stronger than staff lines |
-| `--sl-canvas-ink`           | `#E7E3DA`  | `#1A1B1B`  | Fret numbers and noteheads: ≥ 12:1 |
-| `--sl-canvas-ink-secondary` | `#A09C93`  | `#5F5C55`  | Technique text, annotations: ≥ 4.5:1 |
-| `--sl-canvas-selection`     | amber 22%  | amber 30%  | Translucent, so the notes underneath stay readable |
-| `--sl-canvas-cursor`        | `#E8A45B`  | `#B36A1F`  | Edit cursor: the only solid amber on the canvas |
-| `--sl-canvas-playhead`      | `#A6B5A1`  | `#4F6249`  | Sage, so playback is never confused with editing |
-| `--sl-canvas-loop-region`   | sage 14%   | sage 12%   | A/B loop span |
+Offer a paper canvas even in the dark app theme. Fret numbers should use mono or tabular figures.
 
-Canvas rules:
+## 10. Logo
 
-- In dark mode, the canvas uses off-white ink (not pure white) on a near-black that isn't pure black. This reduces halation during long sessions.
-- Offer a "paper" canvas option even in the dark app theme. Many musicians prefer printed-page contrast for reading.
-- Fret numbers use a monospaced or tabular-figure font so columns line up.
-- Never use the accent colour for notation itself. Amber is for the edit cursor and selection only.
-- Selection and loop regions must be translucent, never opaque.
+- **Approved artwork:** six flowing strings forming an S, with three amber endpoints at each end, in ivory/ink and amber. **Do not redesign it.**
+- **Current vector:** traced from the supplied raster artwork. It matches the approved geometry, but it is a working vector, not a master. Its curves come from the trace rather than true arcs, and stroke widths vary by about 1px. **Recommendation:** have the master rebuilt as true concentric arcs and parallel lines with a single stroke width. Then replace the paths in `src/components/brand/logo-geometry.ts` and re-export `public/brand/` and the favicons.
+- **Small sizes:** below about 24px the six strings blur together. Commission a simplified small-size symbol for the 16/32px favicons (for example, fewer, thicker strings). Keep the amber endpoints.
+- **Lockups:** stacked (approved artwork) and horizontal (symbol with the wordmark at 56% of the symbol's height, gap 32% of height). Both are built in `Logo.astro`.
+- **Clear space:** at least the diameter of three endpoint dots stacked (≈ ⅓ of the symbol's width).
+- **Minimum size:** horizontal lockup 24px tall. Stacked lockup 64px tall.
+- **Colour:** ivory strings on dark, ink strings on paper. Endpoints are always amber. Never use it on photographs or busy backgrounds.
+- **Files:** `public/brand/sixline-{symbol,wordmark,lockup}-{ivory,ink}.svg`, `public/favicon.svg`, `favicon-32.png`, `apple-touch-icon.png`, `images/og-default.png`.
 
-## 10. Iconography
+## 11. Iconography
 
-- Use **1.5px stroke, round caps and joins** on a 16 or 20px grid, with optical sizes at 16/20/24.
-- Recommended set: [Lucide](https://lucide.dev) (ISC licence), or a custom set drawn to the same rules. Don't mix families.
-- Icons inherit `currentColor`. They never carry meaning by colour alone.
-- Music-specific glyphs (rests, techniques) belong to the notation font, not the UI icon set.
-- Icon-only buttons need an accessible name (`aria-label`) and a tooltip in the app.
+Use 1.5px strokes with round caps on a 16/20/24 grid ([Lucide](https://lucide.dev) or a matching custom set), inheriting `currentColor`. Music glyphs come from the notation font, not the icon set. Icon-only buttons need an accessible name.
 
-## 11. Logo
+## 12. Accessibility
 
-Final artwork is pending. Specification for the supplied files:
+- Target WCAG 2.2 AA.
+- Use landmarks, a skip link, and one `h1` per page.
+- Everything is keyboard reachable with visible focus. Escape closes the mobile menu.
+- Status is never shown by colour alone.
+- Decorative SVGs (illustrations, string lines, the large S) are `aria-hidden`. Their meaning is carried by captions and labels.
+- Primary targets are ≥ 44px tall.
+- Motion is reduced as described in §8.
 
-- **Formats:** SVG (primary, single-colour, `currentColor` fills, outlined text, no embedded fonts), plus PNG exports at 1×/2× for email and marketplaces. A 1024×1024 PNG and an `.icns`/`.ico` set of the symbol for the app and favicons.
-- **Wordmark:** horizontal. Designed at a cap height of 20px in the header, so it should still read clearly at 16px. Expected aspect about 4–5:1 (set `wordmarkAspect` in `src/data/brand.ts`).
-- **Symbol:** square, legible at 16×16 (favicon) and 32×32. It must work without the wordmark.
-- **Clear space:** at least the cap height of the wordmark on all sides. In the header that is ≥ 20px.
-- **Minimum size:** wordmark 72px wide. Symbol 16px.
-- **Colour:** ivory on ink, or ink on paper. Amber is not used for the logo by default, which keeps amber for actions.
-- **Placement:** top-left of the header (links to `/`) and top of the footer column. The website layout does not depend on the logo's shape.
+## 13. Applying the system to the Electron app
 
-## 12. Motion
-
-- Durations: `fast` 120ms (press), `base` 200ms (hover/colour), `slow` 480ms (reveal). Easing: `ease-quiet` = `cubic-bezier(0.2, 0.7, 0.2, 1)`.
-- Allowed: hover transitions, a 1px press, a one-time section fade-up of 12px, a one-time tab-staff draw-in, and video that plays only when the user starts it.
-- Never: scroll-jacking, parallax, loops that run continuously, autoplaying video, or animating layout properties.
-- `prefers-reduced-motion: reduce` turns off reveals, the staff animation and smooth scrolling. Content is always visible without JS.
-
-## 13. Accessibility requirements
-
-- Target **WCAG 2.2 AA**.
-- Use semantic landmarks (`header`, `nav[aria-label]`, `main#main`, `footer`). There is a skip link and one `h1` per page.
-- Every interactive element can be reached by keyboard and shows a visible focus ring. Escape closes the mobile menu and returns focus to its button.
-- Targets are at least 44px tall on primary actions, and never below 24×24 (2.5.8).
-- Status is never shown by colour alone. Use shape and text.
-- Use real alt text for screenshots, describing what the screen shows. Purely decorative SVGs are `aria-hidden`.
-- Video has captions when it contains speech or important on-screen text, and never autoplays.
-
-## 14. Applying the system to the Electron app
-
-1. **Share the tokens, not the website CSS.** Lift `tokens.css` (or generate JSON from it) into the app as the theme layer, and keep the semantic names (`--sl-surface-2`, `--sl-text-muted` …) so design and code use the same words.
-2. **Map surfaces to app regions:** window bg → `bg`, sidebars/inspectors → `surface-1`, toolbars/panels → `surface-2`, hover/pressed rows → `surface-3`, the score → the canvas tokens.
-3. **Chrome vs canvas:** the theme switch (light/dark) changes the chrome. The canvas has its own switch (paper/dark) that defaults to match.
-4. **Density:** the app may use a tighter spacing scale (4/6/8/12) and smaller type (13px UI, 11px mono), but the same families, radii and states.
-5. **Amber in the app:** the primary action in a dialog, the edit cursor, the focus ring, record/arm states. Not the transport bar.
-6. **Platform conventions:** respect native window controls (traffic lights on macOS, caption buttons on Windows). Don't recreate the website's decorative window chrome inside the app.
-7. **Keyboard first:** every editing action needs a shortcut and a visible focus. Tab musicians work with the keyboard.
+1. Lift `tokens.css` (studio, paper and canvas) into the app as its theme layer, keeping the semantic names.
+2. **Chrome ↔ theme:** studio = dark app theme, paper = warm light app theme. The canvas has its own paper/dark switch.
+3. Map regions: window → `bg`, sidebars → `surface-1`/`warm-1`, toolbars and transport → `warm-2`, the score → canvas tokens.
+4. Borrow the website's equipment details sparingly. Use mono legends for control labels, an amber indicator light for record/arm, and a sage playhead.
+5. **Density:** UI type at 13px and mono at 11px, a 4/6/8/12 spacing scale, with the same radii and states.
+6. Respect native window controls. Don't reuse the website's decorative frame inside the app.

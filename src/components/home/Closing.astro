@@ -1,0 +1,37 @@
+---
+import Button from '~/components/ui/Button.astro';
+import Logo from '~/components/brand/Logo.astro';
+import { site } from '~/data/site';
+
+interface Props {
+  title?: string;
+}
+const { title = 'Write the song you keep hearing.' } = Astro.props;
+---
+
+<section class="grain relative overflow-hidden border-t border-line-subtle bg-bg-sunken" aria-labelledby="closing-title">
+  <div
+    class="pointer-events-none absolute -bottom-48 -left-32 h-[40rem] w-[40rem] rounded-full bg-[radial-gradient(closest-side,var(--sl-glow-amber),transparent)]"
+    aria-hidden="true"
+  >
+  </div>
+  <!-- The S mark at monumental scale, bleeding off the right edge -->
+  <div class="pointer-events-none absolute top-1/2 right-[-14rem] hidden -translate-y-1/2 text-fg opacity-[0.07] lg:block xl:right-[-8rem]" aria-hidden="true">
+    <Logo variant="symbol" height={760} label="" />
+  </div>
+
+  <div class="container-wide relative py-28 lg:py-40">
+    <div class="max-w-3xl" data-reveal>
+      <Logo variant="symbol" height={56} label="" class="text-fg" />
+      <h2 id="closing-title" class="mt-10 text-display font-medium tracking-display text-fg">{title}</h2>
+      <p class="mt-8 max-w-xl text-lead text-fg-secondary">
+        SixLine is coming to {site.platforms.join(' and ')}. Try it free, buy it once, and keep every update that follows.
+      </p>
+      <div class="mt-10 flex flex-col gap-3 sm:flex-row">
+        <Button href="/download" size="lg" arrow>Try SixLine free</Button>
+        <Button href="/pricing" variant="secondary" size="lg">See pricing</Button>
+      </div>
+      <p class="mt-6 text-sm text-fg-muted">Public beta coming soon.</p>
+    </div>
+  </div>
+</section>

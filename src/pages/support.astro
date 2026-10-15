@@ -1,54 +1,60 @@
 ---
 import BaseLayout from '~/layouts/BaseLayout.astro';
-import PageHeader from '~/components/sections/PageHeader.astro';
-import SectionHeading from '~/components/ui/SectionHeading.astro';
+import PageHeader from '~/components/ui/PageHeader.astro';
+import Eyebrow from '~/components/ui/Eyebrow.astro';
 import Faq from '~/components/ui/Faq.astro';
-import Placeholder from '~/components/ui/Placeholder.astro';
 import { faq } from '~/data/faq';
 import { contact } from '~/data/site';
+
+const cards = [
+  {
+    title: 'Contact',
+    body: contact.supportEmail ? null : 'A support address will be published here before the public beta.',
+  },
+  { title: 'Documentation', body: 'Getting-started guides and reference documentation are being written.' },
+  { title: 'Bugs and ideas', body: 'Beta feedback channels will open with the first public build.' },
+];
 ---
 
 <BaseLayout title="Support" description="Get help with SixLine: contact details, FAQs and documentation.">
-  <PageHeader eyebrow="Support" title="Help and contact.">
-    <p>SixLine is independent software. Support channels will open alongside the public beta.</p>
+  <PageHeader eyebrow="Support" title="Here to help.">
+    <p>SixLine is independent software. Support channels open alongside the public beta — until then, here’s what to expect.</p>
   </PageHeader>
 
-  <section class="section-y" aria-label="Contact and resources">
-    <div class="container-content grid gap-6 md:grid-cols-3">
-      <article class="rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
-        <h2 class="text-h4 text-fg">Contact</h2>
-        {
-          contact.supportEmail ? (
-            <p class="mt-3 text-sm text-fg-secondary">
-              Email <a class="link-quiet text-fg" href={`mailto:${contact.supportEmail}`}>{contact.supportEmail}</a>
-            </p>
-          ) : (
-            <p class="mt-3 text-sm text-fg-secondary">A support contact address will be published here before the public beta.</p>
-          )
-        }
-      </article>
-      <article class="rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
-        <h2 class="text-h4 text-fg">Documentation</h2>
-        <p class="mt-3 text-sm text-fg-secondary">Getting-started guides and reference documentation are being written.</p>
-      </article>
-      <article class="rounded-xl border border-line bg-surface-1 p-6 sm:p-8">
-        <h2 class="text-h4 text-fg">Bugs and feedback</h2>
-        <p class="mt-3 text-sm text-fg-secondary">
-          Beta feedback channels will be announced with the first public build.
-          <a href="/updates" class="link-quiet text-fg">See development updates</a>.
-        </p>
-      </article>
+  <section class="paper grain section-y" aria-label="Contact and resources">
+    <div class="container-content grid grid-cols-1 gap-6 md:grid-cols-3">
+      {
+        cards.map((c, i) => (
+          <article class="flex flex-col rounded-2xl border border-line bg-surface-2 p-7 shadow-panel sm:p-8">
+            <p class="font-mono text-sm text-accent-text">0{i + 1}</p>
+            <h2 class="mt-8 text-h3 text-fg">{c.title}</h2>
+            {c.body ? (
+              <p class="mt-3 text-sm text-fg-secondary">{c.body}</p>
+            ) : (
+              <p class="mt-3 text-sm text-fg-secondary">
+                Email{' '}
+                <a class="link-quiet text-fg" href={`mailto:${contact.supportEmail}`}>
+                  {contact.supportEmail}
+                </a>
+              </p>
+            )}
+          </article>
+        ))
+      }
     </div>
   </section>
 
-  <section class="section-y border-t border-line-subtle" aria-labelledby="support-faq">
-    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-16">
+  <section class="section-y" aria-labelledby="support-faq">
+    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
       <div class="lg:col-span-4">
-        <SectionHeading id="support-faq" eyebrow="FAQ" title="Common questions." />
+        <Eyebrow>FAQ</Eyebrow>
+        <h2 id="support-faq" class="mt-7 text-h2 tracking-display text-fg">Common questions.</h2>
       </div>
       <div class="lg:col-span-8">
         <Faq items={faq} />
-        <Placeholder class="mt-10">Privacy policy, terms and refund information will be published before checkout opens.</Placeholder>
+        <p class="mt-10 text-sm text-fg-muted">
+          Privacy policy, terms and refund information will be published before checkout opens.
+        </p>
       </div>
     </div>
   </section>
