@@ -3,20 +3,28 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import PageHeader from '~/components/ui/PageHeader.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import Closing from '~/components/home/Closing.astro';
-import { availableFeatures, confirmedFormats, groupMeta, trademarkNotice, workbenchFeatures, type FeatureGroup } from '~/data/features';
+import { availableFeatures, comingSoonFeatures, confirmedFormats, groupMeta, trademarkNotice, workbenchFeatures, type FeatureGroup } from '~/data/features';
 
 const groups: FeatureGroup[] = ['writing', 'playback', 'compatibility'];
 const bench = workbenchFeatures();
+const soon = comingSoonFeatures();
+// Empty cells that complete the hairline grid's last row (2 columns on sm, 3 on lg)
+const cells = bench.length + 1;
+const smFill = (2 - (cells % 2)) % 2;
+const lgFill = (3 - (cells % 3)) % 3;
+const fillers = Array.from({ length: Math.max(smFill, lgFill) }, (_, i) => ({ sm: i < smFill, lg: i < lgFill }));
 ---
 
 <BaseLayout
   title="Features"
-  description="Tablature and notation editing, multi-track composition, playback, Guitar Pro import and MIDI — plus an honest list of what’s still on the workbench."
+  description="Create and master your music: Riff Blocks, tablature and notation, multitrack arrangements, looping and slow-down practice — plus an honest list of what’s coming soon."
 >
-  <PageHeader eyebrow="Features" title="Built for writing, hearing and playing music.">
+  <PageHeader eyebrow="Features" title="Write music.<br />Master it.">
     <p>
-      Everything listed here works in the current development build. Features still being checked are kept separately, on the{' '}
-      <a href="#workbench" class="link-quiet text-fg">workbench</a>, until we can promise them.
+      Two halves of the same idea: an editor for creating music and a practice companion for mastering it. Everything in the
+      sections below works in the current development build. What’s{' '}
+      <a href="#coming-soon" class="link-quiet text-fg">coming soon</a> and what’s still on the{' '}
+      <a href="#workbench" class="link-quiet text-fg">workbench</a> is kept separate.
     </p>
   </PageHeader>
 
@@ -51,6 +59,29 @@ const bench = workbenchFeatures();
     ))
   }
 
+  <section id="coming-soon" class="grain section-y bg-warm-1" aria-labelledby="soon-title">
+    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5" data-reveal>
+        <Eyebrow>Coming soon</Eyebrow>
+        <h2 id="soon-title" class="mt-7 text-h2 tracking-display text-fg">Practice Mode.</h2>
+        <p class="mt-6 max-w-md text-lead text-fg-secondary">
+          Being built now and not released yet. What follows describes what it’s being designed to do; details may change before it ships.
+        </p>
+      </div>
+      <ul class="border-t border-dashed border-line lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
+        {
+          soon.map((f) => (
+            <li class="border-b border-dashed border-line py-7">
+              <p class="label-mono text-accent-text">Coming soon</p>
+              <h3 class="mt-2 text-h3 text-fg">{f.title}</h3>
+              <p class="mt-2 text-fg-secondary">{f.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
   <section id="workbench" class="paper grain section-y" aria-labelledby="workbench-title">
     <div class="container-content">
       <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end" data-reveal>
@@ -79,10 +110,12 @@ const bench = workbenchFeatures();
           <h3 class="text-h4 text-fg">File format details</h3>
           <p class="text-sm text-fg-secondary">Supported Guitar Pro versions (GP3, GP4, GP5), MIDI import and export, and the native project format.</p>
         </li>
-        {(bench.length + 1) % 2 === 1 && <li class="hidden bg-surface-1 sm:block lg:hidden" aria-hidden="true" />}
+        {fillers.map((f) => (
+          <li class:list={['hidden bg-surface-1', f.sm ? 'sm:block' : 'sm:hidden', f.lg ? 'lg:block' : 'lg:hidden']} aria-hidden="true" />
+        ))}
       </ul>
     </div>
   </section>
 
-  <Closing title="Start with a riff." />
+  <Closing title="Start with a riff." primary={{ label: 'See pricing', href: '/pricing' }} />
 </BaseLayout>

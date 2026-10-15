@@ -80,7 +80,11 @@ All text passes AA.
 
 ### Colour distribution on the homepage
 
-Hero (studio) → Write (**paper**) → Play (warm studio) → Import (studio, with paper cards) → Pricing (**paper**, with a studio card) → Progress (warm studio) → Questions (studio) → Closing (sunken studio) → Footer.
+Hero (studio) → 01 Create (**paper**) → 02 Master (warm studio) → 03 Pricing (**paper**, with a studio card) → Questions (studio) → Why SixLine (**paper**) → Closing (sunken studio) → Footer.
+
+**Create and Master are equal partners.** They share the same structure: a numbered eyebrow, a full-width two-line display headline with the second phrase in a quieter colour, an intro set beneath on the right, then a product visual and outcomes. Create uses `fg-secondary` for its second line and Master uses `sage`. Unreleased Master features appear only inside a dashed "Coming soon · Practice Mode" panel with "Preview" labels.
+
+**Positioning guardrails:** never present SixLine as a DAW or as an audio-production tool. Never imply it detects playing accuracy automatically. Lead with outcomes ("Catch the idea", "Loop the hard part"), not feature counts.
 
 Rules:
 - Never stack two **identical** dark treatments. Neighbouring dark sections differ in warmth (warm-1 vs ink) or in content (paper cards on dark).

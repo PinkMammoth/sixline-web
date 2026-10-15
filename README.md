@@ -49,8 +49,8 @@ src/
   assets/screenshots/   real app screenshots (optimised by Astro)
   components/
     brand/              Logo.astro (inline SVG, 4 variants) + logo-geometry.ts
-    home/               homepage sections: Hero, Composition, Playback,
-                        Compatibility, Pricing, Progress, Questions, Closing
+    home/               homepage sections: Hero, Create, Master, Pricing,
+                        Questions, Story, Closing
     music/              TabStaff, TabSheet, Arrangement: tablature illustrations
     ui/                 Button, Eyebrow, SectionHeading, PageHeader, ProductFrame,
                         MediaSlot, PricingCard, DownloadCard, Faq, Logbook
@@ -83,7 +83,7 @@ Almost everything public is driven by data files, so a content change should rar
 | Release notes                                | `src/content/releases/*.md` (copy `_template.md`) |
 | Logo geometry                                | `src/components/brand/logo-geometry.ts` (+ re-export `public/brand/`) |
 | Hero screenshot                              | `src/assets/screenshots/` + `src`/`alt` on `<ProductFrame>` in `src/components/home/Hero.astro` |
-| Writing demo video                           | `public/demos/` + `src/data/site.ts` → `media.writingDemo` |
+| Riff Blocks demo video                       | `public/demos/` + `src/data/site.ts` → `media.writingDemo` |
 | Milestones (Now / Next / Then)               | `src/data/development.ts`              |
 
 ### Launch safety

@@ -47,17 +47,22 @@ export const statusMeta: Record<FeatureStatus, { label: string; description: str
   },
 };
 
+/**
+ * The two product promises: Create (writing) and Master (playback & practice).
+ * Copy here is shared by the homepage and /features.
+ */
 export const groupMeta: Record<FeatureGroup, { label: string; title: string; intro: string }> = {
   writing: {
-    label: 'Writing',
-    title: 'From the first riff to the full arrangement.',
+    label: 'Create',
+    title: 'From first riff to finished arrangement.',
     intro:
-      'Write tablature and notation side by side, build parts up track by track, and keep every idea in one project.',
+      'Capture ideas, write guitar and bass parts, build multitrack songs and explore arrangements in an editor designed around the way musicians actually work.',
   },
   playback: {
-    label: 'Playback & practice',
-    title: 'Hear it back. Then play along.',
-    intro: 'Listen to exactly what you have written, then pick up your guitar and play along.',
+    label: 'Master',
+    title: 'Don’t just learn the notes. Own them.',
+    intro:
+      'Loop difficult passages, slow things down and build your speed with flexible tempo training. SixLine helps turn notation into focused practice.',
   },
   compatibility: {
     label: 'Compatibility',
@@ -67,7 +72,15 @@ export const groupMeta: Record<FeatureGroup, { label: string; title: string; int
 };
 
 export const features: Feature[] = [
-  // ---- Writing & composition
+  // ---- Create: writing & composition
+  {
+    id: 'riff-blocks',
+    group: 'writing',
+    title: 'Riff Blocks',
+    description: 'Capture riffs as Riff Blocks and build your songs from them.',
+    status: 'available',
+    source: 'Positioning refresh brief: Riff Blocks named as an implemented editing workflow to feature. Description to be confirmed by the owner.',
+  },
   {
     id: 'tab-notation',
     group: 'writing',
@@ -121,18 +134,18 @@ export const features: Feature[] = [
   {
     id: 'tempo',
     group: 'playback',
-    title: 'Tempo adjustment',
+    title: 'Slow it down',
     description: 'Slow a passage down to learn it, then bring it back up to speed.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; not yet verified.',
+    status: 'available',
+    source: 'Positioning refresh brief: the Master copy (owner-supplied) states looping and slowing down as current capabilities.',
   },
   {
     id: 'ab-loop',
     group: 'playback',
-    title: 'A/B looping',
-    description: 'Loop a section between two points and repeat it as often as you need.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; not yet verified.',
+    title: 'Loop the hard part',
+    description: 'Loop a difficult passage between two points and repeat it as often as you need.',
+    status: 'available',
+    source: 'Positioning refresh brief: the Master copy (owner-supplied) states looping and slowing down as current capabilities.',
   },
   {
     id: 'metronome',
@@ -149,6 +162,32 @@ export const features: Feature[] = [
     description: 'Balance tracks against each other while you listen or practise.',
     status: 'unconfirmed',
     source: 'Requested for showcase; not yet verified.',
+  },
+
+  // ---- Master: Practice Mode (coming soon — not released)
+  {
+    id: 'practice-targets',
+    group: 'playback',
+    title: 'Saved practice targets',
+    description: 'Save the passage and target tempo you’re working towards, and pick up where you left off.',
+    status: 'in-development',
+    source: 'Positioning refresh brief: Practice Mode, to be shown as coming soon until released.',
+  },
+  {
+    id: 'clean-reps',
+    group: 'playback',
+    title: 'Clean-repetition progression',
+    description: 'Log clean run-throughs as you play them and step the tempo up as they add up.',
+    status: 'in-development',
+    source: 'Positioning refresh brief: Practice Mode. Must not imply automatic playing-accuracy detection.',
+  },
+  {
+    id: 'personal-bests',
+    group: 'playback',
+    title: 'Personal bests',
+    description: 'Keep a record of the fastest tempo you’ve played each passage cleanly.',
+    status: 'in-development',
+    source: 'Positioning refresh brief: Practice Mode, to be shown as coming soon until released.',
   },
 
   // ---- Compatibility & workflow
@@ -204,7 +243,12 @@ export const featuresByGroup = (group: FeatureGroup) => features.filter((f) => f
 export const availableFeatures = (group?: FeatureGroup) =>
   features.filter((f) => f.status === 'available' && (!group || f.group === group));
 
-export const workbenchFeatures = () => features.filter((f) => f.status !== 'available');
+/** Not yet verified against the app: listed only on /features#workbench. */
+export const workbenchFeatures = () => features.filter((f) => f.status === 'unconfirmed');
+
+/** Being built and shown as "Coming soon" (e.g. Practice Mode). */
+export const comingSoonFeatures = (group?: FeatureGroup) =>
+  features.filter((f) => (f.status === 'in-development' || f.status === 'planned') && (!group || f.group === group));
 
 /** Formats that are confirmed, in plain language, for the compatibility section. */
 export const confirmedFormats = [

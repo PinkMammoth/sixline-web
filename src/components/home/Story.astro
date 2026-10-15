@@ -1,0 +1,32 @@
+---
+/** Founder story. Written in the brand voice; no names, dates or numbers are invented. */
+import Eyebrow from '~/components/ui/Eyebrow.astro';
+import Logo from '~/components/brand/Logo.astro';
+---
+
+<section id="story" class="paper grain section-y overflow-hidden" aria-labelledby="story-title">
+  <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-10">
+    <div class="flex flex-row items-center gap-6 lg:col-span-3 lg:flex-col lg:items-start" data-reveal>
+      <Logo variant="symbol" height={64} label="" class="text-fg" />
+      <Eyebrow>Why SixLine</Eyebrow>
+    </div>
+
+    <div class="lg:col-span-9" data-reveal style="--reveal-delay:100ms">
+      <h2 id="story-title" class="max-w-[16ch] text-h1 tracking-display text-fg">Built for musicians who’d rather make music.</h2>
+      <div class="mt-10 grid grid-cols-1 gap-8 md:grid-cols-2 md:gap-10">
+        <p class="text-lead text-fg">
+          SixLine grew from a simple frustration: writing and practising music should feel direct, fast and enjoyable. The
+          software should support the musician, not become the project itself.
+        </p>
+        <p class="text-lead text-fg-secondary">
+          So it stays focused: an editor rather than a studio, a fair one-time price rather than a subscription, and
+          development in the open, one release at a time.
+        </p>
+      </div>
+      <div class="mt-10 flex flex-wrap gap-x-8 gap-y-3 text-sm">
+        <a href="/updates" class="link-quiet text-fg">Follow development <span aria-hidden="true">→</span></a>
+        <a href="/support" class="link-quiet text-fg-secondary">Get in touch <span aria-hidden="true">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>

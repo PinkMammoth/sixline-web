@@ -1,12 +1,14 @@
 ---
 import Button from '~/components/ui/Button.astro';
 import Logo from '~/components/brand/Logo.astro';
-import { site } from '~/data/site';
+import { site, trialHref } from '~/data/site';
 
 interface Props {
   title?: string;
+  /** Primary action; defaults to exploring the product. */
+  primary?: { label: string; href: string };
 }
-const { title = 'Write the song you keep hearing.' } = Astro.props;
+const { title = 'Write the song you keep hearing.', primary = { label: 'Explore SixLine', href: '/features' } } = Astro.props;
 ---
 
 <section class="grain relative overflow-hidden border-t border-line-subtle bg-bg-sunken" aria-labelledby="closing-title">
@@ -25,13 +27,16 @@ const { title = 'Write the song you keep hearing.' } = Astro.props;
       <Logo variant="symbol" height={56} label="" class="text-fg" />
       <h2 id="closing-title" class="mt-10 text-display font-medium tracking-display text-fg">{title}</h2>
       <p class="mt-8 max-w-xl text-lead text-fg-secondary">
-        SixLine is coming to {site.platforms.join(' and ')}. Try it free, buy it once, and keep every update that follows.
+        Write it, then master it. SixLine is coming to {site.platforms.join(' and ')} — try it free, buy it once, and keep every
+        update that follows.
       </p>
       <div class="mt-10 flex flex-col gap-3 sm:flex-row">
-        <Button href="/download" size="lg" arrow>Try SixLine free</Button>
-        <Button href="/pricing" variant="secondary" size="lg">See pricing</Button>
+        <Button href={primary.href} size="lg" arrow>{primary.label}</Button>
+        <Button href={trialHref} variant="secondary" size="lg" pending="Coming soon">Try SixLine free</Button>
       </div>
-      <p class="mt-6 text-sm text-fg-muted">Public beta coming soon.</p>
+      <p class="mt-8 font-display text-h4 text-fg">
+        No subscriptions. No paid upgrades. <span class="text-accent-text">Just music.</span>
+      </p>
     </div>
   </div>
 </section>

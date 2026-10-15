@@ -1,6 +1,6 @@
 # Content status
 
-_Updated for creative direction v2._
+_Updated for the Create / Master positioning refresh._
 
 This tracks which public statements are **confirmed**, which are **placeholders**, and what is **outstanding** before launch.
 
@@ -18,7 +18,13 @@ These come directly from the project brief and are shown as fact on the site.
 | Built for Windows and macOS | Footer, FAQ, downloads | Brief |
 | Tablature and notation editing | Homepage "Write", /features | Brief |
 | Multi-track arrangements | Homepage "Write", /features | Brief |
-| Playback | Homepage "Play", /features | Brief |
+| Playback | Homepage "Master", /features | Brief |
+| **Riff Blocks**: "Capture riffs as Riff Blocks the moment they arrive, then build your songs from them." | Homepage "Create" (first item), /features | Positioning refresh brief. ⚠ **Please confirm the wording**: I described Riff Blocks from the name only |
+| **Looping a passage** ("Loop the hard part") and **slowing down** ("Slow it down") | Homepage "Master", /features | Positioning refresh brief: your Master copy states these as current. ⚠ Confirm they work in the current build |
+| "Build your speed with flexible tempo training" | Homepage "Master" intro, /features | Owner-supplied copy, used verbatim. ⚠ If this means a dedicated speed trainer that isn't released yet, tell me and I'll reword it |
+| "Write guitar and bass parts" | Homepage "Create" | Owner-supplied copy |
+| SixLine is not a DAW and isn't built for recording or producing audio | FAQ | Positioning refresh brief |
+| The licence covers the desktop app and every update to it. Any future hosted services would be optional, separate and priced on their own | Homepage pricing note, FAQ | Positioning refresh brief |
 | Guitar Pro file import, versions not specified | Homepage "Import", /features, FAQ | Brief |
 | MIDI support, direction not specified | Homepage "Import", /features | Brief |
 | Planned pricing: Founder's Beta $9.99 USD one-time, $19.99 USD from v1.0 | Pricing card, /pricing, FAQ | Brief |
@@ -28,7 +34,11 @@ These come directly from the project brief and are shown as fact on the site.
 
 > Marketing sections only show features with `status: 'available'` (meaning they work in the development build). Please confirm each of these in the current desktop build. If any doesn't work, change its `status` in `src/data/features.ts`; it then moves to the workbench automatically.
 
-## 2. On the workbench (not claimed)
+## 2. Coming soon and on the workbench (not claimed as released)
+
+**Coming soon** (`status: 'in-development'`): the three Practice Mode features. They're shown only as clearly labelled previews.
+
+**On the workbench** (`status: 'unconfirmed'`):
 
 The brief asked for these to be showcased. I couldn't verify them against the desktop app, so they **don't appear in any marketing section**. They're listed only in the separate "On the workbench" section on `/features#workbench`, described as "being checked before we promise it". The Play section also mentions tempo control, looping and a metronome in one line as "being checked for the beta".
 
@@ -39,8 +49,6 @@ To promote one, set its `status` in `src/data/features.ts` to `available`. It th
 | Rhythm and technique editing | `features.ts` → `rhythm-technique` | Confirm it works, and which techniques to name |
 | Instrument tracks | `features.ts` → `instrument-tracks` | Confirm, including instrument/tuning options |
 | Native project saving | `features.ts` → `native-projects` | Confirm, plus the file extension name |
-| Tempo adjustment | `features.ts` → `tempo` | Confirm |
-| A/B looping | `features.ts` → `ab-loop` | Confirm |
 | Metronome and count-in | `features.ts` → `metronome` | Confirm both parts separately |
 | Track mixing | `features.ts` → `mixing` | Confirm (volume? mute/solo?) |
 | Printing and PDF export | `features.ts` → `print-pdf` | Confirm both |
@@ -56,9 +64,11 @@ To promote one, set its `status` in `src/data/features.ts` to `available`. It th
 | Logo is a traced working vector | `src/components/brand/logo-geometry.ts`, `public/brand/*.svg`, favicons | A designer's clean geometric master (true arcs, uniform strokes), plus a simplified mark for 16px. Drop the paths into `logo-geometry.ts` and regenerate the exports |
 | Hero product frame shows a tablature **illustration**, labelled "Illustration · App screenshot coming with the redesigned interface" | Homepage hero (`TabSheet.astro`) | Real screenshot of the redesigned app: pass `src` and `alt` to `<ProductFrame>` in `Hero.astro` |
 | "Riff → arrangement" **illustration**, labelled "Illustration" | Homepage "Write" | Real screen recording. Set `media.writingDemo` in `src/data/site.ts` |
-| Playback **illustration** with an animated playhead, labelled "Visual demo · no audio" | Homepage "Play" | Can stay, or be replaced by real footage |
+| Practice **illustration**: an A–B loop region and a "70% speed" chip, with a playhead that sweeps the loop twice. Labelled "Illustration · no audio" | Homepage "Master" | Real footage of looping and slow-down in SixLine |
+| **Practice Mode previews** (saved practice targets, clean-repetition progression, personal bests), each labelled "Preview" under "Coming soon · Practice Mode" | Homepage "Master", /features#coming-soon | Real footage once released. Set each feature's `status` to `available` in `features.ts` and the copy moves into the released list. Wording deliberately says you *log* clean run-throughs, so it never implies automatic accuracy detection |
+| Founder story, second paragraph ("an editor rather than a studio, a fair one-time price rather than a subscription, and development in the open") | Homepage "Why SixLine" | I added it to round off your text, summarising positioning you've already stated. Replace it or delete it as you like |
 | Social image | `public/images/og-default.png` | Can be updated to include a real screenshot once one exists |
-| "Try SixLine free" / "Get lifetime access" in the hero, header and closing section | Link to `/download` and `/pricing` (real pages that explain the pre-launch state) | Nothing needed. They keep working after launch |
+| "Explore SixLine" (hero, closing): links to `/features`. "Try SixLine free" (hero, closing): shown as "Coming soon" and not clickable. The header "Try free" button is hidden | Hero, closing, header | Set a download URL in `actions.downloads` and all of them switch to live links to `/download` |
 | "Get lifetime access · Opens with the beta" and "Download · Coming soon" (not clickable) | Pricing card, /download | Real URLs in `src/data/site.ts` → `actions` |
 | "Pre-release" version | Logbook | `site.appVersion` |
 | Latest release / known limitations empty states | Logbook (homepage, /updates) | First file in `src/content/releases/`; `development.betaLimitations` |

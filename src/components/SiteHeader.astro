@@ -2,6 +2,7 @@
 import Logo from './brand/Logo.astro';
 import Button from './ui/Button.astro';
 import { primaryNav } from '~/data/navigation';
+import { trialHref } from '~/data/site';
 
 const path = Astro.url.pathname.replace(/\/$/, '') || '/';
 const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`);
@@ -35,7 +36,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
           }
         </ul>
       </nav>
-      <Button href="/download" class="min-h-10 px-4">Try free</Button>
+      {trialHref && <Button href={trialHref} class="min-h-10 px-4">Try free</Button>}
     </div>
 
     <button
@@ -75,7 +76,7 @@ const isCurrent = (href: string) => path === href || path.startsWith(`${href}/`)
         ))
       }
       <li class="pt-6">
-        <Button href="/download" size="lg" class="w-full" arrow>Try SixLine free</Button>
+        <Button href={trialHref ?? '/features'} size="lg" class="w-full" arrow>{trialHref ? 'Try SixLine free' : 'Explore SixLine'}</Button>
       </li>
     </ul>
   </nav>

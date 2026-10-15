@@ -15,7 +15,7 @@ interface Props {
 
 const { title, description = siteData.description, image = '/images/og-default.png', noindex = false } = Astro.props;
 
-const fullTitle = title ? `${title} — ${siteData.name}` : `${siteData.name} — Guitar tablature & notation editor`;
+const fullTitle = title ? `${title} — ${siteData.name}` : `${siteData.name} — Write music. Master it.`;
 const canonical = Astro.site ? new URL(Astro.url.pathname, Astro.site).href : undefined;
 const ogImage = Astro.site ? new URL(image, Astro.site).href : undefined;
 ---

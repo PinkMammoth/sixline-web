@@ -2,7 +2,7 @@
 import Button from '~/components/ui/Button.astro';
 import ProductFrame from '~/components/ui/ProductFrame.astro';
 import TabSheet from '~/components/music/TabSheet.astro';
-import { formatPrice, pricing, site } from '~/data/site';
+import { formatPrice, pricing, site, trialHref } from '~/data/site';
 ---
 
 <section class="grain relative overflow-hidden pt-14 pb-24 sm:pt-20 lg:pt-24 lg:pb-32" aria-labelledby="hero-title">
@@ -27,26 +27,22 @@ import { formatPrice, pricing, site } from '~/data/site';
             <span class="size-1.5 rounded-full bg-accent"></span>
             <span class="size-1.5 rounded-full bg-accent"></span>
           </span>
-          <span>Tablature &amp; notation editor<span class="hidden sm:inline"> · {site.platforms.join(' & ')}</span></span>
+          <span>Tab &amp; notation editor<span class="hidden sm:inline"> · {site.platforms.join(' & ')}</span></span>
         </p>
         <h1 id="hero-title" class="mt-7 text-display font-medium tracking-display text-fg">
-          Your music.<br />
-          <span class="text-fg-secondary">Your way of</span><br />
-          <span class="text-fg-secondary">writing it.</span>
+          Write music.<br />
+          <span class="text-fg-secondary">Master it.</span>
         </h1>
       </div>
 
       <div class="lg:col-span-5 lg:pb-3">
         <p class="max-w-md text-lead text-fg-secondary">
-          A modern tablature editor built for musicians who create, practise and play.
-        </p>
-        <p class="mt-6 max-w-md font-display text-h4 font-medium text-fg">
-          No subscriptions. No paid upgrades.{' '}
-          <span class="text-accent-text">Just music.</span>
+          A focused guitar tablature and notation editor for composing, arranging and practising music — without the
+          distractions of a recording studio.
         </p>
         <div class="mt-9 flex flex-col gap-3 sm:flex-row sm:items-center">
-          <Button href="/download" size="lg" arrow>Try SixLine free</Button>
-          <Button href="/pricing" variant="secondary" size="lg">Get lifetime access</Button>
+          <Button href="/features" size="lg" arrow>Explore SixLine</Button>
+          <Button href={trialHref} variant="secondary" size="lg" pending="Coming soon">Try SixLine free</Button>
         </div>
         <p class="mt-5 text-sm text-fg-muted">
           <span class="text-fg-secondary">Public beta coming soon.</span> Free trial, then one payment of {formatPrice(pricing.beta.price)} — every update included.

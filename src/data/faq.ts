@@ -39,6 +39,13 @@ export const faq: FaqItem[] = [
     ],
   },
   {
+    id: 'daw',
+    question: 'Is SixLine a DAW?',
+    answer: [
+      'No. SixLine is a tablature and notation editor for writing, arranging and practising music. It plays back what you’ve written so you can hear and learn it, but it isn’t built for recording or producing audio.',
+    ],
+  },
+  {
     id: 'platforms',
     question: 'Is SixLine available on Windows and macOS?',
     answer: [
@@ -58,6 +65,14 @@ export const faq: FaqItem[] = [
     answer: [
       'Beta means SixLine is usable and actively improving, but not yet finished. You may run into bugs or missing features, and things will change between releases.',
       'Known beta limitations will be published alongside each release.',
+    ],
+  },
+  {
+    id: 'subscription',
+    question: 'Will SixLine ever need a subscription?',
+    answer: [
+      'No. The desktop software you buy is yours to keep, with every future update included.',
+      'If optional hosted services are ever offered, they would be separate and clearly priced on their own — never required to keep using the software you own.',
     ],
   },
   {

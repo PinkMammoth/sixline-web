@@ -12,7 +12,7 @@ export const site = {
   name: 'SixLine',
   tagline: 'Powerful music software. Fair pricing. No nonsense.',
   description:
-    'SixLine is an independent guitar tablature and music notation editor for Windows and macOS. One-time purchase, every future update included, no subscriptions.',
+    'SixLine is a focused guitar tablature and notation editor for composing, arranging and practising music, for Windows and macOS. One-time purchase, every future update included.',
 
   /**
    * 'pre-launch'  — nothing is downloadable or purchasable (current state).
@@ -58,7 +58,7 @@ export const pricing = {
  * Videos go in public/demos/ (H.264 MP4); screenshots in src/assets/screenshots/.
  */
 export const media = {
-  /** Short clip of a riff becoming a multi-track arrangement, e.g. '/demos/writing.mp4'. */
+  /** Riff Blocks demo: a riff captured and built into a multitrack song, e.g. '/demos/riff-blocks.mp4'. */
   writingDemo: null as { src: string; poster?: string; captions?: string } | null,
 } as const;
 
