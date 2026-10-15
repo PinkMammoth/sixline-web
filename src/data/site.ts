@@ -25,6 +25,8 @@ export const site = {
   appVersion: null as string | null,
 
   platforms: ['Windows', 'macOS'] as const,
+  /** Honest availability label: the Windows build comes first, macOS is planned. */
+  platformLabel: 'Windows · macOS planned',
 } as const;
 
 /** Outbound actions. `null` renders an honest "Coming soon" state instead of a link. */

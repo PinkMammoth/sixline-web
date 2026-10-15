@@ -77,9 +77,10 @@ export const features: Feature[] = [
     id: 'riff-blocks',
     group: 'writing',
     title: 'Riff Blocks',
-    description: 'Capture riffs as Riff Blocks and build your songs from them.',
+    description:
+      'Turn whole bars into named, reusable passages like “Main Riff”, “Chorus” or “Fill A” and place them throughout a song. Linked copies stay in sync, the notes stay visible and editable in the score, and any copy can become independent.',
     status: 'available',
-    source: 'Positioning refresh brief: Riff Blocks named as an implemented editing workflow to feature. Description to be confirmed by the owner.',
+    source: 'Owner description of Riff Blocks (desktop app v0.6.0, commit fa0e196).',
   },
   {
     id: 'tab-notation',

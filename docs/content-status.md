@@ -19,7 +19,7 @@ These come directly from the project brief and are shown as fact on the site.
 | Tablature and notation editing | Homepage "Write", /features | Brief |
 | Multi-track arrangements | Homepage "Write", /features | Brief |
 | Playback | Homepage "Master", /features | Brief |
-| **Riff Blocks**: "Capture riffs as Riff Blocks the moment they arrive, then build your songs from them." | Homepage "Create" (first item), /features | Positioning refresh brief. ⚠ **Please confirm the wording**: I described Riff Blocks from the name only |
+| **Riff Blocks**: named, reusable whole-bar passages ("Main Riff", "Chorus", "Fill A") placed throughout a song. Linked copies stay in sync, the notes stay visible and editable in the score, and any copy can become independent | Homepage "Create" (first item), /features | Owner description of Riff Blocks (desktop app v0.6.0, commit fa0e196) |
 | **Looping a passage** ("Loop the hard part") and **slowing down** ("Slow it down") | Homepage "Master", /features | Positioning refresh brief: your Master copy states these as current. ⚠ Confirm they work in the current build |
 | "Build your speed with flexible tempo training" | Homepage "Master" intro, /features | Owner-supplied copy, used verbatim. ⚠ If this means a dedicated speed trainer that isn't released yet, tell me and I'll reword it |
 | "Write guitar and bass parts" | Homepage "Create" | Owner-supplied copy |
@@ -66,7 +66,8 @@ To promote one, set its `status` in `src/data/features.ts` to `available`. It th
 | "Riff → arrangement" **illustration**, labelled "Illustration" | Homepage "Write" | Real screen recording. Set `media.writingDemo` in `src/data/site.ts` |
 | Practice **illustration**: an A–B loop region and a "70% speed" chip, with a playhead that sweeps the loop twice. Labelled "Illustration · no audio" | Homepage "Master" | Real footage of looping and slow-down in SixLine |
 | **Practice Mode previews** (saved practice targets, clean-repetition progression, personal bests), each labelled "Preview" under "Coming soon · Practice Mode" | Homepage "Master", /features#coming-soon | Real footage once released. Set each feature's `status` to `available` in `features.ts` and the copy moves into the released list. Wording deliberately says you *log* clean run-throughs, so it never implies automatic accuracy detection |
-| Founder story, second paragraph ("an editor rather than a studio, a fair one-time price rather than a subscription, and development in the open") | Homepage "Why SixLine" | I added it to round off your text, summarising positioning you've already stated. Replace it or delete it as you like |
+| Founder story, second paragraph ("an editor rather than a studio, a fair one-time price rather than a subscription, and a focus on the features musicians actually need") | Homepage "Why SixLine" | Approved by the owner. Note: the SixLine app is proprietary, so the site avoids "in the open" wording that could suggest it's open source |
+| Platform label "Windows · macOS planned" (`site.platformLabel`) | Hero eyebrow, footer, social image | Change it once a macOS build is available |
 | Social image | `public/images/og-default.png` | Can be updated to include a real screenshot once one exists |
 | "Explore SixLine" (hero, closing): links to `/features`. "Try SixLine free" (hero, closing): shown as "Coming soon" and not clickable. The header "Try free" button is hidden | Hero, closing, header | Set a download URL in `actions.downloads` and all of them switch to live links to `/download` |
 | "Get lifetime access · Opens with the beta" and "Download · Coming soon" (not clickable) | Pricing card, /download | Real URLs in `src/data/site.ts` → `actions` |
