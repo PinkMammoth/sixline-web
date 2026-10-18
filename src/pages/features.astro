@@ -3,78 +3,69 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import PageHeader from '~/components/ui/PageHeader.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import Closing from '~/components/home/Closing.astro';
-import { availableFeatures, comingSoonFeatures, confirmedFormats, groupMeta, trademarkNotice, workbenchFeatures, type FeatureGroup } from '~/data/features';
+import { availableFeatures, pillarMeta, previewFeatures, trademarkNotice, unverifiedFeatures, type FeaturePillar } from '~/data/features';
 
-const groups: FeatureGroup[] = ['writing', 'playback', 'compatibility'];
-const bench = workbenchFeatures();
-const soon = comingSoonFeatures();
-// Empty cells that complete the hairline grid's last row (2 columns on sm, 3 on lg)
-const cells = bench.length + 1;
-const smFill = (2 - (cells % 2)) % 2;
-const lgFill = (3 - (cells % 3)) % 3;
-const fillers = Array.from({ length: Math.max(smFill, lgFill) }, (_, i) => ({ sm: i < smFill, lg: i < lgFill }));
+const pillars: { id: FeaturePillar; href: string; cta: string }[] = [
+  { id: 'practice', href: '/practice', cta: 'How practice works' },
+  { id: 'create', href: '/create', cta: 'Explore Create' },
+];
+const previews = previewFeatures('practice');
+const unverified = unverifiedFeatures();
 ---
 
 <BaseLayout
-  title="Features"
-  description="Create and master your music: Riff Blocks, tablature and notation, multitrack arrangements, looping and slow-down practice — plus an honest list of what’s coming soon."
+  title="All features"
+  description="Every SixLine feature in one place: what's available now, what's coming before launch, and what's still being verified."
 >
-  <PageHeader eyebrow="Features" title="Write music.<br />Master it.">
+  <PageHeader eyebrow="All features" title="Learn it. Master it.<br />Make it yours.">
     <p>
-      Two halves of the same idea: an editor for creating music and a practice companion for mastering it. Everything in the
-      sections below works in the current development build. What’s{' '}
-      <a href="#coming-soon" class="link-quiet text-fg">coming soon</a> and what’s still on the{' '}
-      <a href="#workbench" class="link-quiet text-fg">workbench</a> is kept separate.
+      Everything SixLine can do today, plus an honest list of what’s{' '}
+      <a href="#coming" class="link-quiet text-fg">coming before launch</a> and what’s still{' '}
+      <a href="#verifying" class="link-quiet text-fg">being verified</a>.
     </p>
   </PageHeader>
 
-  {
-    groups.map((group, i) => (
-      <section class:list={['grain section-y', i === 1 && 'bg-warm-1']} aria-labelledby={`group-${group}`}>
-        <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
-          <div class="lg:col-span-5" data-reveal>
-            <Eyebrow index={`0${i + 1}`}>{groupMeta[group].label}</Eyebrow>
-            <h2 id={`group-${group}`} class="mt-7 text-h2 tracking-display text-fg">
-              {groupMeta[group].title}
-            </h2>
-            <p class="mt-6 max-w-md text-lead text-fg-secondary">{groupMeta[group].intro}</p>
-          </div>
-          <div class="lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
-            <ul class="border-t border-line">
-              {availableFeatures(group).map((f) => (
-                <li class="border-b border-line py-7">
-                  <h3 class="text-h3 text-fg">{f.title}</h3>
-                  <p class="mt-2 text-fg-secondary">{f.description}</p>
+  <section class="grain section-y" aria-label="Available now">
+    <div class="container-content grid grid-cols-1 gap-16 lg:grid-cols-2 lg:gap-12">
+      {
+        pillars.map((p, i) => (
+          <div data-reveal style={`--reveal-delay:${i * 100}ms`}>
+            <Eyebrow index={`0${i + 1}`}>{pillarMeta[p.id].label} · available now</Eyebrow>
+            <h2 class="mt-7 text-h2 tracking-display text-fg" set:html={pillarMeta[p.id].title} />
+            <ul class="mt-10 border-t border-line">
+              {availableFeatures(p.id).map((f) => (
+                <li class="border-b border-line py-5">
+                  <h3 class="text-h4 text-fg">{f.title}</h3>
+                  <p class="mt-1.5 text-sm text-fg-secondary">{f.description}</p>
                 </li>
               ))}
             </ul>
-            {group === 'compatibility' && (
-              <p class="mt-6 text-sm text-fg-muted">
-                Formats: {confirmedFormats.map((f) => `${f.name} (${f.direction.toLowerCase()})`).join(', ')}. {trademarkNotice}
-              </p>
-            )}
+            <a href={p.href} class="mt-6 inline-block text-sm font-medium text-fg">
+              <span class="link-quiet">{p.cta}</span> <span aria-hidden="true">→</span>
+            </a>
           </div>
-        </div>
-      </section>
-    ))
-  }
+        ))
+      }
+    </div>
+    <p class="container-content mt-10 text-[0.8125rem] text-fg-muted">{trademarkNotice}</p>
+  </section>
 
-  <section id="coming-soon" class="grain section-y bg-warm-1" aria-labelledby="soon-title">
+  <section id="coming" class="grain section-y bg-warm-1" aria-labelledby="coming-title">
     <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
       <div class="lg:col-span-5" data-reveal>
-        <Eyebrow>Coming soon</Eyebrow>
-        <h2 id="soon-title" class="mt-7 text-h2 tracking-display text-fg">Practice Mode.</h2>
+        <Eyebrow>Coming before launch</Eyebrow>
+        <h2 id="coming-title" class="mt-7 text-h2 tracking-display text-fg">Launch previews.</h2>
         <p class="mt-6 max-w-md text-lead text-fg-secondary">
-          Practice Mode is in development. Here’s a look at what’s coming.
+          Committed for launch, but not built and tested yet. We’ll only describe them as available once they are.
         </p>
       </div>
-      <ul class="border-t border-dashed border-line lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
+      <ul class="space-y-3 lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
         {
-          soon.map((f) => (
-            <li class="border-b border-dashed border-line py-7">
-              <p class="label-mono text-accent-text">Coming soon</p>
-              <h3 class="mt-2 text-h3 text-fg">{f.title}</h3>
-              <p class="mt-2 text-fg-secondary">{f.description}</p>
+          previews.map((f) => (
+            <li class="rounded-xl border border-dashed border-line p-6">
+              <p class="label-mono text-[0.6875rem] text-accent-text">Launch preview · not available yet</p>
+              <h3 class="mt-2 text-h4 text-fg">{f.title}</h3>
+              <p class="mt-1.5 text-sm text-fg-secondary">{f.description}</p>
             </li>
           ))
         }
@@ -82,40 +73,28 @@ const fillers = Array.from({ length: Math.max(smFill, lgFill) }, (_, i) => ({ sm
     </div>
   </section>
 
-  <section id="workbench" class="paper grain section-y" aria-labelledby="workbench-title">
-    <div class="container-content">
-      <div class="grid grid-cols-1 gap-8 lg:grid-cols-12 lg:items-end" data-reveal>
-        <div class="lg:col-span-7">
-          <Eyebrow>On the workbench</Eyebrow>
-          <h2 id="workbench-title" class="mt-7 text-h1 tracking-display text-fg">Being checked before we promise it.</h2>
-        </div>
-        <p class="text-lead text-fg-secondary lg:col-span-5 lg:pb-2">
-          We only list a feature as part of SixLine once it’s been verified in the app. These are being checked now, and each one
-          will be confirmed — or clearly marked as planned — before the public beta.
+  <section id="verifying" class="paper grain section-y" aria-labelledby="verifying-title">
+    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5" data-reveal>
+        <Eyebrow>Being verified</Eyebrow>
+        <h2 id="verifying-title" class="mt-7 text-h2 tracking-display text-fg">Checked before we promise it.</h2>
+        <p class="mt-6 max-w-md text-lead text-fg-secondary">
+          These have been reported but aren’t yet verified against the app, so we don’t advertise them.
         </p>
       </div>
-
-      <ul class="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-3" data-reveal>
+      <ul class="grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line lg:col-span-6 lg:col-start-7" data-reveal>
         {
-          bench.map((f) => (
-            <li class="flex flex-col gap-3 bg-surface-1 p-6 sm:p-7">
-              <p class="label-mono text-fg-muted">{groupMeta[f.group].label}</p>
-              <h3 class="text-h4 text-fg">{f.title}</h3>
-              <p class="text-sm text-fg-secondary">{f.description}</p>
+          unverified.map((f) => (
+            <li class="bg-surface-1 p-6">
+              <p class="label-mono text-fg-muted">{pillarMeta[f.pillar].label}</p>
+              <h3 class="mt-2 text-h4 text-fg">{f.title}</h3>
+              <p class="mt-1.5 text-sm text-fg-secondary">{f.description}</p>
             </li>
           ))
         }
-        <li class="flex flex-col gap-3 bg-surface-1 p-6 sm:p-7">
-          <p class="label-mono text-fg-muted">{groupMeta.compatibility.label}</p>
-          <h3 class="text-h4 text-fg">File format details</h3>
-          <p class="text-sm text-fg-secondary">Supported Guitar Pro versions (GP3, GP4, GP5), MIDI import and export, and the native project format.</p>
-        </li>
-        {fillers.map((f) => (
-          <li class:list={['hidden bg-surface-1', f.sm ? 'sm:block' : 'sm:hidden', f.lg ? 'lg:block' : 'lg:hidden']} aria-hidden="true" />
-        ))}
       </ul>
     </div>
   </section>
 
-  <Closing title="Start with a riff." primary={{ label: 'See pricing', href: '/pricing' }} />
+  <Closing title="Pick a passage. Start practising." primary={{ label: 'See how practice works', href: '/practice' }} />
 </BaseLayout>

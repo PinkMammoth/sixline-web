@@ -1,0 +1,139 @@
+---
+import BaseLayout from '~/layouts/BaseLayout.astro';
+import PageHeader from '~/components/ui/PageHeader.astro';
+import Eyebrow from '~/components/ui/Eyebrow.astro';
+import Closing from '~/components/home/Closing.astro';
+import { pillarMeta, practiceStage, previewFeatures, stageMeta, type PracticeStage } from '~/data/features';
+
+const audiences = [
+  {
+    title: 'Learning your first songs',
+    body: 'Import the tab for a song you love and work through it a few bars at a time, at a speed that suits you today.',
+  },
+  {
+    title: 'Building speed and consistency',
+    body: 'Isolate the passage that falls apart at full tempo and earn each step up with clean runs.',
+  },
+  {
+    title: 'Tackling demanding repertoire',
+    body: 'Keep a saved target for every hard section of a long piece, each with its own settings and history.',
+  },
+  {
+    title: 'Mastering your own material',
+    body: 'Practise the riffs and parts you’ve written in SixLine, in the same score you wrote them in.',
+  },
+];
+
+const stages: { id: PracticeStage; story: string }[] = [
+  {
+    id: 'focus',
+    story: 'Choose the bars that trip you up and practise only those, with everything you need close at hand.',
+  },
+  {
+    id: 'progress',
+    story: 'Mark every run Clean or Retry. Your clean runs move the tempo up and your attempts are saved, so progress is something you can see.',
+  },
+  {
+    id: 'plan',
+    story: 'Keep several saved targets in a song and decide what needs work today. Practice Queue and in-play bookmarking will build on this before launch.',
+  },
+];
+const previews = previewFeatures('practice');
+---
+
+<BaseLayout
+  title="Practice"
+  description="Structured practice for guitarists: isolate a tricky passage, save it, slow it down and build it up with clean runs and the Smart Tempo Ladder. No composition necessary."
+>
+  <PageHeader eyebrow="Practice · No composition necessary" title="From “I can’t play this”<br />to “I’ve got it.”">
+    <p>{pillarMeta.practice.intro}</p>
+  </PageHeader>
+
+  <!-- Who it's for -->
+  <section class="paper grain section-y" aria-labelledby="audience-title">
+    <div class="container-content">
+      <Eyebrow>For every level</Eyebrow>
+      <h2 id="audience-title" class="mt-7 max-w-3xl text-h2 tracking-display text-fg">Whatever you’re working on, the method is the same.</h2>
+      <ul class="mt-12 grid grid-cols-1 gap-px overflow-hidden rounded-xl border border-line bg-line sm:grid-cols-2 lg:grid-cols-4">
+        {
+          audiences.map((a) => (
+            <li class="bg-surface-1 p-6 sm:p-7" data-reveal>
+              <h3 class="text-h4 text-fg">{a.title}</h3>
+              <p class="mt-2 text-sm text-fg-secondary">{a.body}</p>
+            </li>
+          ))
+        }
+      </ul>
+      <p class="mt-6 max-w-2xl text-sm text-fg-muted">
+        SixLine is a practice tool, not a course: it helps you practise the music you choose rather than teaching technique lessons.
+      </p>
+    </div>
+  </section>
+
+  <!-- The three stages in full -->
+  {
+    stages.map((s, i) => {
+      const now = practiceStage(s.id, 'available');
+      return (
+        <section class:list={['grain section-y', i % 2 === 0 ? 'bg-warm-1' : '']} aria-labelledby={`stage-${s.id}`}>
+          <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
+            <div class="lg:col-span-5" data-reveal>
+              <Eyebrow index={`0${i + 1}`}>{stageMeta[s.id].label}</Eyebrow>
+              <h2 id={`stage-${s.id}`} class="mt-7 text-h1 tracking-display text-fg">{stageMeta[s.id].title}.</h2>
+              <p class="mt-6 max-w-md text-lead text-fg-secondary">{s.story}</p>
+            </div>
+            <div class="lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
+              {now.length > 0 && (
+                <ul class="border-t border-line">
+                  {now.map((f) => (
+                    <li class="border-b border-line py-7">
+                      <h3 class="text-h3 text-fg">{f.title}</h3>
+                      <p class="mt-2 text-fg-secondary">{f.description}</p>
+                    </li>
+                  ))}
+                </ul>
+              )}
+              {s.id === 'plan' && (
+                <div class="rounded-xl border border-dashed border-line p-6">
+                  <p class="label-mono text-[0.6875rem] text-accent-text">Launch previews · not available yet</p>
+                  <ul class="mt-4 space-y-3">
+                    {previews.map((f) => (
+                      <li class="text-sm text-fg-secondary">
+                        <strong class="font-medium text-fg">{f.title}.</strong> {f.description}
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              )}
+            </div>
+          </div>
+        </section>
+      );
+    })
+  }
+
+  <!-- The central idea + honesty -->
+  <section class="paper grain section-y" aria-labelledby="plan-title">
+    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12">
+      <h2 id="plan-title" class="text-h1 tracking-display text-fg lg:col-span-7">
+        A loop repeats.<br /><span class="text-accent-text">A plan progresses.</span>
+      </h2>
+      <div class="space-y-8 lg:col-span-5 lg:pt-4">
+        <p class="text-lead text-fg-secondary">
+          Looping and slowing down are where practice starts, not where it ends. SixLine remembers the passage, the tempo you’ve
+          earned and every attempt, so each session builds on the last.
+        </p>
+        <div class="rounded-xl bg-bg-sunken p-6">
+          <h3 class="label-mono text-fg-muted">Honest by design</h3>
+          <ul class="mt-4 space-y-2.5 text-sm text-fg-secondary">
+            <li>SixLine doesn’t listen to, record or grade your playing. Clean or Retry is always your call.</li>
+            <li>Progress comes from your own clean runs, not an invented accuracy score.</li>
+            <li>Practice is optional and never changes your score.</li>
+          </ul>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <Closing title="Pick a passage. Start practising." primary={{ label: 'Explore Create', href: '/create' }} />
+</BaseLayout>

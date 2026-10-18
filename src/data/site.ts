@@ -12,7 +12,7 @@ export const site = {
   name: 'SixLine',
   tagline: 'Powerful music software. Fair pricing. No nonsense.',
   description:
-    'SixLine is a focused guitar tablature and notation editor for composing, arranging and practising music, for Windows and macOS. One-time purchase, every future update included.',
+    'SixLine is a practice and composition workstation for guitarists. Import the music you love, practise its toughest passages with purpose, and write music of your own. Windows first, macOS planned. One-time purchase, every future update included.',
 
   /**
    * 'pre-launch'  — nothing is downloadable or purchasable (current state).
@@ -51,8 +51,12 @@ export const pricing = {
   v1: {
     price: 19.99,
   },
-  /** Trial length in days. Null until decided. */
-  trialDays: null as number | null,
+  /**
+   * Trial: confirmed product policy, NOT implemented yet. Always present it as
+   * planned for the commercial beta until the trial actually ships.
+   */
+  trialDays: 14,
+  trialStatus: 'planned' as 'planned' | 'available',
 } as const;
 
 /**

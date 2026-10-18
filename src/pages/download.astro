@@ -2,32 +2,32 @@
 import BaseLayout from '~/layouts/BaseLayout.astro';
 import PageHeader from '~/components/ui/PageHeader.astro';
 import DownloadCard from '~/components/ui/DownloadCard.astro';
-import { actions, site } from '~/data/site';
+import { actions, pricing, site } from '~/data/site';
 ---
 
 <BaseLayout
   title="Download"
-  description="Download SixLine for Windows and macOS. The free trial will be available here when the public beta launches."
+  description="Download SixLine for Windows. Downloads open with the commercial beta; a macOS version is planned."
 >
-  <PageHeader eyebrow="Download" title="The free trial is on its way.">
+  <PageHeader eyebrow="Download" title="Windows first.<br />macOS planned.">
     <p>
-      SixLine is being built for Windows and macOS. There’s no public build just yet — when the beta opens, the full-featured
-      free trial will be right here, with system requirements and release notes.
+      SixLine’s Windows installers have been built and tested. Downloads will open here with the commercial beta, once
+      licensing and the planned {pricing.trialDays}-day free trial are in place. A macOS version is planned.
     </p>
   </PageHeader>
 
   <section class="paper grain section-y" aria-label="Platforms">
     <div class="container-content">
       <div class="grid grid-cols-1 gap-6 md:grid-cols-2">
-        <DownloadCard platform="Windows" href={actions.downloads.windows} version={site.appVersion} />
-        <DownloadCard platform="macOS" href={actions.downloads.macos} version={site.appVersion} />
+        <DownloadCard platform="Windows" href={actions.downloads.windows} version={site.appVersion} status="With the beta" />
+        <DownloadCard platform="macOS" href={actions.downloads.macos} version={site.appVersion} status="Planned" />
       </div>
 
       <div class="mt-16 grid grid-cols-1 gap-10 border-t border-line pt-12 md:grid-cols-3">
         <div>
           <h2 class="text-h4 text-fg">About the free trial</h2>
           <p class="mt-3 text-sm text-fg-secondary">
-            The download is a fully featured, time-limited trial. Trial length and terms will be published before release.
+            A full-featured {pricing.trialDays}-day trial is planned. When it ends, your projects stay openable and viewable; editing, saving changes and exporting need a licence.
           </p>
         </div>
         <div>

@@ -1,111 +1,98 @@
 # Content status
 
-_Updated for the Create / Master positioning refresh._
+_Updated for the practice-first repositioning (18 Oct 2026)._
 
-This tracks which public statements are **confirmed**, which are **placeholders**, and what is **outstanding** before launch.
+This tracks every public claim and its basis. The single source in code is `src/data/features.ts`: its `status` field controls what the site can say.
 
-Current phase: **pre-launch** (`site.phase = 'pre-launch'` in `src/data/site.ts`). Nothing can be bought or downloaded, and the site says so.
+Current phase: **pre-launch**. Nothing can be bought or downloaded, and the site says so.
 
----
+> **Audit basis.** The desktop app repository wasn't reachable from the website workspace. Statuses come from the owner's roadmap (18 Oct 2026, "implemented foundation" items), the owner's Riff Blocks description (v0.6.0, commit fa0e196) and the owner's explicit confirmations. Please re-check them against the app before launch.
 
-## 1. Confirmed claims
+## 1. Feature matrix
 
-These come directly from the project brief and are shown as fact on the site.
+### Implemented and verified: shown as available
 
-| Claim | Where it appears | Source |
+| Feature | Basis |
+| --- | --- |
+| Practice Mode (selection → Practise, focused score, exit to editor) | Roadmap |
+| Saved practice targets / bookmarks that survive save and reopen | Roadmap |
+| A/B looping, speed control | Roadmap |
+| Practice metronome and count-in | Roadmap |
+| Clean / Retry: **manual, musician-confirmed** | Roadmap |
+| Smart Tempo Ladder: initial version, three user-confirmed clean passes step the tempo up | Roadmap |
+| Speed trainer with custom per-loop tempo increments | Roadmap |
+| Practice history: basic attempt persistence only, no analytics claims | Roadmap |
+| Riff Blocks | Owner description, v0.6.0 |
+| Tab and standard notation, including chords, voices, dynamics and techniques | Brief, Riff Blocks notes |
+| Multitrack: guitar, bass, drum and notation-only tracks, with tuning and capo per stringed track | Brief, Riff Blocks notes |
+| Playback | Brief |
+| Guitar Pro **GP3, GP4, GP5** import | Owner confirmation |
+| MIDI import and export | Owner confirmation |
+| Print and PDF | Roadmap |
+| Local native projects with autosave | Roadmap, Riff Blocks notes |
+
+### Committed for launch, not yet built: launch previews only
+
+Shown only with a visible "Launch preview" label, and never as the lead of a section.
+
+| Feature | Where it appears |
+| --- | --- |
+| Practice Queue | Homepage practice stage 3 (small), `/practice`, `/features` |
+| Bookmark while you play (one keystroke, playback continues) | Homepage practice stage 3 (small), `/practice`, `/features` |
+| Progress view | `/practice`, `/features` |
+| Riff Block → practice target | Homepage "One workflow" note, `/practice`, `/features` |
+
+### Awaiting verification: not marketed
+
+Listed only on `/features#verifying`. Personal bests are withheld from that list too.
+
+| Feature | Note |
+| --- | --- |
+| Smart Guitar Tools (Make Playable, Re-finger, fingering locks) | Awaiting verification in the desktop repository |
+| Track volume / mute / solo | Awaiting verification |
+| Personal bests | Don't advertise until verified |
+
+### Future exploration: never shown as features
+
+Performance analysis or grading, DI/audio/MIDI input assessment, AI coaching or practice maps, AI composition, footswitch control, e-drums, mobile and tablet apps, cloud sync, WAV export, MusicXML, chunk/build-up practice, practice plan presets.
+
+## 2. Commercial and platform statements
+
+| Statement | Where |
+| --- | --- |
+| Windows first; Windows installers built and tested; downloads open with the commercial beta | Hero status line, FAQ, `/download` |
+| macOS **planned**, not available | `site.platformLabel` ("Windows · macOS planned"): hero, footer, social image, FAQ, `/download` |
+| 14-day full-featured trial: **confirmed policy, not implemented**, always phrased as "planned" | Hero, FAQ, `/pricing`, `/download` (`pricing.trialDays`, `pricing.trialStatus`) |
+| After the trial: projects stay openable and viewable; editing, saving changes and exports are disabled | FAQ, `/pricing`, `/download` |
+| $9.99 Founder's Beta (planned), $19.99 from v1.0, lifetime desktop updates | Pricing card, FAQ |
+| Owned software, with any future hosted services optional and separate | Pricing note, FAQ |
+| SixLine doesn't listen to, record or grade playing | Homepage practice section, `/practice`, FAQ |
+| SixLine is a practice tool, not a lesson course | FAQ, `/practice` |
+| Not a DAW | FAQ |
+
+## 3. Placeholders still on the site
+
+| Placeholder | Location | Replace with (see `docs/media-capture-brief.md`) |
 | --- | --- | --- |
-| SixLine is an independent desktop guitar tablature and music notation editor | Meta description, footer, hero | Brief |
-| Built for Windows and macOS | Footer, FAQ, downloads | Brief |
-| Tablature and notation editing | Homepage "Write", /features | Brief |
-| Multi-track arrangements | Homepage "Write", /features | Brief |
-| Playback | Homepage "Master", /features | Brief |
-| **Riff Blocks**: named, reusable whole-bar passages ("Main Riff", "Chorus", "Fill A") placed throughout a song. Linked copies stay in sync, the notes stay visible and editable in the score, and any copy can become independent | Homepage "Create" (first item), /features | Owner description of Riff Blocks (desktop app v0.6.0, commit fa0e196) |
-| **Looping a passage** ("Loop the hard part") and **slowing down** ("Slow it down") | Homepage "Master", /features | Positioning refresh brief: your Master copy states these as current. ⚠ Confirm they work in the current build |
-| "Build your speed with flexible tempo training" | Homepage "Master" intro, /features | Owner-supplied copy, used verbatim. ⚠ If this means a dedicated speed trainer that isn't released yet, tell me and I'll reword it |
-| "Write guitar and bass parts" | Homepage "Create" | Owner-supplied copy |
-| SixLine is not a DAW and isn't built for recording or producing audio | FAQ | Positioning refresh brief |
-| The licence covers the desktop app and every update to it. Any future hosted services would be optional, separate and priced on their own | Homepage pricing note, FAQ | Positioning refresh brief |
-| Guitar Pro file import, versions not specified | Homepage "Import", /features, FAQ | Brief |
-| MIDI support, direction not specified | Homepage "Import", /features | Brief |
-| Planned pricing: Founder's Beta $9.99 USD one-time, $19.99 USD from v1.0 | Pricing card, /pricing, FAQ | Brief |
-| All future updates included, including major versions. No subscriptions, no paid upgrades | Hero, pricing, FAQ | Brief |
-| Beta customers keep their lifetime entitlement after v1.0 | Pricing, FAQ | Brief |
-| A fully featured, time-limited free trial will exist | FAQ, /pricing, /download | Brief |
+| Tab-sheet illustration, labelled "Illustration · Real capture coming: a song opening in Practice Mode" | Homepage hero | Priority 1 capture |
+| Looped tab and Tempo Ladder illustration, labelled "Illustration · no audio" | Homepage practice section | Priority 2 captures |
+| Riff-to-arrangement illustration, labelled "Illustration" | Homepage Create section, `/create` | Priority 3 captures (`media.writingDemo`) |
+| Logo is a traced working vector | `src/components/brand/logo-geometry.ts`, `public/brand/*.svg` | Designer's geometric master and a small-size mark |
+| "Coming soon" / "Opens with the beta" (not clickable) | Pricing card, `/download`, closing section | Real URLs in `src/data/site.ts` → `actions` |
+| Legal pages marked "Soon" (not linked) | Footer | Real pages. Don't publish placeholder legal text |
+| "Pre-release" version, empty release notes | `/updates` | `site.appVersion`, `src/content/releases/` |
+| Support contact | `/support` | `contact.supportEmail` |
 
-> Marketing sections only show features with `status: 'available'` (meaning they work in the development build). Please confirm each of these in the current desktop build. If any doesn't work, change its `status` in `src/data/features.ts`; it then moves to the workbench automatically.
+## 4. Trademark notices
 
-## 2. Coming soon and on the workbench (not claimed as released)
+Guitar Pro / Arobas Music appears in the Create section, on `/create`, on `/features` and in the footer. Windows (Microsoft) and macOS (Apple) appear in the footer.
 
-**Coming soon** (`status: 'in-development'`): the three Practice Mode features. They're shown only as clearly labelled previews.
+## 5. Pre-launch checklist
 
-**On the workbench** (`status: 'unconfirmed'`):
-
-The brief asked for these to be showcased. I couldn't verify them against the desktop app, so they **don't appear in any marketing section**. They're listed only in the separate "On the workbench" section on `/features#workbench`, described as "being checked before we promise it". The Play section also mentions tempo control, looping and a metronome in one line as "being checked for the beta".
-
-To promote one, set its `status` in `src/data/features.ts` to `available`. It then appears in its homepage and /features section automatically. Setting `in-development` or `planned` keeps it on the workbench.
-
-| Feature / format | File | Needs |
-| --- | --- | --- |
-| Rhythm and technique editing | `features.ts` → `rhythm-technique` | Confirm it works, and which techniques to name |
-| Instrument tracks | `features.ts` → `instrument-tracks` | Confirm, including instrument/tuning options |
-| Native project saving | `features.ts` → `native-projects` | Confirm, plus the file extension name |
-| Metronome and count-in | `features.ts` → `metronome` | Confirm both parts separately |
-| Track mixing | `features.ts` → `mixing` | Confirm (volume? mute/solo?) |
-| Printing and PDF export | `features.ts` → `print-pdf` | Confirm both |
-| GP3 / GP4 / GP5 import | `features.ts` → `formats` | Confirm each version. Also GPX / GP (7+)? |
-| MIDI import & export | `features.ts` → `formats` | Confirm the direction(s) |
-| Native file open & save | `features.ts` → `formats` | Confirm, plus the extension |
-| PDF export | `features.ts` → `formats` | Confirm |
-
-## 3. Placeholders currently on the site
-
-| Placeholder | Location | Replace with |
-| --- | --- | --- |
-| Logo is a traced working vector | `src/components/brand/logo-geometry.ts`, `public/brand/*.svg`, favicons | A designer's clean geometric master (true arcs, uniform strokes), plus a simplified mark for 16px. Drop the paths into `logo-geometry.ts` and regenerate the exports |
-| Hero product frame shows a tablature **illustration**, labelled "Illustration · App screenshot coming with the redesigned interface" | Homepage hero (`TabSheet.astro`) | Real screenshot of the redesigned app: pass `src` and `alt` to `<ProductFrame>` in `Hero.astro` |
-| "Riff → arrangement" **illustration**, labelled "Illustration" | Homepage "Write" | Real screen recording. Set `media.writingDemo` in `src/data/site.ts` |
-| Practice **illustration**: an A–B loop region and a "70% speed" chip, with a playhead that sweeps the loop twice. Labelled "Illustration · no audio" | Homepage "Master" | Real footage of looping and slow-down in SixLine |
-| **Practice Mode previews** (saved practice targets, clean-repetition progression, personal bests), each labelled "Preview" under "Coming soon · Practice Mode" | Homepage "Master", /features#coming-soon | Real footage once released. Set each feature's `status` to `available` in `features.ts` and the copy moves into the released list. Wording deliberately says you *log* clean run-throughs, so it never implies automatic accuracy detection |
-| Founder story, second paragraph ("an editor rather than a studio, a fair one-time price rather than a subscription, and a focus on the features musicians actually need") | Homepage "Why SixLine" | Approved by the owner. Note: the SixLine app is proprietary, so the site avoids "in the open" wording that could suggest it's open source |
-| Platform label "Windows · macOS planned" (`site.platformLabel`) | Hero eyebrow, footer, social image | Change it once a macOS build is available |
-| Social image | `public/images/og-default.png` | Can be updated to include a real screenshot once one exists |
-| "Explore SixLine" (hero, closing): links to `/features`. "Try SixLine free" (hero, closing): shown as "Coming soon" and not clickable. The header "Try free" button is hidden | Hero, closing, header | Set a download URL in `actions.downloads` and all of them switch to live links to `/download` |
-| "Get lifetime access · Opens with the beta" and "Download · Coming soon" (not clickable) | Pricing card, /download | Real URLs in `src/data/site.ts` → `actions` |
-| "Pre-release" version | Logbook | `site.appVersion` |
-| Latest release / known limitations empty states | Logbook (homepage, /updates) | First file in `src/content/releases/`; `development.betaLimitations` |
-| "The first entry will be the public beta" | /updates | First file in `src/content/releases/` |
-| Support contact "will be published" | /support | `contact.supportEmail` |
-| Documentation, Privacy policy, Terms, Third-party licences, Refund information (marked "Soon", not linked) | Footer | Real pages. **Do not publish placeholder legal text** |
-| Checksums / code-signing note | /download | Real values per build |
-| "© {year} SixLine" | Footer | The legal entity / owner name for the copyright line |
-
-## 4. Deliberately not stated
-
-These are left out on purpose to avoid inventing facts:
-
-- Release dates, beta launch date, version numbers
-- Trial length and what happens when the trial ends (the FAQ says the terms will be published)
-- System requirements
-- Refund policy, taxes/VAT handling beyond "taxes may be added at checkout"
-- Testimonials, reviews, user counts, download counts
-- Developer name/biography (the site says only that SixLine is independent software)
-- A production domain
-
-## 5. Trademark notices
-
-- Guitar Pro / Arobas Music: shown under the format cards on the homepage, on /features and in the footer.
-- Windows (Microsoft) and macOS (Apple): footer.
-- MIDI is a widely used generic term. No notice added. Review if you want one.
-
-## 6. Pre-launch checklist
-
-1. Confirm or reclassify every workbench item (section 2).
-2. Commission the clean logo master and a small-size mark. Supply real screenshots (`ProductFrame src` in `Hero.astro`) and the demo clip (`media.writingDemo`).
-3. Decide the trial length and what happens after it ends. Update the FAQ `trial-end` and `free` answers and `pricing.trialDays`.
-4. Publish the privacy policy, terms, refund policy and third-party licences, and link them in `src/data/navigation.ts`.
-5. Set the support email.
-6. Choose a domain and set `SITE_URL`.
-7. Add the first release note and `site.appVersion`.
-8. Set the download URLs and checkout URL. Switch `site.phase` to `'public-beta'` and `pricing.status` to `'on-sale'`.
-9. Re-read every FAQ answer against the launch state, since they are written for pre-launch.
-10. Update the "Public beta coming soon" lines in `Hero.astro` and `Closing.astro`, and the milestones in `src/data/development.ts`.
+1. Re-verify section 1 against the desktop app, especially the practice features.
+2. When a launch preview ships and is tested, set its `status` to `available`. It then moves out of the preview labels automatically.
+3. Resolve the three "awaiting verification" items.
+4. Supply the captures in `docs/media-capture-brief.md`.
+5. Implement the trial, then set `pricing.trialStatus` to `'available'` and reword "planned" in the FAQ, hero, `/pricing` and `/download`.
+6. Set download and checkout URLs, then `site.phase` and `pricing.status`.
+7. Publish the legal pages, a support email and a domain (`SITE_URL`).

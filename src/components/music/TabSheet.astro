@@ -7,6 +7,15 @@
  */
 import TabStaff from './TabStaff.astro';
 import { riff, riffAnswer } from '~/data/riffs';
+
+interface Props {
+  /**
+   * Use one bar per system from the lg breakpoint up, for when the frame sits
+   * beside text rather than spanning the page. Phones always get one bar.
+   */
+  compact?: boolean;
+}
+const { compact = false } = Astro.props;
 ---
 
 <div class="paper absolute inset-0 overflow-hidden bg-canvas" aria-hidden="true">
@@ -20,14 +29,14 @@ import { riff, riffAnswer } from '~/data/riffs';
     </div>
 
     <!-- Desktop: two bars per system -->
-    <div class="mt-[3.5%] hidden flex-col gap-[3%] sm:flex">
+    <div class:list={['mt-[3.5%] hidden flex-col gap-[3%] sm:flex', compact && 'lg:hidden']}>
       <TabStaff bars={riff} />
       <TabStaff bars={riffAnswer} />
       <TabStaff bars={riff} />
       <TabStaff bars={riffAnswer} class="opacity-35" />
     </div>
     <!-- Phones: one bar per system so numbers stay legible -->
-    <div class="mt-5 flex flex-col gap-4 sm:hidden">
+    <div class:list={['mt-5 flex flex-col gap-4', compact ? 'sm:hidden lg:flex lg:mt-[5%] lg:gap-[5%]' : 'sm:hidden']}>
       <TabStaff bars={[riff[0]]} />
       <TabStaff bars={[riff[1]]} />
       <TabStaff bars={[riffAnswer[0]]} class="opacity-35" />

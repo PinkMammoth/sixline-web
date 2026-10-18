@@ -1,0 +1,46 @@
+---
+/** Where the pillars meet: write something, then learn to perform it. */
+import Eyebrow from '~/components/ui/Eyebrow.astro';
+import { featureById } from '~/data/features';
+
+const steps = [
+  { title: 'Write it', body: 'Sketch a riff in tab and save it as a Riff Block.' },
+  { title: 'Select it', body: 'Select those bars and press Practise. No export, no second app.' },
+  { title: 'Play it', body: 'Climb the Tempo Ladder, clean run by clean run, until it’s yours.' },
+];
+const riffToPractice = featureById('riff-to-practice');
+---
+
+<section id="workflow" class="grain section-y" aria-labelledby="workflow-title">
+  <div class="container-content">
+    <div class="grid grid-cols-1 gap-8 lg:grid-cols-12" data-reveal>
+      <div class="lg:col-span-12">
+        <Eyebrow index="03">One workflow</Eyebrow>
+        <h2 id="workflow-title" class="mt-7 text-h1 tracking-display text-fg">Write it.<br /><span class="text-fg-secondary">Then learn to play it.</span></h2>
+      </div>
+      <p class="max-w-md text-lead text-fg-secondary lg:col-span-5 lg:col-start-8">
+        Composition and practice share the same score, so a new idea can become something you can actually perform.
+      </p>
+    </div>
+
+    <ol class="mt-14 grid grid-cols-1 gap-px overflow-hidden rounded-2xl border border-line bg-line md:grid-cols-3" data-reveal>
+      {
+        steps.map((s, i) => (
+          <li class="bg-bg p-7 sm:p-8">
+            <p class="font-display text-h2 tracking-display text-accent-text">0{i + 1}</p>
+            <h3 class="mt-5 text-h3 text-fg">{s.title}</h3>
+            <p class="mt-2 text-fg-secondary">{s.body}</p>
+          </li>
+        ))
+      }
+    </ol>
+    {
+      riffToPractice?.status === 'preview' && (
+        <p class="mt-5 text-sm text-fg-muted">
+          <span class="label-mono mr-2 text-[0.625rem] text-accent-text">Launch preview</span>
+          {riffToPractice.description}
+        </p>
+      )
+    }
+  </div>
+</section>

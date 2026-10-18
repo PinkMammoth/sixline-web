@@ -21,6 +21,8 @@ interface Props {
   /** Label shown on the placeholder, e.g. "Illustration". */
   placeholderLabel?: string;
   placeholderNote?: string;
+  /** Where the placeholder label sits inside the frame. */
+  labelPosition?: 'top' | 'bottom';
   class?: string;
 }
 
@@ -33,6 +35,7 @@ const {
   priority = false,
   placeholderLabel = 'Illustration',
   placeholderNote = 'App screenshot coming with the redesigned interface',
+  labelPosition = 'top',
   class: className,
 } = Astro.props;
 ---
@@ -79,7 +82,7 @@ const {
         ) : (
           <>
             <slot />
-            <p class="absolute top-3 right-3 z-10 flex items-center gap-2 rounded-full border border-line bg-bg/85 px-3 py-1.5 backdrop-blur-sm">
+            <p class:list={['absolute right-3 z-10 flex items-center gap-2 rounded-full border border-line bg-bg/85 px-3 py-1.5 backdrop-blur-sm', labelPosition === 'top' ? 'top-3' : 'bottom-3']}>
               <span class="label-mono text-[0.625rem] text-accent-text">{placeholderLabel}</span>
               <span class="hidden text-[0.75rem] text-fg-secondary sm:inline">{placeholderNote}</span>
             </p>

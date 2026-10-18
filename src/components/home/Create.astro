@@ -1,16 +1,13 @@
 ---
 /**
- * Promise 1 — Create. Outcome-led: each item is something a musician gets
- * done, backed by a feature that is `available` in src/data/features.ts.
- * Items whose feature isn't available are not rendered.
+ * Pillar 2 — Create. Outcome-led: every item is backed by `available`
+ * features in src/data/features.ts and is hidden if any of them isn't.
  */
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MediaSlot from '~/components/ui/MediaSlot.astro';
 import Arrangement from '~/components/music/Arrangement.astro';
-import { features, groupMeta, trademarkNotice } from '~/data/features';
+import { isAvailable, pillarMeta, trademarkNotice } from '~/data/features';
 import { media } from '~/data/site';
-
-const isAvailable = (...ids: string[]) => ids.every((id) => features.find((f) => f.id === id)?.status === 'available');
 
 const outcomes = [
   {
@@ -19,38 +16,38 @@ const outcomes = [
     body: 'Turn a passage into a named Riff Block like “Main Riff”, “Chorus” or “Fill A”, then place it wherever the song needs it. Edit once to update every linked copy, or let one copy go its own way.',
   },
   {
-    ids: ['tab-notation'],
+    ids: ['tab-notation', 'multi-track'],
     title: 'Write every part',
-    body: 'Guitar and bass parts in tablature, with standard notation alongside.',
+    body: 'Guitar, bass, drum and notation tracks in tab and standard notation, with chords, voices, dynamics and techniques.',
   },
   {
-    ids: ['multi-track'],
-    title: 'Build the song',
-    body: 'Stack parts into multitrack arrangements and hear how ideas work together.',
+    ids: ['playback'],
+    title: 'Hear the whole song',
+    body: 'Play back every track to hear how the parts work together before you pick up your guitar.',
   },
   {
-    ids: ['gp-import', 'midi'],
-    title: 'Bring your tabs',
-    body: 'Open your Guitar Pro files and work with MIDI, then carry on writing.',
+    ids: ['gp-import', 'midi', 'print-pdf'],
+    title: 'Bring it in, take it out',
+    body: 'Import Guitar Pro 3–5 and MIDI files. Export MIDI, print, or save a PDF.',
   },
 ].filter((o) => isAvailable(...o.ids));
 ---
 
-<section id="create" class="paper grain section-y overflow-hidden" aria-labelledby="create-title">
+<section id="create" class="grain section-y overflow-hidden bg-warm-1" aria-labelledby="create-title">
   <div class="container-wide">
     <div class="grid grid-cols-1 gap-8 lg:grid-cols-12" data-reveal>
       <div class="lg:col-span-12">
-        <Eyebrow index="01">{groupMeta.writing.label}</Eyebrow>
+        <Eyebrow index="02">{pillarMeta.create.label}</Eyebrow>
         <h2 id="create-title" class="mt-7 text-display font-medium tracking-display text-fg">
           From first riff<br />
           <span class="text-fg-secondary">to finished arrangement.</span>
         </h2>
       </div>
-      <p class="max-w-xl text-lead text-fg-secondary lg:col-span-5 lg:col-start-8">{groupMeta.writing.intro}</p>
+      <p class="max-w-xl text-lead text-fg-secondary lg:col-span-5 lg:col-start-8">{pillarMeta.create.intro}</p>
     </div>
 
-    <div class="mt-16 grid grid-cols-1 gap-14 lg:mt-20 lg:grid-cols-12 lg:gap-10">
-      <ol class="grid grid-cols-1 gap-x-8 gap-y-9 sm:grid-cols-2 lg:col-span-4 lg:grid-cols-1 lg:gap-y-8" data-reveal>
+    <div class="mt-14 grid grid-cols-1 gap-14 lg:mt-16 lg:grid-cols-12 lg:gap-10">
+      <ol class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1" data-reveal>
         {
           outcomes.map((o, i) => (
             <li class="grid grid-cols-[2.25rem_1fr] gap-x-3 border-t border-line pt-5">
@@ -62,7 +59,10 @@ const outcomes = [
             </li>
           ))
         }
-        <li class="text-[0.8125rem] text-fg-muted sm:col-span-2 lg:col-span-1">{trademarkNotice}</li>
+        <li class="text-sm sm:col-span-2 lg:col-span-1">
+          <a href="/create" class="font-medium text-fg"><span class="link-quiet">Everything in Create</span> <span aria-hidden="true">→</span></a>
+          <p class="mt-4 text-[0.8125rem] text-fg-muted">{trademarkNotice}</p>
+        </li>
       </ol>
 
       {
@@ -72,14 +72,14 @@ const outcomes = [
           </div>
         ) : (
           <figure class="lg:col-span-7 lg:col-start-6" data-reveal style="--reveal-delay:120ms">
-            <div class="relative rounded-2xl bg-warm-1 p-4 sm:p-8 lg:p-10">
+            <div class="relative rounded-2xl bg-warm-2 p-4 sm:p-8 lg:p-10">
               <Arrangement />
               <span class="label-mono absolute top-4 right-4 rounded-full border border-line bg-bg px-2.5 py-1 text-[0.625rem] text-accent-text sm:top-5 sm:right-5">
                 Illustration
               </span>
             </div>
             <figcaption class="mt-4 text-sm text-fg-muted">
-              Illustration of a riff growing into an arrangement. Real footage of Riff Blocks in SixLine will take its place.
+              Illustration of a riff growing into an arrangement. A real capture of Riff Blocks and multitrack editing will replace it.
             </figcaption>
           </figure>
         )

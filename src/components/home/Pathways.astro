@@ -1,0 +1,71 @@
+---
+/**
+ * The two journeys, visible straight after the hero. Practice leads; Create is
+ * a full peer. Neither depends on the other.
+ */
+const paths = [
+  {
+    id: 'practice',
+    eyebrow: 'Learn & Practise',
+    tag: 'No composition necessary',
+    title: 'Get better at the music you love.',
+    body: 'Import a Guitar Pro or MIDI file, isolate the passages that trip you up, practise them at the right tempo and watch your clean runs add up.',
+    steps: ['Import', 'Isolate', 'Practise', 'Progress'],
+    href: '/practice',
+    cta: 'How practice works',
+    lead: true,
+  },
+  {
+    id: 'create',
+    eyebrow: 'Write & Create',
+    tag: 'Tab, notation & Riff Blocks',
+    title: 'Write music of your own.',
+    body: 'Capture riffs, write in tab and notation, build multitrack arrangements and reuse your best ideas with Riff Blocks.',
+    steps: ['Capture', 'Write', 'Arrange', 'Reuse'],
+    href: '/create',
+    cta: 'Explore Create',
+    lead: false,
+  },
+];
+---
+
+<section class="relative border-t border-line-subtle pt-12 pb-20 lg:pt-14 lg:pb-24" aria-labelledby="pathways-title">
+  <div class="container-wide">
+    <h2 id="pathways-title" class="sr-only">Two ways to use SixLine</h2>
+    <div class="grid grid-cols-1 gap-5 md:grid-cols-2">
+      {
+        paths.map((p) => (
+          <article
+            class:list={[
+              'group relative flex flex-col overflow-hidden rounded-2xl border p-7 transition-colors duration-(--duration-base) sm:p-9',
+              p.lead ? 'border-line bg-warm-2 shadow-panel' : 'border-line bg-surface-1',
+            ]}
+          >
+            {p.lead && <span class="absolute inset-x-0 top-0 h-0.5 bg-accent" aria-hidden="true" />}
+            <div class="flex flex-wrap items-center justify-between gap-3">
+              <p class:list={['label-mono', p.lead ? 'text-accent-text' : 'text-sage']}>{p.eyebrow}</p>
+              <p class="rounded-full border border-line px-2.5 py-1 font-mono text-[0.6875rem] text-fg-secondary">{p.tag}</p>
+            </div>
+            <h3 class="mt-6 text-h2 tracking-display text-fg">{p.title}</h3>
+            <p class="mt-4 max-w-lg text-fg-secondary">{p.body}</p>
+            <ol class="mt-7 flex flex-wrap items-center gap-x-2 gap-y-1 font-mono text-[0.75rem] text-fg-muted" aria-label="Steps">
+              {p.steps.map((s, i) => (
+                <li class="flex items-center gap-2">
+                  {i > 0 && <span aria-hidden="true">→</span>}
+                  <span class="text-fg-secondary">{s}</span>
+                </li>
+              ))}
+            </ol>
+            <a href={p.href} class="mt-8 inline-flex items-center gap-2 self-start text-sm font-medium text-fg after:absolute after:inset-0 after:content-['']">
+              <span class="link-quiet">{p.cta}</span>
+              <span aria-hidden="true" class="transition-transform duration-(--duration-base) group-hover:translate-x-0.5">→</span>
+            </a>
+          </article>
+        ))
+      }
+    </div>
+    <p class="mt-6 text-center text-sm text-fg-muted">
+      Or both: <a href="#workflow" class="link-quiet text-fg-secondary">write something, then learn to play it</a>.
+    </p>
+  </div>
+</section>

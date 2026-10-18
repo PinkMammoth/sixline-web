@@ -4,10 +4,10 @@ export interface NavItem {
 }
 
 export const primaryNav: NavItem[] = [
-  { label: 'Features', href: '/features' },
+  { label: 'Practice', href: '/practice' },
+  { label: 'Create', href: '/create' },
   { label: 'Pricing', href: '/pricing' },
   { label: 'Downloads', href: '/download' },
-  { label: 'Updates', href: '/updates' },
 ];
 
 export interface FooterLink {
@@ -20,10 +20,12 @@ export const footerColumns: { title: string; links: FooterLink[] }[] = [
   {
     title: 'Product',
     links: [
-      { label: 'Features', href: '/features' },
+      { label: 'Practice', href: '/practice' },
+      { label: 'Create', href: '/create' },
+      { label: 'All features', href: '/features' },
       { label: 'Pricing', href: '/pricing' },
       { label: 'Downloads', href: '/download' },
-      { label: 'Release notes', href: '/updates' },
+      { label: 'Updates & release notes', href: '/updates' },
     ],
   },
   {

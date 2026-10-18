@@ -1,14 +1,14 @@
 ---
 import Button from '~/components/ui/Button.astro';
 import Logo from '~/components/brand/Logo.astro';
-import { site, trialHref } from '~/data/site';
+import { trialHref } from '~/data/site';
 
 interface Props {
   title?: string;
   /** Primary action; defaults to exploring the product. */
   primary?: { label: string; href: string };
 }
-const { title = 'Write the song you keep hearing.', primary = { label: 'Explore SixLine', href: '/features' } } = Astro.props;
+const { title = 'The song you want to play is waiting.', primary = { label: 'See how practice works', href: '/practice' } } = Astro.props;
 ---
 
 <section class="grain relative overflow-hidden border-t border-line-subtle bg-bg-sunken" aria-labelledby="closing-title">
@@ -27,8 +27,8 @@ const { title = 'Write the song you keep hearing.', primary = { label: 'Explore 
       <Logo variant="symbol" height={56} label="" class="text-fg" />
       <h2 id="closing-title" class="mt-10 text-display font-medium tracking-display text-fg">{title}</h2>
       <p class="mt-8 max-w-xl text-lead text-fg-secondary">
-        Write it, then master it. SixLine is coming to {site.platforms.join(' and ')} — try it free, buy it once, and keep every
-        update that follows.
+        Learn it, master it, make it yours. SixLine is coming to Windows first, with macOS planned: try it free, buy it once,
+        and keep every update that follows.
       </p>
       <div class="mt-10 flex flex-col gap-3 sm:flex-row">
         <Button href={primary.href} size="lg" arrow>{primary.label}</Button>

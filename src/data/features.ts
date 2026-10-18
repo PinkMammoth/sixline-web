@@ -1,269 +1,282 @@
 /**
- * Feature catalogue.
+ * Feature catalogue — the single source for every capability claim on the site.
  *
- * Every public capability claim on the site comes from this file.
+ * Status (what the site is allowed to say):
+ *   available  — implemented and verified. Shown as fact.
+ *   preview    — committed to the launch scope but not yet implemented or
+ *                verified. Shown ONLY with a visible "Launch preview" label,
+ *                and never as the lead of a section.
+ *   unverified — reported but awaiting verification against the desktop app.
+ *                Listed only on /features as "Being verified"; never marketed.
  *
- * `status` is what the site displays:
- *   available       — works in the current development build
- *   in-development  — actively being built, not yet usable
- *   planned         — intended, work not started
- *   unconfirmed     — not yet verified against the desktop app; shown as
- *                     "To be confirmed" so nothing is over-claimed
+ * Longer-term concepts (performance analysis, DI/MIDI assessment, AI coaching
+ * or practice maps, AI composition, mobile, cloud) are deliberately NOT in
+ * this file and must not appear on the site as features.
  *
- * `source` records why the status was chosen, so claims can be audited.
- * Before launch, every `unconfirmed` entry must be verified against the
- * desktop app and moved to a real status. See docs/content-status.md.
+ * `source` records why a status was chosen, so claims can be audited.
+ * See docs/content-status.md for the full matrix.
  */
 
-export type FeatureStatus = 'available' | 'in-development' | 'planned' | 'unconfirmed';
+export type FeatureStatus = 'available' | 'preview' | 'unverified';
 
-export type FeatureGroup = 'writing' | 'playback' | 'compatibility';
+export type FeaturePillar = 'practice' | 'create';
+
+/** Practice features are grouped into the three stages of the practice story. */
+export type PracticeStage = 'focus' | 'progress' | 'plan';
 
 export interface Feature {
   id: string;
-  group: FeatureGroup;
+  pillar: FeaturePillar;
+  stage?: PracticeStage;
   title: string;
   description: string;
   status: FeatureStatus;
   source: string;
 }
 
-export const statusMeta: Record<FeatureStatus, { label: string; description: string }> = {
-  available: {
-    label: 'In current build',
-    description: 'Working in the current development build of SixLine.',
-  },
-  'in-development': {
-    label: 'In development',
-    description: 'Actively being built. Not yet usable.',
-  },
-  planned: {
-    label: 'Planned',
-    description: 'On the roadmap. Work has not started.',
-  },
-  unconfirmed: {
-    label: 'To be confirmed',
-    description: 'Details are being verified and will be confirmed before launch.',
-  },
-};
+const ROADMAP = 'Owner roadmap, 18 Oct 2026 (implemented foundation, v0.7.x)';
+const RIFF_NOTES = 'Owner description of Riff Blocks (desktop app v0.6.0, commit fa0e196)';
 
-/**
- * The two product promises: Create (writing) and Master (playback & practice).
- * Copy here is shared by the homepage and /features.
- */
-export const groupMeta: Record<FeatureGroup, { label: string; title: string; intro: string }> = {
-  writing: {
+export const pillarMeta: Record<FeaturePillar, { label: string; title: string; intro: string }> = {
+  practice: {
+    label: 'Practice',
+    title: 'From “I can’t play this” to “I’ve got it.”',
+    intro:
+      'Pick a passage you can’t play yet. Isolate it, slow it down and mark each run Clean or Retry. SixLine raises the tempo as your clean runs add up, so you always know what to practise next and can see it getting better.',
+  },
+  create: {
     label: 'Create',
     title: 'From first riff to finished arrangement.',
     intro:
       'Capture ideas, write guitar and bass parts, build multitrack songs and explore arrangements in an editor designed around the way musicians actually work.',
   },
-  playback: {
-    label: 'Master',
-    title: 'Don’t just learn the notes. Own them.',
-    intro:
-      'Loop difficult passages, slow things down and build your speed with flexible tempo training. SixLine helps turn notation into focused practice.',
-  },
-  compatibility: {
-    label: 'Compatibility',
-    title: 'Bring your existing tabs with you.',
-    intro: 'Open the files you already have and keep working on them in SixLine.',
-  },
+};
+
+export const stageMeta: Record<PracticeStage, { label: string; title: string }> = {
+  focus: { label: 'Focused practice', title: 'Isolate it' },
+  progress: { label: 'Progress you can see', title: 'Build it up' },
+  plan: { label: 'Practice with a plan', title: 'Organise it' },
 };
 
 export const features: Feature[] = [
-  // ---- Create: writing & composition
+  // ---------------------------------------------------------------- Practice
+  {
+    id: 'practice-mode',
+    pillar: 'practice',
+    stage: 'focus',
+    title: 'Practice Mode',
+    description:
+      'Select some bars and press Practise. The score focuses on your passage, with looping, speed, metronome and count-in ready, and you can return to the editor at any time.',
+    status: 'available',
+    source: ROADMAP,
+  },
+  {
+    id: 'saved-targets',
+    pillar: 'practice',
+    stage: 'focus',
+    title: 'Saved practice targets',
+    description:
+      'Save a tricky passage as a target with its own settings. It’s still there, progress and all, when you reopen the project.',
+    status: 'available',
+    source: ROADMAP,
+  },
+  {
+    id: 'loop-speed',
+    pillar: 'practice',
+    stage: 'focus',
+    title: 'Loop and slow it down',
+    description: 'Loop a passage between two points and play it back at whatever speed you can manage today.',
+    status: 'available',
+    source: ROADMAP,
+  },
+  {
+    id: 'metronome',
+    pillar: 'practice',
+    stage: 'focus',
+    title: 'Metronome and count-in',
+    description: 'Keep time with a practice metronome and get a count-in before each run.',
+    status: 'available',
+    source: ROADMAP,
+  },
+  {
+    id: 'clean-retry',
+    pillar: 'practice',
+    stage: 'progress',
+    title: 'Clean or Retry: your call',
+    description:
+      'After each run, mark it Clean or Retry. You decide what counts as clean. SixLine doesn’t listen to or grade your playing.',
+    status: 'available',
+    source: `${ROADMAP}: manual, musician-confirmed passes only`,
+  },
+  {
+    id: 'tempo-ladder',
+    pillar: 'practice',
+    stage: 'progress',
+    title: 'Smart Tempo Ladder',
+    description: 'After three clean passes, the tempo steps up, so speed follows consistency rather than the other way round.',
+    status: 'available',
+    source: `${ROADMAP}: initial version (three user-confirmed clean passes)`,
+  },
+  {
+    id: 'speed-trainer',
+    pillar: 'practice',
+    stage: 'progress',
+    title: 'Speed trainer',
+    description: 'Prefer to set the pace yourself? Raise the tempo loop by loop, using increments you choose.',
+    status: 'available',
+    source: ROADMAP,
+  },
+  {
+    id: 'practice-history',
+    pillar: 'practice',
+    stage: 'progress',
+    title: 'Practice history',
+    description: 'Your attempts are saved with the project, so each session picks up where the last one left off.',
+    status: 'available',
+    source: `${ROADMAP}: basic attempt/history persistence. No analytics claims`,
+  },
+  {
+    id: 'practice-queue',
+    pillar: 'practice',
+    stage: 'plan',
+    title: 'Practice Queue',
+    description: 'Line up several difficult passages and work through them as one focused session.',
+    status: 'preview',
+    source: 'Roadmap: first-class launch priority, not yet implemented',
+  },
+  {
+    id: 'in-play-bookmark',
+    pillar: 'practice',
+    stage: 'plan',
+    title: 'Bookmark while you play',
+    description: 'Flag a bar that trips you up with one keystroke, without stopping playback, and come back to it later.',
+    status: 'preview',
+    source: 'Roadmap: first-class launch priority, not yet implemented',
+  },
+  {
+    id: 'progress-view',
+    pillar: 'practice',
+    stage: 'plan',
+    title: 'Progress view',
+    description: 'See each passage’s reliable tempo, clean runs and when you last practised it.',
+    status: 'preview',
+    source: 'Roadmap: launch priority, not yet implemented',
+  },
+  {
+    id: 'riff-to-practice',
+    pillar: 'practice',
+    stage: 'plan',
+    title: 'Practise a Riff Block',
+    description: 'Turn a Riff Block straight into a practice target.',
+    status: 'preview',
+    source: 'Roadmap: launch priority, not yet implemented',
+  },
+  {
+    id: 'personal-bests',
+    pillar: 'practice',
+    title: 'Personal bests',
+    description: 'A record of the fastest tempo you’ve played each passage cleanly.',
+    status: 'unverified',
+    source: 'Owner: do not advertise until verified',
+  },
+
+  // ------------------------------------------------------------------ Create
   {
     id: 'riff-blocks',
-    group: 'writing',
+    pillar: 'create',
     title: 'Riff Blocks',
     description:
       'Turn whole bars into named, reusable passages like “Main Riff”, “Chorus” or “Fill A” and place them throughout a song. Linked copies stay in sync, the notes stay visible and editable in the score, and any copy can become independent.',
     status: 'available',
-    source: 'Owner description of Riff Blocks (desktop app v0.6.0, commit fa0e196).',
+    source: RIFF_NOTES,
   },
   {
     id: 'tab-notation',
-    group: 'writing',
+    pillar: 'create',
     title: 'Tablature and notation',
-    description: 'Edit guitar tablature with standard music notation alongside it.',
+    description:
+      'Write in tab with standard notation alongside, including chords, rests, multiple voices, dynamics and playing techniques.',
     status: 'available',
-    source: 'Project brief: SixLine is a tablature and music notation editor.',
+    source: `Project brief; ${RIFF_NOTES}`,
   },
   {
     id: 'multi-track',
-    group: 'writing',
-    title: 'Multi-track composition',
-    description: 'Arrange complete songs across multiple tracks in a single project.',
+    pillar: 'create',
+    title: 'Multitrack arrangements',
+    description: 'Guitar, bass, drum and notation-only tracks in one song, each stringed track with its own tuning and capo.',
     status: 'available',
-    source: 'Project brief: supports multi-track arrangements.',
+    source: `Project brief; ${RIFF_NOTES}`,
   },
-  {
-    id: 'rhythm-technique',
-    group: 'writing',
-    title: 'Rhythm and technique editing',
-    description: 'Set note durations and add playing techniques directly on the tab.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; specific techniques not yet verified.',
-  },
-  {
-    id: 'instrument-tracks',
-    group: 'writing',
-    title: 'Instrument tracks',
-    description: 'Give each part its own instrument track.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; instrument/tuning options not yet verified.',
-  },
-  {
-    id: 'native-projects',
-    group: 'writing',
-    title: 'Native project saving',
-    description: 'Save your work in SixLine’s own project format.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; file format details not yet verified.',
-  },
-
-  // ---- Playback & practice
   {
     id: 'playback',
-    group: 'playback',
+    pillar: 'create',
     title: 'Playback',
-    description: 'Play back your arrangement to hear exactly what you have written.',
+    description: 'Hear exactly what you’ve written, every track and every bar.',
     status: 'available',
-    source: 'Project brief: supports playback.',
+    source: 'Project brief',
   },
-  {
-    id: 'tempo',
-    group: 'playback',
-    title: 'Slow it down',
-    description: 'Slow a passage down to learn it, then bring it back up to speed.',
-    status: 'available',
-    source: 'Positioning refresh brief: the Master copy (owner-supplied) states looping and slowing down as current capabilities.',
-  },
-  {
-    id: 'ab-loop',
-    group: 'playback',
-    title: 'Loop the hard part',
-    description: 'Loop a difficult passage between two points and repeat it as often as you need.',
-    status: 'available',
-    source: 'Positioning refresh brief: the Master copy (owner-supplied) states looping and slowing down as current capabilities.',
-  },
-  {
-    id: 'metronome',
-    group: 'playback',
-    title: 'Metronome and count-in',
-    description: 'Keep time with a click and get a count-in before playback starts.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; not yet verified.',
-  },
-  {
-    id: 'mixing',
-    group: 'playback',
-    title: 'Track mixing',
-    description: 'Balance tracks against each other while you listen or practise.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; not yet verified.',
-  },
-
-  // ---- Master: Practice Mode (coming soon — not released)
-  {
-    id: 'practice-targets',
-    group: 'playback',
-    title: 'Saved practice targets',
-    description: 'Save the passage and target tempo you’re working towards, and pick up where you left off.',
-    status: 'in-development',
-    source: 'Positioning refresh brief: Practice Mode, to be shown as coming soon until released.',
-  },
-  {
-    id: 'clean-reps',
-    group: 'playback',
-    title: 'Clean-repetition progression',
-    description: 'Log clean run-throughs as you play them and step the tempo up as they add up.',
-    status: 'in-development',
-    source: 'Positioning refresh brief: Practice Mode. Must not imply automatic playing-accuracy detection.',
-  },
-  {
-    id: 'personal-bests',
-    group: 'playback',
-    title: 'Personal bests',
-    description: 'Keep a record of the fastest tempo you’ve played each passage cleanly.',
-    status: 'in-development',
-    source: 'Positioning refresh brief: Practice Mode, to be shown as coming soon until released.',
-  },
-
-  // ---- Compatibility & workflow
   {
     id: 'gp-import',
-    group: 'compatibility',
+    pillar: 'create',
     title: 'Guitar Pro import',
-    description: 'Open Guitar Pro files and continue working on them in SixLine.',
+    description: 'Open Guitar Pro 3, 4 and 5 files (GP3, GP4, GP5) and practise or keep working on them.',
     status: 'available',
-    source: 'Project brief: supports Guitar Pro file import. Supported versions listed separately.',
+    source: 'Owner confirmation, 18 Oct 2026',
   },
   {
     id: 'midi',
-    group: 'compatibility',
-    title: 'MIDI',
-    description: 'Work with MIDI alongside your tablature.',
+    pillar: 'create',
+    title: 'MIDI import and export',
+    description: 'Bring MIDI files in, and export your songs as MIDI.',
     status: 'available',
-    source: 'Project brief: supports MIDI functionality. Import/export specifics listed separately.',
+    source: 'Owner confirmation, 18 Oct 2026',
   },
   {
     id: 'print-pdf',
-    group: 'compatibility',
-    title: 'Printing and PDF export',
-    description: 'Print your scores or export them as PDF.',
-    status: 'unconfirmed',
-    source: 'Requested for showcase; not yet verified.',
-  },
-];
-
-/** File-format matrix for the compatibility section. */
-export interface FormatSupport {
-  format: string;
-  detail: string;
-  direction: 'Import' | 'Export' | 'Open & save' | 'Import & export';
-  status: FeatureStatus;
-}
-
-export const formats: FormatSupport[] = [
-  { format: 'GP3', detail: 'Guitar Pro 3', direction: 'Import', status: 'unconfirmed' },
-  { format: 'GP4', detail: 'Guitar Pro 4', direction: 'Import', status: 'unconfirmed' },
-  { format: 'GP5', detail: 'Guitar Pro 5', direction: 'Import', status: 'unconfirmed' },
-  { format: 'MIDI', detail: 'Standard MIDI file', direction: 'Import & export', status: 'unconfirmed' },
-  { format: 'SixLine', detail: 'Native project file', direction: 'Open & save', status: 'unconfirmed' },
-  { format: 'PDF', detail: 'Printable score', direction: 'Export', status: 'unconfirmed' },
-];
-
-export const featuresByGroup = (group: FeatureGroup) => features.filter((f) => f.group === group);
-
-/**
- * Marketing sections only ever show `available` features. Everything else is
- * listed separately and honestly as "on the workbench" (see /features).
- */
-export const availableFeatures = (group?: FeatureGroup) =>
-  features.filter((f) => f.status === 'available' && (!group || f.group === group));
-
-/** Not yet verified against the app: listed only on /features#workbench. */
-export const workbenchFeatures = () => features.filter((f) => f.status === 'unconfirmed');
-
-/** Being built and shown as "Coming soon" (e.g. Practice Mode). */
-export const comingSoonFeatures = (group?: FeatureGroup) =>
-  features.filter((f) => (f.status === 'in-development' || f.status === 'planned') && (!group || f.group === group));
-
-/** Formats that are confirmed, in plain language, for the compatibility section. */
-export const confirmedFormats = [
-  {
-    name: 'Guitar Pro',
-    direction: 'Import',
-    description: 'Open your Guitar Pro files and carry on working on them in SixLine.',
+    pillar: 'create',
+    title: 'Print and PDF',
+    description: 'Print your scores or save them as PDF.',
+    status: 'available',
+    source: `${ROADMAP}: print/PDF output`,
   },
   {
-    name: 'MIDI',
-    direction: 'Supported',
-    description: 'Work with MIDI alongside your tablature and notation.',
+    id: 'native-projects',
+    pillar: 'create',
+    title: 'Projects that are yours',
+    description: 'Songs are saved locally in SixLine’s own project format, with autosave.',
+    status: 'available',
+    source: `${ROADMAP} (.tabproj); ${RIFF_NOTES} (saves and autosaves)`,
+  },
+  {
+    id: 'smart-guitar-tools',
+    pillar: 'create',
+    title: 'Smart Guitar Tools',
+    description: 'Make Playable, Re-finger and fingering locks.',
+    status: 'unverified',
+    source: 'Owner: awaiting verification from the desktop repository',
+  },
+  {
+    id: 'mixing',
+    pillar: 'create',
+    title: 'Track volume, mute and solo',
+    description: 'Balance tracks against each other while you listen or practise.',
+    status: 'unverified',
+    source: 'Owner: awaiting verification',
   },
 ];
+
+const by = (pillar: FeaturePillar, status: FeatureStatus) =>
+  features.filter((f) => f.pillar === pillar && f.status === status);
+
+export const availableFeatures = (pillar: FeaturePillar) => by(pillar, 'available');
+export const previewFeatures = (pillar: FeaturePillar) => by(pillar, 'preview');
+/** Unverified items listed publicly. Personal bests are withheld entirely until verified (owner request). */
+export const unverifiedFeatures = () => features.filter((f) => f.status === 'unverified' && f.id !== 'personal-bests');
+export const featureById = (id: string) => features.find((f) => f.id === id);
+export const isAvailable = (...ids: string[]) => ids.every((id) => featureById(id)?.status === 'available');
+
+export const practiceStage = (stage: PracticeStage, status: FeatureStatus = 'available') =>
+  features.filter((f) => f.pillar === 'practice' && f.stage === stage && f.status === status);
 
 export const trademarkNotice =
   'Guitar Pro is a trademark of Arobas Music. SixLine is an independent product and is not affiliated with, endorsed by or sponsored by Arobas Music.';

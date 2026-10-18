@@ -1,7 +1,7 @@
 ---
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import Faq from '~/components/ui/Faq.astro';
-import { faq } from '~/data/faq';
+import { homeFaq } from '~/data/faq';
 ---
 
 <section id="faq" class="section-y" aria-labelledby="faq-title">
@@ -14,7 +14,10 @@ import { faq } from '~/data/faq';
       </p>
     </div>
     <div class="lg:col-span-8" data-reveal style="--reveal-delay:100ms">
-      <Faq items={faq} />
+      <Faq items={homeFaq} />
+      <p class="mt-6 text-sm text-fg-muted">
+        More about licensing, updates and the beta on the <a href="/support" class="link-quiet text-fg-secondary">support page</a>.
+      </p>
     </div>
   </div>
 </section>

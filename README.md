@@ -49,8 +49,8 @@ src/
   assets/screenshots/   real app screenshots (optimised by Astro)
   components/
     brand/              Logo.astro (inline SVG, 4 variants) + logo-geometry.ts
-    home/               homepage sections: Hero, Create, Master, Pricing,
-                        Questions, Story, Closing
+    home/               homepage sections: Hero, Pathways, Practice, Create,
+                        Workflow, Pricing, Questions, Story, Closing
     music/              TabStaff, TabSheet, Arrangement: tablature illustrations
     ui/                 Button, Eyebrow, SectionHeading, PageHeader, ProductFrame,
                         MediaSlot, PricingCard, DownloadCard, Faq, Logbook
@@ -59,12 +59,15 @@ src/
   content.config.ts     content collection schema
   data/                 site state, features, FAQ, navigation, development, riffs
   layouts/BaseLayout.astro
-  pages/                /, /features, /pricing, /download, /updates, /support, 404, robots.txt
+  pages/                /, /practice, /create, /features, /pricing, /download,
+                        /updates, /support, 404, robots.txt
   styles/tokens.css     every raw colour value lives here
   styles/global.css     Tailwind theme mapping, base styles, utilities
 docs/
   design-system.md      brand and design specification (also the reference for the app)
-  content-status.md     confirmed claims, placeholders and outstanding content
+  content-status.md     feature matrix (available / launch preview / awaiting
+                        verification), placeholders and outstanding content
+  media-capture-brief.md  what real product captures to record, and where they go
 ```
 
 ## Editing content
@@ -77,7 +80,8 @@ Almost everything public is driven by data files, so a content change should rar
 | Checkout / download URLs                     | `src/data/site.ts` → `actions`         |
 | Prices, trial length                         | `src/data/site.ts` → `pricing`         |
 | Support email                                | `src/data/site.ts` → `contact`         |
-| Feature list and each feature's status       | `src/data/features.ts`                 |
+| Feature list and each feature's status       | `src/data/features.ts` (`available`, `preview`, `unverified`) |
+| Trial length and status                      | `src/data/site.ts` → `pricing.trialDays`, `pricing.trialStatus` |
 | FAQ answers                                  | `src/data/faq.ts`                      |
 | Upcoming priorities, beta limitations        | `src/data/development.ts`              |
 | Release notes                                | `src/content/releases/*.md` (copy `_template.md`) |
@@ -90,13 +94,13 @@ Almost everything public is driven by data files, so a content change should rar
 
 - The main calls to action ("Try SixLine free", "Get lifetime access") link to the real `/download` and `/pricing` pages. Those pages explain the pre-launch state, so the buttons are never broken.
 - The actual checkout and download buttons have no destination until real URLs are set in `actions`. Until then they show a **"Coming soon" / "Opens with the beta"** state that can't be clicked, at the final button's size.
-- Marketing sections only show features with `status: 'available'`. Anything unverified is listed separately, and honestly, in the "On the workbench" section of `/features`.
+- Marketing sections lead with features whose `status` is `'available'`. `preview` features (committed for launch, not built yet) only appear with a visible "Launch preview" label. `unverified` features are listed only on `/features#verifying`. Longer-term concepts never appear.
 - Product visuals are illustrations drawn by the site (tablature SVG), each visibly labelled as such until real screenshots and video exist.
 - While the releases folder is empty, the build prints `The collection "releases" does not exist or is empty`. This warning is harmless and stops once the first real release note is added.
 
 ### Before launch checklist
 
-See `docs/content-status.md`. In short: confirm every workbench feature, set the trial terms, publish the legal pages, add a support contact, set the download and checkout URLs, then set `site.phase` and `pricing.status`.
+See `docs/content-status.md`. In short: re-verify the feature matrix against the app, supply the captures in `docs/media-capture-brief.md`, set the trial terms, publish the legal pages, add a support contact, set the download and checkout URLs, then set `site.phase` and `pricing.status`.
 
 ## Deployment
 

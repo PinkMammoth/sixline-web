@@ -80,11 +80,13 @@ All text passes AA.
 
 ### Colour distribution on the homepage
 
-Hero (studio) → 01 Create (**paper**) → 02 Master (warm studio) → 03 Pricing (**paper**, with a studio card) → Questions (studio) → Why SixLine (**paper**) → Closing (sunken studio) → Footer.
+Hero (studio) → Pathways (studio) → 01 Practice (**paper**) → 02 Create (warm studio) → 03 One workflow (studio) → 04 Pricing (**paper**, with a studio card) → Questions (studio) → Why SixLine (**paper**) → Closing (sunken studio) → Footer.
 
-**Create and Master are equal partners.** They share the same structure: a numbered eyebrow, a full-width two-line display headline with the second phrase in a quieter colour, an intro set beneath on the right, then a product visual and outcomes. Create uses `fg-secondary` for its second line and Master uses `sage`. Unreleased Master features appear only inside a dashed "Coming soon · Practice Mode" panel with "Preview" labels.
+**Practice leads; Create is a full peer.** The two pathway cards sit directly under the hero: Learn & Practise has an amber top rule and the warm surface, and Write & Create sits beside it at equal size. The Practice and Create sections share the same structure: a numbered eyebrow, a full-width two-line display headline with the second phrase in `fg-secondary`, and an intro set beneath on the right. Practice is the longest section and carries the central line "A loop repeats. / A plan progresses." (second line in `accent-text`).
 
-**Positioning guardrails:** never present SixLine as a DAW or as an audio-production tool. Never imply it detects playing accuracy automatically. Lead with outcomes ("Catch the idea", "Loop the hard part"), not feature counts.
+**Launch previews** are small. Each is a mono amber "Launch preview" label beside the feature name, or a dashed card on `/practice` and `/features`. They never lead a section.
+
+**Positioning guardrails:** practice-first for every skill level ("No composition necessary"). Never present SixLine as a DAW, a lesson course or an audio-production tool. Never imply it listens to, records or grades playing: Clean/Retry is the musician's call. Use believable practice examples (a solo's hard bars), and lead with outcomes, not feature counts.
 
 Rules:
 - Never stack two **identical** dark treatments. Neighbouring dark sections differ in warmth (warm-1 vs ink) or in content (paper cards on dark).
