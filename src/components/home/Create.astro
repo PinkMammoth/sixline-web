@@ -1,36 +1,32 @@
 ---
 /**
- * Pillar 2 — Create. Outcome-led: every item is backed by `available`
- * features in src/data/features.ts and is hidden if any of them isn't.
+ * Pillar 2 — Create. Three propositions (linked ideas, safe experimentation,
+ * creative possibilities); each lists its features with their real status
+ * from src/data/features.ts. Established editor features sit in a compact
+ * supporting list.
  */
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import MediaSlot from '~/components/ui/MediaSlot.astro';
 import Arrangement from '~/components/music/Arrangement.astro';
-import { isAvailable, pillarMeta, trademarkNotice } from '~/data/features';
+import FeatureLine from '~/components/ui/FeatureLine.astro';
+import { createTheme, pillarMeta, themeMeta, trademarkNotice } from '~/data/features';
 import { media } from '~/data/site';
 
-const outcomes = [
+const propositions = [
   {
-    ids: ['riff-blocks'],
-    title: 'Reuse your best ideas',
-    body: 'Turn a passage into a named Riff Block like “Main Riff”, “Chorus” or “Fill A”, then place it wherever the song needs it. Edit once to update every linked copy, or let one copy go its own way.',
+    theme: 'ideas' as const,
+    body: 'Name a passage once, as “Main Riff”, “Chorus” or “Fill A”, and place it wherever the song needs it. Edit it once to update every linked copy.',
   },
   {
-    ids: ['tab-notation', 'multi-track'],
-    title: 'Write every part',
-    body: 'Guitar, bass, drum and notation tracks in tab and standard notation, with chords, voices, dynamics and techniques.',
+    theme: 'experiment' as const,
+    body: 'Try an idea without putting the original at risk: branch a riff into a variation, or change one copy while the rest stay put.',
   },
   {
-    ids: ['playback'],
-    title: 'Hear the whole song',
-    body: 'Play back every track to hear how the parts work together before you pick up your guitar.',
+    theme: 'possibilities' as const,
+    body: 'Ideas we’re exploring: other voicings, fingerings and harmonies for what you’ve written, to try, edit or ignore. Not part of the launch plan yet.',
   },
-  {
-    ids: ['gp-import', 'midi', 'print-pdf'],
-    title: 'Bring it in, take it out',
-    body: 'Import Guitar Pro 3–5 and MIDI files. Export MIDI, print, or save a PDF.',
-  },
-].filter((o) => isAvailable(...o.ids));
+];
+const editor = createTheme('editor');
 ---
 
 <section id="create" class="grain section-y overflow-hidden bg-warm-1" aria-labelledby="create-title">
@@ -47,23 +43,40 @@ const outcomes = [
     </div>
 
     <div class="mt-14 grid grid-cols-1 gap-14 lg:mt-16 lg:grid-cols-12 lg:gap-10">
-      <ol class="grid grid-cols-1 gap-x-8 gap-y-8 sm:grid-cols-2 lg:col-span-5 lg:grid-cols-1" data-reveal>
-        {
-          outcomes.map((o, i) => (
-            <li class="grid grid-cols-[2.25rem_1fr] gap-x-3 border-t border-line pt-5">
-              <span class="font-mono text-sm text-accent-text">0{i + 1}</span>
-              <div>
-                <h3 class="text-h3 text-fg">{o.title}</h3>
-                <p class="mt-2 text-fg-secondary">{o.body}</p>
-              </div>
-            </li>
-          ))
-        }
-        <li class="text-sm sm:col-span-2 lg:col-span-1">
-          <a href="/create" class="font-medium text-fg"><span class="link-quiet">Everything in Create</span> <span aria-hidden="true">→</span></a>
+      <div class="lg:col-span-5" data-reveal>
+        <ol class="space-y-8">
+          {
+            propositions.map((p, i) => (
+              <li class="grid grid-cols-[2.25rem_1fr] gap-x-3 border-t border-line pt-5">
+                <span class="font-mono text-sm text-accent-text">0{i + 1}</span>
+                <div>
+                  <h3 class="text-h3 text-fg">{themeMeta[p.theme].title}</h3>
+                  <p class="mt-2 text-fg-secondary">{p.body}</p>
+                  <ul class="mt-4 space-y-2">
+                    {createTheme(p.theme).map((f) => (
+                      <FeatureLine feature={f} />
+                    ))}
+                  </ul>
+                </div>
+              </li>
+            ))
+          }
+        </ol>
+
+        <div class="mt-10 border-t border-line pt-5">
+          <p class="label-mono text-fg-muted">Also in the editor</p>
+          <p class="mt-3 text-sm text-fg-secondary">
+            {editor.map((f, i) => (
+              <>
+                <span class="text-fg">{f.title}</span>
+                {i < editor.length - 1 && <span class="text-fg-muted" aria-hidden="true"> · </span>}
+              </>
+            ))}
+          </p>
+          <a href="/create" class="mt-5 inline-block text-sm font-medium text-fg"><span class="link-quiet">Everything in Create</span> <span aria-hidden="true">→</span></a>
           <p class="mt-4 text-[0.8125rem] text-fg-muted">{trademarkNotice}</p>
-        </li>
-      </ol>
+        </div>
+      </div>
 
       {
         media.writingDemo ? (

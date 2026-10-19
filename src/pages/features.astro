@@ -3,24 +3,26 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import PageHeader from '~/components/ui/PageHeader.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import Closing from '~/components/home/Closing.astro';
-import { availableFeatures, pillarMeta, previewFeatures, trademarkNotice, unverifiedFeatures, type FeaturePillar } from '~/data/features';
+import { availableFeatures, conceptFeatures, pillarMeta, previewFeatures, trademarkNotice, unverifiedFeatures, type FeaturePillar } from '~/data/features';
 
 const pillars: { id: FeaturePillar; href: string; cta: string }[] = [
   { id: 'practice', href: '/practice', cta: 'How practice works' },
   { id: 'create', href: '/create', cta: 'Explore Create' },
 ];
-const previews = previewFeatures('practice');
+const previews = previewFeatures();
+const concepts = conceptFeatures();
 const unverified = unverifiedFeatures();
 ---
 
 <BaseLayout
   title="All features"
-  description="Every SixLine feature in one place: what's available now, what's coming before launch, and what's still being verified."
+  description="Every SixLine feature in one place: what's available now, what's coming before launch, what we're exploring, and what's still being verified."
 >
   <PageHeader eyebrow="All features" title="Learn it. Master it.<br />Make it yours.">
     <p>
       Everything SixLine can do today, plus an honest list of what’s{' '}
-      <a href="#coming" class="link-quiet text-fg">coming before launch</a> and what’s still{' '}
+      <a href="#coming" class="link-quiet text-fg">coming before launch</a>, what we’re{' '}
+      <a href="#concepts" class="link-quiet text-fg">exploring</a> and what’s still{' '}
       <a href="#verifying" class="link-quiet text-fg">being verified</a>.
     </p>
   </PageHeader>
@@ -63,7 +65,30 @@ const unverified = unverifiedFeatures();
         {
           previews.map((f) => (
             <li class="rounded-xl border border-dashed border-line p-6">
-              <p class="label-mono text-[0.6875rem] text-accent-text">Launch preview · not available yet</p>
+              <p class="label-mono text-[0.6875rem] text-accent-text">Launch preview · {pillarMeta[f.pillar].label}</p>
+              <h3 class="mt-2 text-h4 text-fg">{f.title}</h3>
+              <p class="mt-1.5 text-sm text-fg-secondary">{f.description}</p>
+            </li>
+          ))
+        }
+      </ul>
+    </div>
+  </section>
+
+  <section id="concepts" class="grain section-y" aria-labelledby="concepts-title">
+    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5" data-reveal>
+        <Eyebrow>Future concepts</Eyebrow>
+        <h2 id="concepts-title" class="mt-7 text-h2 tracking-display text-fg">Ideas we’re exploring.</h2>
+        <p class="mt-6 max-w-md text-lead text-fg-secondary">
+          Directions we’re actively thinking about. They aren’t part of the launch plan and may change or never ship.
+        </p>
+      </div>
+      <ul class="space-y-3 lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
+        {
+          concepts.map((f) => (
+            <li class="rounded-xl border border-dashed border-line-strong/60 p-6">
+              <p class="label-mono text-[0.6875rem] text-fg-muted">Future concept · {pillarMeta[f.pillar].label}</p>
               <h3 class="mt-2 text-h4 text-fg">{f.title}</h3>
               <p class="mt-1.5 text-sm text-fg-secondary">{f.description}</p>
             </li>

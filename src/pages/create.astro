@@ -4,7 +4,8 @@ import PageHeader from '~/components/ui/PageHeader.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import Arrangement from '~/components/music/Arrangement.astro';
 import Closing from '~/components/home/Closing.astro';
-import { availableFeatures, featureById, pillarMeta, trademarkNotice } from '~/data/features';
+import FeatureLine from '~/components/ui/FeatureLine.astro';
+import { createTheme, featureById, pillarMeta, trademarkNotice } from '~/data/features';
 
 // Riff Blocks detail, from the owner's description of desktop app v0.6.0
 const riffBlocks = [
@@ -34,13 +35,14 @@ const riffBlocks = [
   },
 ];
 
-const others = availableFeatures('create').filter((f) => f.id !== 'riff-blocks');
+const experiment = [...createTheme('experiment'), ...createTheme('possibilities')];
+const editor = createTheme('editor');
 const riff = featureById('riff-blocks');
 ---
 
 <BaseLayout
   title="Create"
-  description="Write in tab and notation, build multitrack arrangements and reuse your best ideas with Riff Blocks. Import Guitar Pro 3–5 and MIDI; export MIDI, print or PDF."
+  description="Riff Blocks and linked musical ideas, safe experimentation with variations, and a full tab and notation editor. Import Guitar Pro 3–5 and MIDI; export MIDI, print or PDF."
 >
   <PageHeader eyebrow="Create" title="From first riff<br />to finished arrangement.">
     <p>{pillarMeta.create.intro}</p>
@@ -84,29 +86,42 @@ const riff = featureById('riff-blocks');
     </div>
   </section>
 
-  <!-- Everything else -->
-  <section class="grain section-y bg-warm-1" aria-labelledby="editor-title">
+  <!-- Experiment and explore -->
+  <section class="grain section-y bg-warm-1" aria-labelledby="explore-title">
     <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
       <div class="lg:col-span-5" data-reveal>
-        <Eyebrow index="02">The editor</Eyebrow>
-        <h2 id="editor-title" class="mt-7 text-h1 tracking-display text-fg">A serious editor, built for guitarists.</h2>
+        <Eyebrow index="02">Experiment and explore</Eyebrow>
+        <h2 id="explore-title" class="mt-7 text-h1 tracking-display text-fg">Try the idea.<br /><span class="text-fg-secondary">Keep the original.</span></h2>
         <p class="mt-6 max-w-md text-lead text-fg-secondary">
-          Everything you write is ready to practise too: select any bars and press Practise.
+          Riff Block variations already let you branch an idea safely. Side-by-side comparisons and voicing, fingering and
+          harmony options are ideas we’re exploring, clearly marked as such.
         </p>
-        <a href="/practice" class="mt-8 inline-block text-sm font-medium text-fg"><span class="link-quiet">How practice works</span> <span aria-hidden="true">→</span></a>
+      </div>
+      <ul class="space-y-6 border-t border-line pt-6 lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
+        {experiment.map((f) => <FeatureLine feature={f} detail />)}
+      </ul>
+    </div>
+  </section>
+
+  <!-- Supporting editor capabilities -->
+  <section class="grain section-y" aria-labelledby="editor-title">
+    <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
+      <div class="lg:col-span-5" data-reveal>
+        <Eyebrow index="03">The editor</Eyebrow>
+        <h2 id="editor-title" class="mt-7 text-h2 tracking-display text-fg">Everything a guitarist’s editor should do.</h2>
+        <p class="mt-6 max-w-md text-fg-secondary">Everything you write is ready to practise too: select any bars and press Practise.</p>
+        <a href="/practice" class="mt-6 inline-block text-sm font-medium text-fg"><span class="link-quiet">How practice works</span> <span aria-hidden="true">→</span></a>
       </div>
       <div class="lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
-        <ul class="border-t border-line">
-          {
-            others.map((f) => (
-              <li class="border-b border-line py-7">
-                <h3 class="text-h3 text-fg">{f.title}</h3>
-                <p class="mt-2 text-fg-secondary">{f.description}</p>
-              </li>
-            ))
-          }
-        </ul>
-        <p class="mt-6 text-[0.8125rem] text-fg-muted">{trademarkNotice}</p>
+        <dl class="grid grid-cols-1 gap-x-8 gap-y-5 border-t border-line pt-6 sm:grid-cols-2">
+          {editor.map((f) => (
+            <div>
+              <dt class="text-h4 text-fg">{f.title}</dt>
+              <dd class="mt-1 text-sm text-fg-secondary">{f.description}</dd>
+            </div>
+          ))}
+        </dl>
+        <p class="mt-8 text-[0.8125rem] text-fg-muted">{trademarkNotice}</p>
       </div>
     </div>
   </section>

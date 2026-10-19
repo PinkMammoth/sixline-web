@@ -1,0 +1,39 @@
+---
+/**
+ * One feature in a compact list. Available features get a sage check; launch
+ * previews and future concepts get a visible text label, so status never
+ * relies on colour alone.
+ */
+import { statusLabel, type Feature } from '~/data/features';
+
+interface Props {
+  feature: Feature;
+  /** Show the description under the title. */
+  detail?: boolean;
+}
+const { feature: f, detail = false } = Astro.props;
+const label = f.status === 'available' ? null : statusLabel[f.status];
+---
+
+<li class="flex gap-3 text-sm">
+  {
+    label ? (
+      <span class="mt-0.5 flex w-[13px] shrink-0 justify-center" aria-hidden="true">
+        <span class:list={['mt-1 size-2 rounded-full border', f.status === 'preview' ? 'border-accent' : 'border-dashed border-line-strong']} />
+      </span>
+    ) : (
+      <svg class="mt-1.5 shrink-0 text-sage" width="13" height="10" viewBox="0 0 15 11" aria-hidden="true">
+        <path d="M1 5.5l4.2 4L14 1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
+      </svg>
+    )
+  }
+  <span class:list={[label ? 'text-fg-secondary' : 'text-fg']}>
+    {
+      label && (
+        <span class:list={['label-mono mr-1.5 text-[0.625rem]', f.status === 'preview' ? 'text-accent-text' : 'text-fg-muted']}>{label}</span>
+      )
+    }
+    {f.title}
+    {detail && <span class="mt-1 block text-fg-secondary">{f.description}</span>}
+  </span>
+</li>

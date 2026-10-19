@@ -43,6 +43,21 @@ export const faq: FaqItem[] = [
     ],
   },
   {
+    id: 'practice-plan',
+    question: 'Can I plan a practice session across several passages or songs?',
+    answer: [
+      'Today you can save every hard passage in a song as a practice target, each with its own settings and progress, and pick up where you left off.',
+      'Practice Queue (working through a song’s passages as one session), in-play bookmarking and passage breakdown are planned for launch. Moving between passages from different songs in one session is a future concept, not a launch commitment.',
+    ],
+  },
+  {
+    id: 'suggestions',
+    question: 'Will SixLine suggest chords, voicings or fingerings?',
+    answer: [
+      'Not yet. Alternative voicings, fingerings and harmony options, and side-by-side comparison of edits, are ideas we’re exploring rather than launch features. You can already branch an idea safely with Riff Block variations.',
+    ],
+  },
+  {
     id: 'free',
     question: 'Is SixLine free?',
     home: true,

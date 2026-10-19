@@ -10,51 +10,38 @@ Current phase: **pre-launch**. Nothing can be bought or downloaded, and the site
 
 ## 1. Feature matrix
 
-### Implemented and verified: shown as available
+Statuses: **available** (shown as fact) · **preview** (committed launch scope, always labelled "Launch preview") · **concept** (exploratory, not committed, always labelled "Future concept") · **unverified** (not marketed).
 
-| Feature | Basis |
-| --- | --- |
-| Practice Mode (selection → Practise, focused score, exit to editor) | Roadmap |
-| Saved practice targets / bookmarks that survive save and reopen | Roadmap |
-| A/B looping, speed control | Roadmap |
-| Practice metronome and count-in | Roadmap |
-| Clean / Retry: **manual, musician-confirmed** | Roadmap |
-| Smart Tempo Ladder: initial version, three user-confirmed clean passes step the tempo up | Roadmap |
-| Speed trainer with custom per-loop tempo increments | Roadmap |
-| Practice history: basic attempt persistence only, no analytics claims | Roadmap |
-| Riff Blocks | Owner description, v0.6.0 |
-| Tab and standard notation, including chords, voices, dynamics and techniques | Brief, Riff Blocks notes |
-| Multitrack: guitar, bass, drum and notation-only tracks, with tuning and capo per stringed track | Brief, Riff Blocks notes |
-| Playback | Brief |
-| Guitar Pro **GP3, GP4, GP5** import | Owner confirmation |
-| MIDI import and export | Owner confirmation |
-| Print and PDF | Roadmap |
-| Local native projects with autosave | Roadmap, Riff Blocks notes |
+### Practice: three propositions
 
-### Committed for launch, not yet built: launch previews only
+| Proposition | Available | Launch preview | Future concept |
+| --- | --- | --- | --- |
+| 1 Focused practice | Practice Mode; A/B loop, tempo control, metronome, count-in and speed trainer (custom increments); manual Clean/Retry; Smart Tempo Ladder (three user-confirmed clean passes) | | |
+| 2 Build your practice plan | Saved practice targets (several per song, each with its own settings) | Practice Queue (v1, within one song); bookmark while you play; passage breakdown (chunk and build-up); Riff Block → practice target | |
+| 3 Pick up where you left off | Targets keep settings and progress across save and reopen; practice history (basic attempt persistence) | Resume a session (queue/session persistence); progress view (reliable tempo, clean runs, last practised) | One queue, many songs. The roadmap allows multiple projects only once safe project switching is proven |
 
-Shown only with a visible "Launch preview" label, and never as the lead of a section.
+### Create: three propositions plus the supporting editor
 
-| Feature | Where it appears |
-| --- | --- |
-| Practice Queue | Homepage practice stage 3 (small), `/practice`, `/features` |
-| Bookmark while you play (one keystroke, playback continues) | Homepage practice stage 3 (small), `/practice`, `/features` |
-| Progress view | `/practice`, `/features` |
-| Riff Block → practice target | Homepage "One workflow" note, `/practice`, `/features` |
+| Proposition | Available | Future concept |
+| --- | --- | --- |
+| 1 Riff Blocks and linked ideas | Riff Blocks: linked copies, library, variations, detaching | |
+| 2 Experiment without risk | Riff Block variations and detached copies | Audition and compare changes side by side (non-destructive previews) |
+| 3 Explore the possibilities | | Alternate voicings, fingerings, harmonies and layered suggestions |
+| Supporting editor | Tab and notation; multitrack (guitar, bass, drum, notation-only); playback; GP3–5 import; MIDI import and export; print and PDF; local projects with autosave | |
+
+> Non-destructive comparison and creative suggestions are listed in roadmap §1 without a launch commitment, so the site labels them **Future concept**. If any of them is committed launch scope, change its `status` to `preview` in `src/data/features.ts`. The label updates everywhere.
 
 ### Awaiting verification: not marketed
 
-Listed only on `/features#verifying`. Personal bests are withheld from that list too.
-
 | Feature | Note |
 | --- | --- |
-| Smart Guitar Tools (Make Playable, Re-finger, fingering locks) | Awaiting verification in the desktop repository |
-| Track volume / mute / solo | Awaiting verification |
-| Personal bests | Don't advertise until verified |
+| Smart Guitar Tools (Make Playable, Re-finger, fingering locks) | Listed on `/features#verifying` only |
+| Track volume / mute / solo | Listed on `/features#verifying` only |
+| Personal bests | Withheld everywhere until verified |
 
-### Future exploration: never shown as features
+### Never on the site
 
-Performance analysis or grading, DI/audio/MIDI input assessment, AI coaching or practice maps, AI composition, footswitch control, e-drums, mobile and tablet apps, cloud sync, WAV export, MusicXML, chunk/build-up practice, practice plan presets.
+Automatic grading or accuracy scores, DI/audio/MIDI input assessment, AI coaching or AI-generated practice plans, AI composition, e-drums, mobile and tablet apps, cloud sync.
 
 ## 2. Commercial and platform statements
 

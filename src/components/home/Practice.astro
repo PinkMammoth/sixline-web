@@ -7,6 +7,7 @@
  */
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import TabStaff from '~/components/music/TabStaff.astro';
+import FeatureLine from '~/components/ui/FeatureLine.astro';
 import { pillarMeta, practiceStage, stageMeta, type PracticeStage } from '~/data/features';
 import { riff, riffAnswer } from '~/data/riffs';
 
@@ -16,18 +17,25 @@ const stages: { id: PracticeStage; story: string }[] = [
   {
     id: 'focus',
     story:
-      'Bars 33–36 of the solo keep tripping you up. Select them and press Practise: the score focuses on just those bars, with loop, speed, metronome and count-in ready. Save them as a target and they’re waiting next time.',
-  },
-  {
-    id: 'progress',
-    story:
-      'Start slowly. After each run, mark it Clean or Retry; you’re the judge. Three clean passes and the Tempo Ladder steps the tempo up. Every attempt is saved with the project.',
+      'Bars 33–36 of the solo keep tripping you up. Select them, loop them at a tempo you can manage and mark each run Clean or Retry. Three clean passes and the Tempo Ladder steps the tempo up.',
   },
   {
     id: 'plan',
     story:
-      'Keep a saved target for each hard part of the song (the opening riff, the bridge, the solo’s last run), each with its own settings and history. Then work through whatever needs it most.',
+      'Save every hard part of the song as a target and decide what today’s session is for. Queue the passages, bookmark new problem bars as you play, and break long phrases into manageable chunks.',
   },
+  {
+    id: 'resume',
+    story:
+      'Close the project, come back tomorrow and carry on. Every target keeps its settings and progress, and your attempts are saved, so practice adds up over weeks rather than starting from zero.',
+  },
+];
+
+// Future-concept illustration: one session moving between passages from different songs (titles are examples)
+const sessionConcept = [
+  { passage: 'Solo, bars 33–36', song: 'Night Drive', state: 'done' },
+  { passage: 'Bridge chord change', song: 'Harbour Lights', state: 'current' },
+  { passage: 'Intro riff', song: 'Slow Burn', state: 'next' },
 ];
 
 // Illustrative Tempo Ladder: three clean passes per rung (values are examples)
@@ -120,44 +128,39 @@ const ladder = [
       </dl>
     </div>
 
-    <!-- The three stages, each led by what's available now -->
+    <!-- Three propositions: ordinary controls share one column; planning and continuity carry the differentiation -->
     <ol class="mt-16 grid grid-cols-1 gap-x-8 gap-y-14 lg:mt-20 lg:grid-cols-3" data-reveal>
       {
-        stages.map((s, i) => {
-          const now = practiceStage(s.id, 'available');
-          const soon = practiceStage(s.id, 'preview').filter((f) => f.id === 'practice-queue' || f.id === 'in-play-bookmark');
-          return (
-            <li class="flex flex-col border-t border-line pt-6">
-              <p class="label-mono text-fg-muted">
-                <span class="text-accent-text">0{i + 1}</span> · {stageMeta[s.id].label}
-              </p>
-              <h3 class="mt-4 text-h2 tracking-display text-fg">{stageMeta[s.id].title}</h3>
-              <p class="mt-4 text-fg-secondary">{s.story}</p>
-              {now.length > 0 && (
-                <ul class="mt-6 space-y-2.5">
-                  {now.map((f) => (
-                    <li class="flex gap-3 text-sm text-fg">
-                      <svg class="mt-1.5 shrink-0 text-sage" width="13" height="10" viewBox="0 0 15 11" aria-hidden="true">
-                        <path d="M1 5.5l4.2 4L14 1" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" />
-                      </svg>
-                      {f.title}
+        stages.map((s, i) => (
+          <li class:list={['flex flex-col border-t pt-6', i === 0 ? 'border-line' : 'border-accent/50']}>
+            <p class="label-mono text-fg-muted">
+              <span class="text-accent-text">0{i + 1}</span> · {stageMeta[s.id].label}
+            </p>
+            <h3 class="mt-4 text-h2 tracking-display text-fg">{stageMeta[s.id].title}</h3>
+            <p class="mt-4 text-fg-secondary">{s.story}</p>
+            <ul class="mt-6 space-y-2.5">
+              {practiceStage(s.id).map((f) => (
+                <FeatureLine feature={f} />
+              ))}
+            </ul>
+            {s.id === 'resume' && (
+              <figure class="mt-6 rounded-xl border border-dashed border-line p-4" aria-label="Future concept illustration: one practice session moving between passages from three different songs">
+                <ol class="space-y-2" aria-hidden="true">
+                  {sessionConcept.map((r) => (
+                    <li class:list={['flex items-center justify-between gap-3 rounded-md px-3 py-2 font-mono text-[0.6875rem]', r.state === 'current' ? 'bg-bg-sunken text-fg' : 'text-fg-muted']}>
+                      <span class="flex items-center gap-2">
+                        <span class:list={['size-1.5 rounded-full', r.state === 'done' ? 'bg-sage' : r.state === 'current' ? 'bg-accent' : 'border border-line-strong']} />
+                        {r.passage}
+                      </span>
+                      <span class="truncate">{r.song}</span>
                     </li>
                   ))}
-                </ul>
-              )}
-              {soon.length > 0 && (
-                <ul class="mt-5 space-y-2 border-t border-dashed border-line pt-4">
-                  {soon.map((f) => (
-                    <li class="text-sm text-fg-secondary">
-                      <span class="label-mono mr-2 text-[0.625rem] text-accent-text">Launch preview</span>
-                      {f.title}
-                    </li>
-                  ))}
-                </ul>
-              )}
-            </li>
-          );
-        })
+                </ol>
+                <figcaption class="mt-3 text-[0.75rem] text-fg-muted">Future concept, illustrated: one session, three songs, no opening and closing projects.</figcaption>
+              </figure>
+            )}
+          </li>
+        ))
       }
     </ol>
 

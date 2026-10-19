@@ -84,7 +84,9 @@ Hero (studio) → Pathways (studio) → 01 Practice (**paper**) → 02 Create (w
 
 **Practice leads; Create is a full peer.** The two pathway cards sit directly under the hero: Learn & Practise has an amber top rule and the warm surface, and Write & Create sits beside it at equal size. The Practice and Create sections share the same structure: a numbered eyebrow, a full-width two-line display headline with the second phrase in `fg-secondary`, and an intro set beneath on the right. Practice is the longest section and carries the central line "A loop repeats. / A plan progresses." (second line in `accent-text`).
 
-**Launch previews** are small. Each is a mono amber "Launch preview" label beside the feature name, or a dashed card on `/practice` and `/features`. They never lead a section.
+**Feature status in lists** uses `FeatureLine`. Available features get a sage check. Launch previews get an amber ring and an amber mono "Launch preview" label. Future concepts get a dashed ring and a muted "Future concept" label. Status is always written out, never shown by colour alone. Previews and concepts follow the available items and never lead a proposition.
+
+**Proposition columns.** The Practice section has three columns. Column 1 (Focused practice) gathers the ordinary controls, and its top rule is neutral. Columns 2 and 3 (Build your practice plan, Pick up where you left off) carry the differentiation, so their top rules are amber.
 
 **Positioning guardrails:** practice-first for every skill level ("No composition necessary"). Never present SixLine as a DAW, a lesson course or an audio-production tool. Never imply it listens to, records or grades playing: Clean/Retry is the musician's call. Use believable practice examples (a solo's hard bars), and lead with outcomes, not feature counts.
 

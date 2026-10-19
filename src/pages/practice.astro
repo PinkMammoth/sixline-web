@@ -3,7 +3,8 @@ import BaseLayout from '~/layouts/BaseLayout.astro';
 import PageHeader from '~/components/ui/PageHeader.astro';
 import Eyebrow from '~/components/ui/Eyebrow.astro';
 import Closing from '~/components/home/Closing.astro';
-import { pillarMeta, practiceStage, previewFeatures, stageMeta, type PracticeStage } from '~/data/features';
+import FeatureLine from '~/components/ui/FeatureLine.astro';
+import { pillarMeta, practiceStage, stageMeta, type PracticeStage } from '~/data/features';
 
 const audiences = [
   {
@@ -27,23 +28,25 @@ const audiences = [
 const stages: { id: PracticeStage; story: string }[] = [
   {
     id: 'focus',
-    story: 'Choose the bars that trip you up and practise only those, with everything you need close at hand.',
-  },
-  {
-    id: 'progress',
-    story: 'Mark every run Clean or Retry. Your clean runs move the tempo up and your attempts are saved, so progress is something you can see.',
+    story:
+      'Choose the bars that trip you up and practise only those. Loop them, set the tempo, mark each run Clean or Retry, and let the Tempo Ladder raise the speed as your clean runs add up.',
   },
   {
     id: 'plan',
-    story: 'Keep several saved targets in a song and decide what needs work today. Practice Queue and in-play bookmarking will build on this before launch.',
+    story:
+      'A loop works on one passage. A plan decides which passages matter today and in what order. Save every hard part as a target, and assemble a purposeful session around them.',
+  },
+  {
+    id: 'resume',
+    story:
+      'Practice only counts if it adds up. Targets keep their settings and progress, and attempts are saved with the project, so tomorrow starts where today finished.',
   },
 ];
-const previews = previewFeatures('practice');
 ---
 
 <BaseLayout
   title="Practice"
-  description="Structured practice for guitarists: isolate a tricky passage, save it, slow it down and build it up with clean runs and the Smart Tempo Ladder. No composition necessary."
+  description="Structured practice for guitarists: isolate a tricky passage, build a practice plan around saved targets, and pick up where you left off. No composition necessary."
 >
   <PageHeader eyebrow="Practice · No composition necessary" title="From “I can’t play this”<br />to “I’ve got it.”">
     <p>{pillarMeta.practice.intro}</p>
@@ -70,10 +73,12 @@ const previews = previewFeatures('practice');
     </div>
   </section>
 
-  <!-- The three stages in full -->
+  <!-- The three propositions in full -->
   {
     stages.map((s, i) => {
-      const now = practiceStage(s.id, 'available');
+      const all = practiceStage(s.id);
+      const now = all.filter((f) => f.status === 'available');
+      const later = all.filter((f) => f.status !== 'available');
       return (
         <section class:list={['grain section-y', i % 2 === 0 ? 'bg-warm-1' : '']} aria-labelledby={`stage-${s.id}`}>
           <div class="container-content grid grid-cols-1 gap-12 lg:grid-cols-12 lg:gap-12">
@@ -83,24 +88,20 @@ const previews = previewFeatures('practice');
               <p class="mt-6 max-w-md text-lead text-fg-secondary">{s.story}</p>
             </div>
             <div class="lg:col-span-6 lg:col-start-7" data-reveal style="--reveal-delay:100ms">
-              {now.length > 0 && (
-                <ul class="border-t border-line">
-                  {now.map((f) => (
-                    <li class="border-b border-line py-7">
-                      <h3 class="text-h3 text-fg">{f.title}</h3>
-                      <p class="mt-2 text-fg-secondary">{f.description}</p>
-                    </li>
-                  ))}
-                </ul>
-              )}
-              {s.id === 'plan' && (
-                <div class="rounded-xl border border-dashed border-line p-6">
-                  <p class="label-mono text-[0.6875rem] text-accent-text">Launch previews · not available yet</p>
-                  <ul class="mt-4 space-y-3">
-                    {previews.map((f) => (
-                      <li class="text-sm text-fg-secondary">
-                        <strong class="font-medium text-fg">{f.title}.</strong> {f.description}
-                      </li>
+              <ul class="border-t border-line">
+                {now.map((f) => (
+                  <li class="border-b border-line py-6">
+                    <h3 class="text-h3 text-fg">{f.title}</h3>
+                    <p class="mt-2 text-fg-secondary">{f.description}</p>
+                  </li>
+                ))}
+              </ul>
+              {later.length > 0 && (
+                <div class="mt-6 rounded-xl border border-dashed border-line p-6">
+                  <p class="label-mono text-[0.6875rem] text-fg-muted">Not available yet</p>
+                  <ul class="mt-4 space-y-3.5">
+                    {later.map((f) => (
+                      <FeatureLine feature={f} detail />
                     ))}
                   </ul>
                 </div>
