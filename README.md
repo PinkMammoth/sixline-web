@@ -17,7 +17,7 @@ The desktop application lives in a separate repository. This repo does not touch
 
 ## Getting started
 
-Requires Node.js **22.12 or later** (see `.nvmrc`).
+Requires Node.js **24.22.1** (see `.nvmrc`). Run `nvm use` in this repository to select it without changing your global default.
 
 ```sh
 npm install
